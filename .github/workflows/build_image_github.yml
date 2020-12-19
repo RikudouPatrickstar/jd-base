@@ -1,4 +1,4 @@
-name: "JD Docker Image Buildx Stable"
+name: "JD Docker Image Buildx Stable Github"
 on:
   push:
     branches:
