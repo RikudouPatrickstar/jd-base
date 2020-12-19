@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-20
-## Version： v3.1.0
+## Version： v3.1.1
 
 ## 文件路径、脚本网址、文件版本
 isDocker=$(cat /proc/1/cgroup | grep docker)
@@ -54,14 +54,16 @@ function Git_CloneScripts {
 ## 更新js脚本
 function Git_PullScripts {
   echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
-  git -C ${ScriptsDir} fetch --all
-  git -C ${ScriptsDir} reset --hard origin/master
+  cd ${ScriptsDir}
+  git fetch --all
+  git reset --hard origin/master
   echo
 }
 
 ## 更新shell脚本
 function Git_PullShell {
   echo -e "更新shell脚本，原地址：${ShellURL}\n"
+  cd ${ShellDir}
   git fetch --all
   git reset --hard origin/v3
   ExitStatusShell=$?
@@ -181,7 +183,6 @@ function Add_Cron {
   fi
 }
 
-
 ## 在日志中记录时间与路径
 echo -e "\n--------------------------------------------------------------\n"
 echo -n "系统时间："
@@ -199,6 +200,7 @@ echo -e "--------------------------------------------------------------\n"
 cd ${ShellDir}
 Import_Conf
 if [ $? -eq 0 ]; then
+  [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
   if [ -d ${ScriptsDir} ]; then
     Git_PullScripts
     ExitStatusScripts=$?
@@ -206,7 +208,6 @@ if [ $? -eq 0 ]; then
     Git_CloneScripts
     ExitStatusScripts=$?
   fi
-  [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
 fi
 
 ## 替换信息并检测定时任务变化情况
