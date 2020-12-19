@@ -14,6 +14,8 @@ FileConf=${ShellDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
 ListScripts=$(ls ${ScriptsDir} | grep -E "j[dr]_\w+\.js" | perl -pe "s|.js||")
+ListCron=${ShellDir}/crontab.list
+CurrentCron=$(crontab -l)
 
 ## 导入config.sh
 function Import_Conf {
@@ -23,6 +25,13 @@ function Import_Conf {
   else
     echo "配置文件 ${FileConf} 不存在，请先按教程配置好该文件..."
     exit 1
+  fi
+}
+
+## 更新crontab
+function Detect_Cron {
+  if [[ $(cat ${ListCron}) != ${CurrentCron} ]]; then
+    crontab ${ListCron}
   fi
 }
 
@@ -190,7 +199,7 @@ function Help {
 
 ## 运行京东脚本
 function Run_Js {
-  Import_Conf && Set_Env
+  Import_Conf && Detect_Cron && Set_Env
 
   if [[ $1 == jr_* ]]; then
     FileName=$(echo $1 | perl -pe "s|\.js||")
