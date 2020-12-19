@@ -12,11 +12,11 @@ isDocker=$(cat /proc/1/cgroup | grep docker)
 LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
 ScriptsDir=${ShellDir}/scripts
-FileConf=${ShellDir}/config.sh
+FileConf=${ShellDir}/config/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 [ -f ${FileConf} ] && VerConf=$(grep -i "Version" ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 VerConfSample=$(grep -i "Version" ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-ListCron=${ShellDir}/crontab.list
+ListCron=${ShellDir}/config/crontab.list
 ListTask=${LogDir}/task.list
 ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
