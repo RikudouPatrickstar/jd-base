@@ -8,12 +8,12 @@
 ## 路径
 ShellDir=$(cd $(dirname $0); pwd)
 ScriptsDir=${ShellDir}/scripts
-FileConf=${ShellDir}/config.conf
-FileConfSample=${ShellDir}/config.conf.sample
+FileConf=${ShellDir}/config.sh
+FileConfSample=${ShellDir}/config.sh.sample
 LogDir=${ShellDir}/log
 ListScripts=$(ls ${ScriptsDir} | grep -E "j[dr]_\w+\.js" | perl -pe "s|.js||")
 
-## 导入config.conf
+## 导入config.sh
 function Import_Conf {
   if [ -f ${FileConf} ]
   then

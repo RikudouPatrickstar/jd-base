@@ -9,7 +9,7 @@
 ShellDirDir=$(cd $(dirname $0); pwd)
 LogDir=${ShellDirDir}/log
 
-. ${ShellDirDir}/config.conf
+. ${ShellDirDir}/config.sh
 
 if [ -n "${RmLogDaysAgo}" ]; then
   ## 删除运行js脚本的旧日志

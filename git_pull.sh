@@ -9,8 +9,8 @@
 ShellDir=$(cd $(dirname $0); pwd)
 LogDir=${ShellDir}/log
 ScriptsDir=${ShellDir}/scripts
-FileConf=${ShellDir}/config.conf
-FileConfSample=${ShellDir}/config.conf.sample
+FileConf=${ShellDir}/config.sh
+FileConfSample=${ShellDir}/config.sh.sample
 [ -f ${FileConf} ] && VerConf=$(grep -i "Version" ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 VerConfSample=$(grep -i "Version" ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 ListCrontab=${ShellDir}/crontab.list
@@ -25,7 +25,7 @@ isGitee=$(grep "gitee" "${ShellDir}/.git/config")
 [ ${isGitee} ] && ScriptsURL=https://gitee.com/lxk0301/jd_scripts
 [ ${isGitee} ] && ShellURL=https://gitee.com/evine/jd-base
 
-## 导入config.conf
+## 导入config.sh
 function Import_Conf {
   if [ -f ${FileConf} ]
   then
@@ -59,7 +59,7 @@ function Git_PullShell {
   ExitStatusShell=$?
 }
 
-## 把config.conf中提供的所有账户的PIN附加在jd_joy_run.js中，让各账户相互进行宠汪汪赛跑助力
+## 把config.sh中提供的所有账户的PIN附加在jd_joy_run.js中，让各账户相互进行宠汪汪赛跑助力
 ## 你的账号将按Cookie顺序被优先助力，助力完成再助力我的账号和lxk0301大佬的账号
 function Change_JoyRunPins {
   j=${UserSum}
@@ -116,8 +116,8 @@ function Notify_Version {
   if [ "${VerConf}" != "${VerConfSample}" ]
   then
     UpdateDate=$(grep -i "Date" ${FileConfSample} | awk -F ": " '{print $2}')
-    echo -e "检测到配置文件config.conf.sample有更新\n\n更新日期: ${UpdateDate}\n新的版本: ${VerConfSample}\n当前版本: ${VerConf}\n"
-    echo -e "检测到配置文件config.conf.sample有更新\n\n更新日期: ${UpdateDate}\n新的版本: ${VerConfSample}\n当前版本: ${VerConf}\n\n本消息只在配置文件更新当天发送一次。" > ${LogDir}/version
+    echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n新的版本: ${VerConfSample}\n当前版本: ${VerConf}\n"
+    echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n新的版本: ${VerConfSample}\n当前版本: ${VerConf}\n\n本消息只在配置文件更新当天发送一次。" > ${LogDir}/version
     if [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
     then
       if [ $(date "+%H") -ge 9 ] && [ ! -f ${LogDir}/send_count ]; then
