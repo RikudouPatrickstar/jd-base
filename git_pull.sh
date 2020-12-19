@@ -15,7 +15,7 @@ FileConf=${ShellDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 [ -f ${FileConf} ] && VerConf=$(grep -i "Version" ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 VerConfSample=$(grep -i "Version" ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-ListCrontab=${ShellDir}/crontab.list
+ListCron=${ShellDir}/crontab.list
 ListTask=${LogDir}/task.list
 ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
@@ -122,7 +122,7 @@ function Change_ALL {
 ## js-add.list  如果 scripts/docker/crontab_list.sh 增加了定时任务，这个文件内容将不为空
 ## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
-  grep -E " j[dr]_\w+" ${ListCrontab} | perl -pe "s|.+ (j[dr]_\w+).*|\1|" > ${ListTask}
+  grep -E " j[dr]_\w+" ${ListCron} | perl -pe "s|.+ (j[dr]_\w+).*|\1|" > ${ListTask}
   grep -E "j[dr]_\w+\.js" ${ScriptsDir}/docker/crontab_list.sh | perl -pe "s|.+(j[dr]_\w+)\.js.+|\1|" | sort > ${ListJs}
   grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
   grep -vwf ${ListJs} ${ListTask} > ${ListJsDrop}
