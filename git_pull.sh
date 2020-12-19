@@ -6,6 +6,7 @@
 ## Version： v3.0.0
 
 ## 文件路径、脚本网址、文件版本
+isDocker=$(cat /proc/1/cgroup | grep docker)
 [ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
 [ -n "${isDocker}" ] && ShellDir=${JD_DIR}
 LogDir=${ShellDir}/log
@@ -22,7 +23,6 @@ ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
 isGithub=$(grep "github" "${ShellDir}/.git/config")
 isGitee=$(grep "gitee" "${ShellDir}/.git/config")
-isDocker=$(cat /proc/1/cgroup | grep docker)
 isTermux=$(echo ${ANDROID_RUNTIME_ROOT})
 if [ -n "${isGithub}" ]; then
   ScriptsURL=https://github.com/lxk0301/jd_scripts

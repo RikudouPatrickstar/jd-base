@@ -5,7 +5,7 @@
 ## Modified： 2020-12-19
 ## Version： v3.0.0
 
-
+isDocker=$(cat /proc/1/cgroup | grep docker)
 [ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
 [ -n "${isDocker}" ] && ShellDir=${JD_DIR}
 LogDir=${ShellDirDir}/log
