@@ -228,13 +228,13 @@ if [ ${  ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${L
     crontab ${ListCron}
     echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
     crontab -l
-    echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}" > {LogDir}/new_task
-    Notify_NewTask
+    # echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}" > {LogDir}/new_task
+    # Notify_NewTask
     echo -e "\n--------------------------------------------------------------\n"
   else
     echo -e "添加新的定时任务出错，请手动添加...\n" 
-    echo -e "jd-base脚本尝试自动添加以下新的定时任务出错，请手动添加：\n\n${JsAdd}" > {LogDir}/new_task
-    Notify_NewTask
+    # echo -e "jd-base脚本尝试自动添加以下新的定时任务出错，请手动添加：\n\n${JsAdd}" > {LogDir}/new_task
+    # Notify_NewTask
   fi
 fi
 
@@ -270,7 +270,7 @@ if [ $? -eq 0 ]; then
   if [ ${ExitStatusShell} -eq 0 ]
   then
     echo -e "\nshell脚本更新完成...\n"
-    Notify_Version
+    # Notify_Version
   else
     echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
   fi
