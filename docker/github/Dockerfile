@@ -22,15 +22,14 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.bfsu.edu.cn/g' /etc/apk/repositorie
 ENV LANG=zh_CN.UTF-8 \
     SHELL=/bin/bash \
     PS1="\u@\h:\w \$ " \
-    JD_DIR=/jd \
-    JS_DIR=${JD_DIR}/scripts
+    JD_DIR=/jd
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod 777 /usr/local/bin/entrypoint.sh \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone \
     && git clone -b ${JD_BASE_BRANCH} ${JD_BASE_URL} ${JD_DIR} \
-    && git clone -b ${JD_SCRIPTS_BRANCH} ${JD_SCRIPTS_URL} ${JS_DIR} \
-    && cd ${JS_DIR} \
+    && git clone -b ${JD_SCRIPTS_BRANCH} ${JD_SCRIPTS_URL} ${JD_DIR}/scripts \
+    && ${JD_DIR}/scripts \
     && npm install
 WORKDIR ${JD_DIR}
 ENTRYPOINT entrypoint.sh
