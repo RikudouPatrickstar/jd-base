@@ -77,15 +77,15 @@ function Change_JoyRunPins {
   PinEvine="Evine,做一颗潇洒的蛋蛋,jd_7bb2be8dbd65c,jd_664ecc3b78945,277548856_m,米大眼老鼠,jd_6dc4f1ed66423,梦回马拉多纳,"
   FriendsArrEvine='"Evine", "做一颗潇洒的蛋蛋", "jd_7bb2be8dbd65c", "jd_664ecc3b78945", "277548856_m", "米大眼老鼠", "jd_6dc4f1ed66423", "梦回马拉多纳", '
   PinALL="${PinALL}${PinEvine}"
-  perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(const friendsArr = \[)|\1${FriendsArrEvine}|}" ${FileJoyRun}
+  perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(const friendsArr = \[)|\1${FriendsArrEvine}|}" ${ScriptsDir}/jd_joy_run.js
 }
 
 ## 将我的invitecode加到脚本中
 function Change_InviteCode {
   CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn', 'P04z54XCjVUnoaW5m9cZ2asjngclP6bwGQx-n4\@P04z54XCjVUnoaW5uOanrVTc6XTCbVCmoLyWhx9og'"
   CodeZz="  'AfnMPwfg\@A3oT8SyUgFKev3u1PC_joQpaQqr6bl8E8\@AUWE5mauUmGZbCzL_1XVOkA\@ACTJRmqmYxTAOZz0\@AUWE5mfnDyWMJXTT-23hIlg\@A3afASgY-FKyU3ttBCOjgQkn4\@A3LTVSjkHGpmE0NBJBPDa',"
-  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" jd_health.js
-  perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+\n\])|\1${CodeZz}\n\2|" jd_jdzz.js
+  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" ${ScriptsDir}/jd_health.js
+  perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+\n\])|\1${CodeZz}\n\2|" ${ScriptsDir}/jd_jdzz.js
 }
 
 ## 修改lxk0301大佬js文件的函数汇总
@@ -162,10 +162,10 @@ Import_Conf
 if [ $? -eq 0 ]; then
   if [ -d ${ScriptsDir} ]; then
     Git_PullScripts
-      ExitStatusScripts=$?
+    ExitStatusScripts=$?
   else
     Git_CloneScripts
-      ExitStatusScripts=$?
+    ExitStatusScripts=$?
   fi
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
 fi
