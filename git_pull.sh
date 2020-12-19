@@ -11,7 +11,7 @@
 LogDir=${ShellDir}/log
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config.sh
-FileConfSample=${ShellDir}/config.sh.sample
+FileConfSample=${ShellDir}/sample/config.sh.sample
 [ -f ${FileConf} ] && VerConf=$(grep -i "Version" ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 VerConfSample=$(grep -i "Version" ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 ListCrontab=${ShellDir}/crontab.list
@@ -47,8 +47,8 @@ function Git_CloneScripts {
 ## 更新js脚本
 function Git_PullScripts {
   echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
-  git fetch --all
-  git reset --hard origin/master
+  git -C ${ScriptsDir} fetch --all
+  git -C ${ScriptsDir} reset --hard origin/master
   echo
 }
 

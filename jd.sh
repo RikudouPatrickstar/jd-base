@@ -11,7 +11,7 @@ isDocker=$(cat /proc/1/cgroup | grep docker)
 [ -n "${isDocker}" ] && ShellDir=${JD_DIR}
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config.sh
-FileConfSample=${ShellDir}/config.sh.sample
+FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
 ListScripts=$(ls ${ScriptsDir} | grep -E "j[dr]_\w+\.js" | perl -pe "s|.js||")
 
