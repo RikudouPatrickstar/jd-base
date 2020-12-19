@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-18
-## Version： v3.0.0
+## Modified： 2020-12-20
+## Version： v3.1.0
 
 ## 文件路径、脚本网址、文件版本
 isDocker=$(cat /proc/1/cgroup | grep docker)
@@ -13,6 +13,7 @@ LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config/config.sh
+FileDiy=${ShellDir}/config/diy.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 [ -f ${FileConf} ] && VerConf=$(grep -i "Version" ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 VerConfSample=$(grep -i "Version" ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
@@ -311,5 +312,15 @@ if [ $? -eq 0 ]; then
     # Notify_Version
   else
     echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+  fi
+fi
+
+## 调用用户自定义的diy.sh
+if [ "${EnableExtraShell}" = "true" ]; then
+  if [ -f ${FileDiy} ]
+  then
+    . ${FileDiy}
+  else
+    echo -e "${FileDiy} 文件不存在，跳过执行DIY脚本...\n"
   fi
 fi
