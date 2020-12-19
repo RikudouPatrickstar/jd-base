@@ -9,8 +9,7 @@ services:
     network_mode: "bridge"
     hostname: jd1
     volumes:
-      - ./jd1/config.sh:/jd/config.sh        # 请在部署容器前先把./jd1/config.sh这个文件准备好，下同
-      - ./jd1/crontab.list:/jd/crontab.list  # 请在部署容器前先把./jd1/crontab.list这个文件准备好，下同
+      - ./jd1/config:/jd/config       # 请在部署容器前先把./jd1/config这个文件下准备好config.sh和crontab.list，下同
       - ./jd1/log:/jd/log
 
   # 第2个容器
@@ -22,8 +21,7 @@ services:
     network_mode: "bridge"
     hostname: jd2
     volumes:
-      - ./jd2/config.sh:/jd/config.sh
-      - ./jd2/crontab.list:/jd/crontab.list
+      - ./jd2/config:/jd/config
       - ./jd2/log:/jd/log
 
   # 第3个容器，以此类推
@@ -35,6 +33,5 @@ services:
     network_mode: "bridge"
     hostname: jd3
     volumes:
-      - ./jd3/config.sh:/jd/config.sh
-      - ./jd3/crontab.list:/jd/crontab.list
+      - ./jd3/config:/jd/config
       - ./jd3/log:/jd/log
