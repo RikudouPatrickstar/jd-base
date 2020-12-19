@@ -1,4 +1,3 @@
 scripts*
 log*
-crontab.list
-config.sh
+config*

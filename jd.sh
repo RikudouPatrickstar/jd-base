@@ -10,11 +10,11 @@ isDocker=$(cat /proc/1/cgroup | grep docker)
 [ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
 [ -n "${isDocker}" ] && ShellDir=${JD_DIR}
 ScriptsDir=${ShellDir}/scripts
-FileConf=${ShellDir}/config.sh
+FileConf=${ShellDir}/config/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
 ListScripts=$(ls ${ScriptsDir} | grep -E "j[dr]_\w+\.js" | perl -pe "s|.js||")
-ListCron=${ShellDir}/crontab.list
+ListCron=${ShellDir}/config/crontab.list
 CurrentCron=$(crontab -l)
 
 ## 导入config.sh
