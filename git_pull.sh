@@ -9,6 +9,7 @@
 [ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
 [ -n "${isDocker}" ] && ShellDir=${JD_DIR}
 LogDir=${ShellDir}/log
+[ ! -d ${LogDir} ] && mkdir -p ${LogDir}
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
@@ -63,9 +64,27 @@ function Git_PullShell {
   ExitStatusShell=$?
 }
 
+## 用户数量UserSum
+function Count_UserSum {
+  i=1
+  while [ ${i} -le 1000 ]
+  do
+    TmpCK=Cookie${i}
+    eval CookieTmp=$(echo \$${TmpCK})
+    if [ -n "${CookieTmp}" ]
+    then
+      UserSum=${i}
+    else
+      break
+    fi
+    let i++
+  done
+}
+
 ## 把config.sh中提供的所有账户的PIN附加在jd_joy_run.js中，让各账户相互进行宠汪汪赛跑助力
 ## 你的账号将按Cookie顺序被优先助力，助力完成再助力我的账号和lxk0301大佬的账号
 function Change_JoyRunPins {
+  Count_UserSum
   j=${UserSum}
   PinALL=""
   while [ ${j} -ge 1 ]
