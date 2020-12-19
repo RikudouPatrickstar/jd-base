@@ -122,10 +122,13 @@ function Change_ALL {
 ## js-add.list  如果 scripts/docker/crontab_list.sh 增加了定时任务，这个文件内容将不为空
 ## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
-  grep -E " j[dr]_\w+" ${ListCron} | perl -pe "s|.+ (j[dr]_\w+).*|\1|" > ${ListTask}
-  grep -E "j[dr]_\w+\.js" ${ScriptsDir}/docker/crontab_list.sh | perl -pe "s|.+(j[dr]_\w+)\.js.+|\1|" | sort > ${ListJs}
-  grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
-  grep -vwf ${ListJs} ${ListTask} > ${ListJsDrop}
+  if [ -f ${ListCron} ]; then
+    grep -E " j[dr]_\w+" ${ListCron} | perl -pe "s|.+ (j[dr]_\w+).*|\1|" > ${ListTask}
+    grep -E "j[dr]_\w+\.js" ${ScriptsDir}/docker/crontab_list.sh | perl -pe "s|.+(j[dr]_\w+)\.js.+|\1|" | sort > ${ListJs}
+    grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
+    grep -vwf ${ListJs} ${ListTask} > ${ListJsDrop}
+  else
+    echo -e "${ListCron} 文件不存在，请先定义你自己的crontab.list...\n"
 }
 
 ## 发送新的定时任务消息
@@ -195,11 +198,11 @@ fi
 ## 替换信息并检测定时任务变化情况
 if [ ${ExitStatusScripts} -eq 0 ]
 then
-  echo -e "js脚本更新完成，开始替换信息，并检测定时任务变化情况...\n"
+  echo -e "js脚本更新完成...\n"
   Change_ALL
   Diff_Cron
 else
-  echo -e "js脚本更新失败，请检查原因或再次运行git_pull.sh，本次仍然替换信息，但不再检测定时任务是否有变化...\n"
+  echo -e "js脚本更新失败，请检查原因或再次运行git_pull.sh...\n"
   Change_ALL
 fi
 
