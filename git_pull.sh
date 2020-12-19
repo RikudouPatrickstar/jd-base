@@ -171,7 +171,7 @@ if [ $? -eq 0 ]; then
 fi
 
 ## 替换信息并检测定时任务变化情况
-if [ ${  ExitStatusScripts} -eq 0 ]
+if [ ${ExitStatusScripts} -eq 0 ]
 then
   echo -e "js脚本更新完成，开始替换信息，并检测定时任务变化情况...\n"
   Change_ALL
@@ -182,14 +182,14 @@ else
 fi
 
 ## 输出是否有新的定时任务
-if [ ${  ExitStatusScripts} -eq 0 ] && [ -s ${ListJsAdd} ]; then
+if [ ${ExitStatusScripts} -eq 0 ] && [ -s ${ListJsAdd} ]; then
   echo -e "检测到有新的定时任务：\n"
   cat ${ListJsAdd}
   echo
 fi
 
 ## 输出是否有失效的定时任务
-if [ ${  ExitStatusScripts} -eq 0 ] && [ -s ${ListJsDrop} ]; then
+if [ ${ExitStatusScripts} -eq 0 ] && [ -s ${ListJsDrop} ]; then
   echo -e "检测到有失效的定时任务：\n"
   cat ${ListJsDrop}
   echo
@@ -197,7 +197,7 @@ fi
 
 ## 自动删除失效的脚本与定时任务，需要5个条件：1.AutoDelCron 设置为 true；2.正常更新js脚本，没有报错；3.js-drop.list不为空；4.crontab.list存在并且不为空；5.已经正常运行过npm install
 ## 如果检测到某个定时任务在 scripts/docker/crontab_list.sh 中已删除，那么在本地也删除对应定时任务
-if [ ${  ExitStatusScripts} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${ListJsDrop} ] && [ -s ${ListCron} ] && [ -d ${ScriptsDir}/node_modules ]; then
+if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${ListJsDrop} ] && [ -s ${ListCron} ] && [ -d ${ScriptsDir}/node_modules ]; then
   echo -e "开始尝试自动删除定时任务如下：\n"
   cat ${ListJsDrop}
   echo
@@ -215,7 +215,7 @@ fi
 ## 自动增加新的定时任务，需要5个条件：1.AutoAddCron 设置为 true；2.正常更新js脚本，没有报错；3.js-add.list不为空；4.crontab.list存在并且不为空；5.已经正常运行过npm install
 ## 如果检测到 scripts/docker/crontab_list.sh 中增加新的定时任务，那么在本地也增加
 ## 本功能生效时，会自动从 scripts/docker/crontab_list.sh 文件新增加的任务中读取时间，该时间为北京时间
-if [ ${  ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ] && [ -s ${ListCron} ] && [ -d ${ScriptsDir}/node_modules ]; then
+if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ] && [ -s ${ListCron} ] && [ -d ${ScriptsDir}/node_modules ]; then
   echo -e "开始尝试自动添加定时任务如下：\n"
   cat ${ListJsAdd}
   echo
@@ -240,7 +240,7 @@ if [ ${  ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${L
 fi
 
 ## npm install
-if [ ${  ExitStatusScripts} -eq 0 ]; then
+if [ ${ExitStatusScripts} -eq 0 ]; then
   cd ${ScriptsDir}
   isTermux=$(echo ${ANDROID_RUNTIME_ROOT})
   if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
