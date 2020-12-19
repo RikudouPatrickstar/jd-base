@@ -1,18 +1,15 @@
 #!/bin/bash
 set -e
 
-[ ! -d /root/log ] && mkdir -p /root/log
-crond -L /root/log/crond.log
+[ ! -d ${JD_DIR}/log ] && mkdir -p ${JD_DIR}/log
+crond
 
-if [ ! -f /root/first_run.sh ] || [[ "$(cat /root/first_run.sh)" != "$(cat /first_run.sh)" ]]; then
-  cp -f /first_run.sh /root/first_run.sh
-  chmod 777 /root/first_run.sh
-fi
-
-cd /root
-
-if [ ! -d /root/scripts ] || [ ! -d /root/shell ] || [ ! -d /root/log ] || [ -f /root/crontab.list ]; then
-  bash first_run.sh
+if [ -f ${JD_DIR}/crontab.list ]
+then
+  crontab ${JD_DIR}/crontab.list
+else
+  cp -f ${JD_DIR}/crontab/docker.list.sample ${JD_DIR}/crontab.list
+  crontab ${JD_DIR}/crontab.list
 fi
 
 if [ "${1#-}" != "${1}" ] || [ -z "$(command -v "${1}")" ]; then
