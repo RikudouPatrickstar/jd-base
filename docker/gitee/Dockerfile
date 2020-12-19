@@ -29,7 +29,7 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh \
     && echo "Asia/Shanghai" > /etc/timezone \
     && git clone -b ${JD_BASE_BRANCH} ${JD_BASE_URL} ${JD_DIR} \
     && git clone -b ${JD_SCRIPTS_BRANCH} ${JD_SCRIPTS_URL} ${JD_DIR}/scripts \
-    && ${JD_DIR}/scripts \
+    && cd ${JD_DIR}/scripts \
     && npm install
 WORKDIR ${JD_DIR}
 ENTRYPOINT entrypoint.sh
