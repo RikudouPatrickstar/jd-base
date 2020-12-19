@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-20
-## Version： v3.1.1
+## Version： v3.1.2
 
 ## 文件路径、脚本网址、文件版本
 isDocker=$(cat /proc/1/cgroup | grep docker)
@@ -128,7 +128,7 @@ function Change_ALL {
 ## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
   if [ -f ${ListCron} ]; then
-    grep -E " j[dr]_\w+" ${ListCron} | perl -pe "s|.+ (j[dr]_\w+).*|\1|" > ${ListTask}
+    grep -E " j[dr]_\w+" ${ListCron} | perl -pe "s|.+ (j[dr]_\w+).*|\1|" | uniq > ${ListTask}
     grep -E "j[dr]_\w+\.js" ${ScriptsDir}/docker/crontab_list.sh | perl -pe "s|.+(j[dr]_\w+)\.js.+|\1|" | sort > ${ListJs}
     grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
     grep -vwf ${ListJs} ${ListTask} > ${ListJsDrop}
