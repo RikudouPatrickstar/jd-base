@@ -1,11 +1,11 @@
-name: "JD Docker Image Buildx Stable"
+name: "JD Docker Image Buildx Stable Gitee"
 on:
   release:
     types: [published]
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build JD Docker Image Stable
+    name: Build JD Docker Image Stable Gitee
     steps:
       - name: Checkout master
         uses: actions/checkout@master
@@ -14,8 +14,8 @@ jobs:
         with:
           publish: true
           imageName: evinedeng/jd
-          dockerFile: docker/dockerfile
+          dockerFile: docker/gitee/Dockerfile
           platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
-          tag: latest,node-lts,node14,node14.15,node14.15.1
+          tag: gitee
           dockerHubUser: ${{ secrets.DOCKER_USERNAME }}
           dockerHubPassword: ${{ secrets.DOCKER_PASSWORD }}
