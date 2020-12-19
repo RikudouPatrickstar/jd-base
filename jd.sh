@@ -6,7 +6,9 @@
 ## Version： v3.0.0
 
 ## 路径
-ShellDir=$(cd $(dirname $0); pwd)
+isDocker=$(cat /proc/1/cgroup | grep docker)
+[ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
+[ -n "${isDocker}" ] && ShellDir=${JD_DIR}
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config.sh
 FileConfSample=${ShellDir}/config.sh.sample

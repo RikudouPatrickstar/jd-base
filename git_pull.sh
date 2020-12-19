@@ -6,7 +6,8 @@
 ## Version： v3.0.0
 
 ## 文件路径、脚本网址、文件版本
-ShellDir=$(cd $(dirname $0); pwd)
+[ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
+[ -n "${isDocker}" ] && ShellDir=${JD_DIR}
 LogDir=${ShellDir}/log
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config.sh
