@@ -1,4 +1,4 @@
 scripts*
 log*
 crontab.list
-config.conf
+config.sh
