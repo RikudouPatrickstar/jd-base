@@ -8,7 +8,7 @@ if [ -f ${JD_DIR}/crontab.list ]
 then
   crontab ${JD_DIR}/crontab.list
 else
-  cp -f ${JD_DIR}/crontab/docker.list.sample ${JD_DIR}/crontab.list
+  cp -f ${JD_DIR}/sample/docker.list.sample ${JD_DIR}/crontab.list
   crontab ${JD_DIR}/crontab.list
 fi
 
