@@ -6,7 +6,8 @@
 ## Version： v3.0.0
 
 
-ShellDirDir=$(cd $(dirname $0); pwd)
+[ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
+[ -n "${isDocker}" ] && ShellDir=${JD_DIR}
 LogDir=${ShellDirDir}/log
 
 . ${ShellDirDir}/config.sh

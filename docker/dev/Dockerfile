@@ -27,6 +27,9 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh \
     && git clone -b v3 https://github.com/EvineDeng/jd-base ${JD_DIR} \
     && git clone -b master https://github.com/lxk0301/jd_scripts ${JS_DIR} \
     && cd ${JS_DIR} \
-    && npm install
+    && npm install \
+    && ln -sf ${JD_DIR}/jd.sh /usr/local/bin/jd \
+    && ln -sf ${JD_DIR}/git_pull.sh /usr/local/bin/git_pull \
+    && ln -sf ${JD_DIR}/rm_log.sh /usr/local/bin/rm_log
 WORKDIR ${JD_DIR}
 ENTRYPOINT entrypoint.sh

@@ -30,6 +30,9 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh \
     && git clone -b ${JD_BASE_BRANCH} ${JD_BASE_URL} ${JD_DIR} \
     && git clone -b ${JD_SCRIPTS_BRANCH} ${JD_SCRIPTS_URL} ${JD_DIR}/scripts \
     && cd ${JD_DIR}/scripts \
-    && npm install
+    && npm install \
+    && ln -sf ${JD_DIR}/jd.sh /usr/local/bin/jd \
+    && ln -sf ${JD_DIR}/git_pull.sh /usr/local/bin/git_pull \
+    && ln -sf ${JD_DIR}/rm_log.sh /usr/local/bin/rm_log
 WORKDIR ${JD_DIR}
 ENTRYPOINT entrypoint.sh
