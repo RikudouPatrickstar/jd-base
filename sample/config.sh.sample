@@ -1,4 +1,4 @@
-## Version: v3.0.0
+## Version: v3.0.1
 ## Date: 2020-12-19
 
 ################################## 说明 ##################################
@@ -103,7 +103,7 @@ MyFruitB=""
 
 ################################## 定义东东农场要为哪些人助力（选填） ##################################
 ## 1.每个Cookie要为谁助力，填入对应MyFruit系列变量名即可，用 @ 分隔每个变量名
-## 2.比如：ForOtherFruit1="${MyFruit2}@{MyFruit3}@{MyFruit5}@{MyFruitA}"，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie5的账户以及没有提供Cookie只提供了助力码的A用户提供助力
+## 2.比如：ForOtherFruit1="${MyFruit2}@${MyFruit3}@${MyFruit5}@${MyFruitA}"，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie5的账户以及没有提供Cookie只提供了助力码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherFruit系列变量就多少个有效（从编号1开始计）
 ## 4.可以不赋值，这种情况下，将自动随机给他人助力
 ForOtherFruit1=""
@@ -131,7 +131,7 @@ MyPetB=""
 
 ################################## 定义东东萌宠要为哪些人助力（选填） ##################################
 ## 1.每个Cookie要为谁助力，填入对应MyPet系列变量名即可，用 @ 分隔每个变量名
-## 2.比如：ForOtherPet1="${MyPet2}@{MyPet3}@{MyPetA}"，含义是Cookie1的账户将为Cookie2、Cookie3的账户以及没有提供Cookie只提供了互助码的A用户提供助力
+## 2.比如：ForOtherPet1="${MyPet2}@${MyPet3}@${MyPetA}"，含义是Cookie1的账户将为Cookie2、Cookie3的账户以及没有提供Cookie只提供了互助码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherPet系列变量就多少个有效（从编号1开始计）
 ## 4.可以不赋值，在这种情况下，将自动随机给他人助力
 ForOtherPet1=""
@@ -187,7 +187,7 @@ MyDreamFactoryB=""
 
 ################################## 定义京喜工厂要为哪些人助力（选填） ##################################
 ## 1.每个Cookie要为谁助力，填入对应MyDreamFactory系列变量名即可，用 @ 分隔每个变量名
-## 2.举例：ForOtherDreamFactory1="${MyDreamFactory3}@{MyDreamFactory5}@{MyDreamFactoryA}"，含义是Cookie1的账户将为Cookie3、Cookie5的账户以及没有提供Cookie只提供了互助码的A用户提供助力
+## 2.举例：ForOtherDreamFactory1="${MyDreamFactory3}@${MyDreamFactory5}@${MyDreamFactoryA}"，含义是Cookie1的账户将为Cookie3、Cookie5的账户以及没有提供Cookie只提供了互助码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherDreamFactory系列变量就多少有效（从编号1开始计）
 ## 4.可以不赋值，这种情况下，将自动随机给他人助力
 ForOtherDreamFactory1=""
