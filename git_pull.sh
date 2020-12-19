@@ -22,6 +22,8 @@ ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
 isGithub=$(grep "github" "${ShellDir}/.git/config")
 isGitee=$(grep "gitee" "${ShellDir}/.git/config")
+isDocker=$(cat /proc/1/cgroup | grep docker)
+isTermux=$(echo ${ANDROID_RUNTIME_ROOT})
 if [ -n "${isGithub}" ]; then
   ScriptsURL=https://github.com/lxk0301/jd_scripts
   ShellURL=https://github.com/EvineDeng/jd-base
@@ -169,6 +171,16 @@ function NpmInstallSub {
   fi
 }
 
+## 增加定时任务，Docker和物理机不同
+function Add_Cron {
+  if [ -z "${isDocker}" ]; then
+    grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node */scripts/(j[dr]_\w+)\.js.+|\1bash ${ShellDir}/jd.sh \2|"  >> ${ListCron}
+  else
+    grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node */scripts/(j[dr]_\w+)\.js.+|\1bash jd \2|"  >> ${ListCron}
+  fi
+}
+
+
 ## 在日志中记录时间与路径
 echo -e "\n--------------------------------------------------------------\n"
 echo -n "系统时间："
@@ -248,7 +260,7 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
   JsAdd=$(cat ${ListJsAdd})
   for Cron in ${JsAdd}
   do
-    grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node */scripts/(j[dr]_\w+)\.js.+|\1bash ${ShellDir}/jd.sh \2|"  >> ${ListCron}
+    Add_Cron
   done
   if [ $? -eq 0 ]
   then
@@ -268,7 +280,6 @@ fi
 ## npm install
 if [ ${ExitStatusScripts} -eq 0 ]; then
   cd ${ScriptsDir}
-  isTermux=$(echo ${ANDROID_RUNTIME_ROOT})
   if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
     echo -e "检测到 ${ScriptsDir}/package.json 内容有变化，再次运行 npm install...\n"
     NpmInstallSub
