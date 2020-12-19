@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-18
-## Version： v3.0.0
+## Version： v3.0.1
 
 ## 路径
 isDocker=$(cat /proc/1/cgroup | grep docker)
@@ -174,11 +174,13 @@ function Set_Env {
 
 ## 随机延迟判断
 function Random_Delay {
-  CurMin=$(date "+%M")
-  if [ ${CurMin} -gt 2 ] && [ ${CurMin} -lt 30 ]; then
-    sleep $((${RANDOM} % ${RandomDelay}))
-  elif [ ${CurMin} -gt 31 ] && [ ${CurMin} -lt 59 ]; then
-    sleep $((${RANDOM} % ${RandomDelay}))
+  if [ -n "${RandomDelay}" ]; then
+    CurMin=$(date "+%M")
+    if [ ${CurMin} -gt 2 ] && [ ${CurMin} -lt 30 ]; then
+      sleep $((${RANDOM} % ${RandomDelay}))
+    elif [ ${CurMin} -gt 31 ] && [ ${CurMin} -lt 59 ]; then
+      sleep $((${RANDOM} % ${RandomDelay}))
+    fi
   fi
 }
 
