@@ -10,7 +10,7 @@ isDocker=$(cat /proc/1/cgroup | grep docker)
 [ -n "${isDocker}" ] && ShellDir=${JD_DIR}
 LogDir=${ShellDirDir}/log
 
-. ${ShellDirDir}/config.sh
+. ${ShellDirDir}/config/config.sh
 
 if [ -n "${RmLogDaysAgo}" ]; then
   ## 删除运行js脚本的旧日志
