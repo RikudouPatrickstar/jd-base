@@ -1,6 +1,6 @@
 FROM node:lts-alpine
 LABEL maintainer="Evine Deng <evinedeng@foxmail.com>"
-ARG JD_BASE_URL=https://gitee.com/jd-base
+ARG JD_BASE_URL=https://gitee.com/evine/jd-base
 ARG JD_BASE_BRANCH=v3
 ARG JD_SCRIPTS_URL=https://gitee.com/lxk0301/jd_scripts
 ARG JD_SCRIPTS_BRANCH=master
@@ -30,7 +30,7 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh \
     && echo "Asia/Shanghai" > /etc/timezone \
     && git clone -b ${JD_BASE_BRANCH} ${JD_BASE_URL} ${JD_DIR} \
     && git clone -b ${JD_SCRIPTS_BRANCH} ${JD_SCRIPTS_URL} ${JS_DIR} \
-    cd ${JS_DIR} \
-    npm install
+    && cd ${JS_DIR} \
+    && npm install
 WORKDIR ${JD_DIR}
 ENTRYPOINT entrypoint.sh
