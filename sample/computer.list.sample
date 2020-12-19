@@ -1,18 +1,21 @@
 ## 重要：针对物理机，请先在命令行中使用 echo $PATH 命令查看你的系统PATH是不是和下面一样，如果不一样，请使用你的PATH代替下一行中PATH的值
 ## ①使用nvm安装nodejs的、②安装了多个nodejs版本的、③想使用的nodejs所在位置不在系统PATH中的，请注意将你拟使用的nodejs所在路径添加在PATH最前面
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin
+## 使用 which node、which npm 命令可以查到当前node、npm所在路径，如果不在下面路径中，则添加在下面的路径前并以半角冒号分隔
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-## 物理机请务必将你原本的定时任务加在本行之下（命令行中输入crontab -l可查看你原来的定时任务）：
+## 物理机请务必将你原本的定时任务加在本行之下（命令行中输入crontab -l可查看你原来的定时任务）
+
 
 
 ## 物理机安装请自行修改一下脚本路径，以下时间均为北京时间，建议根据所需调整
+
 # 更新lxk0301大佬的js脚本和EvineDeng的shell脚本，并替换相关参数
-55 5-23 * * * bash /home/myid/jd/git_pull.sh >> bash /home/myid/jd/log/git_pull.log
+55 * * * * bash /home/myid/jd/git_pull.sh >> bash /home/myid/jd/log/git_pull.log
 
 # 删除旧的运行京东js脚本的日志，未复制一份rm_log.sh时不生效，不记录日志
-57 13 * * 6 bash /home/myid/jd/rm_log.sh
+57 13 * * 6 bash /home/myid/jd/rm_log.sh >/dev/null 2>&1
 
-# 运行lxk0301大佬的js脚本，仅作初始化用，AutoAddCron=true时，将自动添加短期任务，请保留任务名称中的前缀"jd_"，去掉后缀".js"
+# 运行lxk0301大佬的js脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务，请保留任务名称中的前缀"jd_"，去掉后缀".js"
 0 9 * * * bash /home/myid/jd/jd.sh jd_bean_change
 28 4 * * * bash /home/myid/jd/jd.sh jd_bean_home
 3 0,8,14 * * * bash /home/myid/jd/jd.sh jd_bean_sign
