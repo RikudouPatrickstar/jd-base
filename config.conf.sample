@@ -1,7 +1,10 @@
-## Author: Evine Deng
-## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-18
-## Version： v3.0.0
+## Version: v3.0.0
+## Date: 2020-12-19
+
+################################## 说明 ##################################
+## 以下配置中，带有 export 申明的，均由lxk0301大佬定义，详见：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
+## 其他互助码，考虑到直接按lxk0301大佬定义的变量去填的话，一是不方便记忆，二是容易搞混，所以最终的变量将由脚本去组合，你只要按注释去填即可
+## 除此之外，还额外增加了是否自动删除失效任务AutoDelCron、是否自动增加新任务AutoAddCron、删除旧日志时间RmLogDaysAgo、随机延迟启动任务RandomDelay四个人性化的设置供选择
 
 
 ################################## 定义Cookie（必填） ##################################
@@ -29,32 +32,44 @@ AutoDelCron="true"
 AutoAddCron="true"
 
 
+################################## 定义删除日志的时间（选填） ##################################
+## 定义在运行删除旧的日志任务时，要删除多少天以前的日志，请输入正整数，不填则禁用删除日志的功能
+RmLogDaysAgo="7"
+
+
+################################## 定义随机延迟启动任务（选填） ##################################
+## 如果该任务不是必须准点运行的任务，那么给它增加一个随机延迟，由你定义最大延迟时间，单位为秒，如 RandomDelay=300 ，表示任务将在 1-200 秒内随机延迟一个秒数，然后再运行
+## 在crontab.list中，在每小时第0-2分、第30-31分、第59分这几个时间内启动的任务，均算作必须准点运行的任务，在启动这些任务时，即使你定义了RandomDelay，也将准点运行，不启用随机延迟
+## 在crontab.list中，除掉每小时上述时间启动的任务外，其他任务在你定义了 RandomDelay 的情况下，一律启用随机延迟
+RandomDelay=300
+
+
 ################################## 定义User-Agent（选填） ##################################
 ## 自定义lxk0301大佬仓库里京东系列js脚本的UserAgent，不懂不知不会UserAgent的请不要随意填写内容，随意填写了出错概不负责
 ## 相关讨论详见https://github.com/lxk0301/jd_scripts/issues/127
-JD_USER_AGENT=""
+export JD_USER_AGENT=""
 
 
 ################################## 定义通知TOKEN（选填） ##################################
 ## 想通过什么渠道收取通知，就填入对应渠道的值
 ## ServerChan，教程：http://sc.ftqq.com/3.version
-PUSH_KEY=""
+export PUSH_KEY=""
 
 ## BARK，如需使用，BARK_PUSH和BARK_SOUND必须同时赋值，教程（看BARK_PUSH和BARK_SOUND的说明）：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
-BARK_PUSH=""
-BARK_SOUND=""
+export BARK_PUSH=""
+export BARK_SOUND=""
 
 ## Telegram，如需使用，TG_BOT_TOKEN和TG_USER_ID必须同时赋值，教程：https://github.com/lxk0301/jd_scripts/blob/master/backUp/TG_PUSH.md
-TG_BOT_TOKEN=""
-TG_USER_ID=""
+export TG_BOT_TOKEN=""
+export TG_USER_ID=""
 
 ## 钉钉，教程（看DD_BOT_TOKEN和DD_BOT_SECRET部分）：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
-DD_BOT_TOKEN=""
-DD_BOT_SECRET=""
+export DD_BOT_TOKEN=""
+export DD_BOT_SECRET=""
 
 ## iGot聚合推送，支持多方式推送，确保消息可达。教程：https://wahao.github.io/Bark-MP-helper/#/
 ## 此处填写iGot的推送key
-IGOT_PUSH_KEY=""
+export IGOT_PUSH_KEY=""
 
 
 ################################## 定义每日签到的通知形式（选填） ##################################
@@ -67,7 +82,7 @@ NotifyBeanSign=""
 
 ################################## 定义每日签到每个接口间的延迟时间（选填） ##################################
 ## 默认每个签到接口并发无延迟，如需要依次进行每个接口，请自定义延迟时间，单位为毫秒，延迟作用于每个签到接口, 如填入延迟则切换顺序签到(耗时较长)
-JD_BEAN_STOP=""
+export JD_BEAN_STOP=""
 
 
 ################################## 定义东东农场每个人自己的互助码（选填） ##################################
@@ -86,8 +101,8 @@ MyFruitB=""
 
 
 ################################## 定义东东农场要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyFruit系列变量的编号即可（只填编号），多个编号间以半角空格分开
-## 2.比如：ForOtherFruit1="2 3 5 A"，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie5的账户以及没有提供Cookie只提供了助力码的A用户提供助力
+## 1.每个Cookie要为谁助力，填入对应MyFruit系列变量名即可，用 @ 分隔每个变量名
+## 2.比如：ForOtherFruit1="${MyFruit2}@{MyFruit3}@{MyFruit5}@{MyFruitA}"，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie5的账户以及没有提供Cookie只提供了助力码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherFruit系列变量就多少个有效（从编号1开始计）
 ## 4.可以不赋值，这种情况下，将自动随机给他人助力
 ForOtherFruit1=""
@@ -114,8 +129,8 @@ MyPetB=""
 
 
 ################################## 定义东东萌宠要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyPet系列变量的编号即可（只填编号），多个编号间以半角空格分开
-## 2.比如：ForOtherPet1="2 3 A"，含义是Cookie1的账户将为Cookie2、Cookie3的账户以及没有提供Cookie只提供了互助码的A用户提供助力
+## 1.每个Cookie要为谁助力，填入对应MyPet系列变量名即可，用 @ 分隔每个变量名
+## 2.比如：ForOtherPet1="${MyPet2}@{MyPet3}@{MyPetA}"，含义是Cookie1的账户将为Cookie2、Cookie3的账户以及没有提供Cookie只提供了互助码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherPet系列变量就多少个有效（从编号1开始计）
 ## 4.可以不赋值，在这种情况下，将自动随机给他人助力
 ForOtherPet1=
@@ -128,30 +143,30 @@ ForOtherPet6=
 
 ################################## 定义种豆得豆每个人自己的互助码（选填） ##################################
 ## 种豆得豆每个Cookie自己的互助码，可以在运行一次种豆得豆脚本（jd_plantBean）后从日志中查看
-## 约定：MyPlantBean后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyPlantBean1、MyPlantBean2
-## 约定：MyPlantBean后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyPlantBeanA、MyPlantBeanB
+## 约定：MyBean后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyBean1、MyBean2
+## 约定：MyBean后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyBeanA、MyBeanB
 ## 这里的码只是为了下面“定义种豆得豆要为哪些人助力”服务的
-MyPlantBean1=""
-MyPlantBean2=""
-MyPlantBean3=""
-MyPlantBean4=""
-MyPlantBean5=""
-MyPlantBean6=""
-MyPlantBeanA=""
-MyPlantBeanB=""
+MyBean1=""
+MyBean2=""
+MyBean3=""
+MyBean4=""
+MyBean5=""
+MyBean6=""
+MyBeanA=""
+MyBeanB=""
 
 
 ################################## 定义种豆得豆要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyPlantBean系列变量的编号即可（只填编号），多个编号间以半角空格分开
-## 2.比如：ForOtherPlantBean1="2 6 B"，含义是Cookie1的账户将为Cookie2、Cookie6的账户以及没有提供Cookie只提供了互助码的B用户提供助力
-## 3.Cookie定义了多少个，ForOtherPlantBean系列变量就多少个有效（从编号1开始计）
+## 1.每个Cookie要为谁助力，填入对应MyBean系列变量名即可，用 @ 分隔每个变量名
+## 2.比如：ForOtherBean1="${MyBean2}@${MyBean6}@${MyBeanB}"，含义是Cookie1的账户将为Cookie2、Cookie6的账户以及没有提供Cookie只提供了互助码的B用户提供助力
+## 3.Cookie定义了多少个，ForOtherBean系列变量就多少个有效（从编号1开始计）
 ## 4.可以不赋值，这种情况下，将自动随机给他人助力
-ForOtherPlantBean1=
-ForOtherPlantBean2=
-ForOtherPlantBean3=
-ForOtherPlantBean4=
-ForOtherPlantBean5=
-ForOtherPlantBean6=
+ForOtherBean1=
+ForOtherBean2=
+ForOtherBean3=
+ForOtherBean4=
+ForOtherBean5=
+ForOtherBean6=
 
 
 ################################## 定义京喜工厂每个人自己的互助码（选填） ##################################
@@ -170,8 +185,8 @@ MyDreamFactoryB=""
 
 
 ################################## 定义京喜工厂要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyDreamFactory系列变量的编号即可（只填编号），多个编号间以半角空格分开
-## 2.举例：ForOtherDreamFactory1="3 5 A"，含义是Cookie1的账户将为Cookie3、Cookie5的账户以及没有提供Cookie只提供了互助码的A用户提供助力
+## 1.每个Cookie要为谁助力，填入对应MyDreamFactory系列变量名即可，用 @ 分隔每个变量名
+## 2.举例：ForOtherDreamFactory1="${MyDreamFactory3}@{MyDreamFactory5}@{MyDreamFactoryA}"，含义是Cookie1的账户将为Cookie3、Cookie5的账户以及没有提供Cookie只提供了互助码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherDreamFactory系列变量就多少有效（从编号1开始计）
 ## 4.可以不赋值，这种情况下，将自动随机给他人助力
 ForOtherDreamFactory1=
@@ -198,8 +213,8 @@ MyJdFactoryB=""
 
 
 ################################## 定义东东工厂要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyJdFactory系列变量的编号即可（只填编号），多个编号间以半角空格分开
-## 2.举例：ForOtherJdFactory1="3 4 A"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
+## 1.每个Cookie要为谁助力，填入对应MyJdFactory系列变量名即可，用 @ 分隔每个变量名
+## 2.举例：ForOtherJdFactory1="${MyJdFactory3}@${MyJdFactory4}@${MyJdFactoryA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherJdFactory系列变量就多少有效（从编号1开始计）
 ## 4.可以不赋值，这种情况下，将自动随机给他人助力
 ForOtherJdFactory1=""
@@ -217,67 +232,67 @@ ForOtherJdFactory6=""
 ## 三、可兑换清单的商品名称，输入关键词即可，比如：coinToBeans="抽纸"
 ## js脚本默认为0，即为不自动兑换，另外，具体可以兑换哪些商品请自行在东东超市游戏中去查阅
 ## 注意：有些比较贵的实物商品京东只是展示出来忽悠人的，即使你零点用脚本去抢，也会提示没有或提示已下架
-MARKET_COIN_TO_BEANS="0"
+export MARKET_COIN_TO_BEANS="0"
 
 
 ################################## 定义东东超市蓝币成功兑换奖品是否静默运行（选填） ##################################
 ## 默认 "false" 关闭（即:奖品兑换成功后会发出通知提示），如需要静默运行不发出通知，请改为 "true"
-MARKET_REWARD_NOTIFY=""
+export MARKET_REWARD_NOTIFY=""
 
 
 ################################## 定义东东超市是否自动升级商品和货架（选填） ##################################
 ## 升级顺序：解锁升级商品、升级货架，默认 "true" 自动升级，如需关闭自动升级，请改为 "false"
-SUPERMARKET_UPGRADE=""
+export SUPERMARKET_UPGRADE=""
 
 
 ################################## 定义东东超市是否自动更换商圈（选填） ##################################
 ## 小于对方300热力值自动更换商圈队伍，默认 "true" 自动更换，如不想更换商圈，请改为 "false"
-BUSINESS_CIRCLE_JUMP=""
+export BUSINESS_CIRCLE_JUMP=""
 
 
 ################################## 定义东东超市是否自动使用金币去抽奖（选填） ##################################
 ## 是否用金币去抽奖，默认 "false" 关闭，如需开启，请修改为 "true"
-SUPERMARKET_LOTTERY=""
+export SUPERMARKET_LOTTERY=""
 
 
 ################################## 定义东东农场是否静默运行（选填） ##################################
 ## 默认为 "false"，不静默，发送推送通知消息，如不想收到通知，请修改为 "true"
-FRUIT_NOTIFY_CONTROL=""
+export FRUIT_NOTIFY_CONTROL=""
 
 
 ################################## 定义东东农场是否使用水滴换豆卡（选填） ##################################
 ## 如果出现限时活动时100g水换20豆，此时比浇水划算，"true"表示换豆（不浇水），"false"表示不换豆（继续浇水）,默认是"false"
 ## 如需切换为换豆（不浇水），请修改为 "true"
-FRUIT_BEAN_CARD=""
+export FRUIT_BEAN_CARD=""
 
 
 ################################## 定义宠汪汪喂食克数（选填） ##################################
 ## 你期望的宠汪汪每次喂食克数，只能填入10、20、40、80，默认为10
 ## 如实际持有食物量小于所设置的克数，脚本会自动降一档，直到降无可降
 ## 具体情况请自行在宠汪汪游戏中去查阅攻略
-JOY_FEED_COUNT=""
+export JOY_FEED_COUNT=""
 
 
 ################################## 定义宠汪汪兑换京豆数量（选填） ##################################
 ## 目前的可用值包括：0、20、500、1000，其中0表示为不自动兑换京豆，如不设置，将默认为20
 ## 不同等级可兑换不同数量的京豆，详情请见宠汪汪游戏中兑换京豆选项
 ## 500、1000的京豆每天有总量限制，设置了并且你也有足够积分时，也并不代表就一定能抢到
-JD_JOY_REWARD_NAME=""
+export JD_JOY_REWARD_NAME=""
 
 
 ################################## 定义宠汪汪兑换京豆是否静默运行（选填） ##################################
 ## 默认为 "false"，在成功兑换京豆时将发送推送通知消息（失败不发送），如想要静默不发送通知，请修改为 "true"
-JD_JOY_REWARD_NOTIFY=""
+export JD_JOY_REWARD_NOTIFY=""
 
 
 ################################## 定义宠汪汪是否自动给好友的汪汪喂食（选填） ##################################
 ## 默认 "false" 不会自动给好友的汪汪喂食，如想自动喂食，请改成 "true"
-JOY_HELP_FEED=""
+export JOY_HELP_FEED=""
 
 
 ################################## 定义宠汪汪是否自动报名宠物赛跑（选填） ##################################
 ## 默认 "true" 参加宠物赛跑，如需关闭，请改成 "false"
-JOY_RUN_FLAG=""
+export JOY_RUN_FLAG=""
 
 
 ################################## 定义宠汪汪参加比赛类型（选填） ##################################
@@ -285,12 +300,12 @@ JOY_RUN_FLAG=""
 ## 可选值：2,10,50，其他值不可以。其中2代表参加双人PK赛，10代表参加10人突围赛，50代表参加50人挑战赛，不填时默认为2
 ## 各个账号间请使用 & 分隔，比如：teamLevel="2&2&50&10"
 ## 如果你有5个账号但只写了四个数字，那么第5个账号将默认参加2人赛，账号如果更多，与此类似
-JOY_TEAM_LEVEL=""
+export JOY_TEAM_LEVEL=""
 
 
 ################################## 定义摇钱树是否自动将金果卖出变成金币（选填） ##################################
 ## 金币有时效，默认为 "false"，不卖出金果为金币，如想希望自动卖出，请修改为 "true"
-MONEY_TREE_SELL_FRUIT=""
+export MONEY_TREE_SELL_FRUIT=""
 
 
 ################################## 定义东东萌宠是否静默运行（选填） ##################################
@@ -299,51 +314,51 @@ MONEY_TREE_SELL_FRUIT=""
 ## 除掉上述提及时间之外，均设置为 true，静默不发通知
 ## 特别说明：针对北京时间有效。
 if [ $(date "+%w") -eq 6 ] && [ $(date "+%H") -ge 9 ] && [ $(date "+%H") -lt 14 ]; then
-  PET_NOTIFY_CONTROL="false"
+  export PET_NOTIFY_CONTROL="false"
 elif [ $(date "+%w") -eq 3 ] && [ $(date "+%H") -ge 9 ] && [ $(date "+%H") -lt 14 ]; then
-  PET_NOTIFY_CONTROL="false"
+  export PET_NOTIFY_CONTROL="false"
 else
-  PET_NOTIFY_CONTROL="true"
+  export PET_NOTIFY_CONTROL="true"
 fi
 
 
 ################################## 定义手机狂欢城是否发送上车提醒（选填） ##################################
 ## 情况请见jd_818的日志，默认为 "false"，不发送上车提醒，如想要收到提醒，请修改为 "true"
 ## 暂时没有手机狂欢城活动
-JD_818_SHAREID_NOTIFY=""
+export JD_818_SHAREID_NOTIFY=""
 
 
 ################################## 定义东东工厂心仪的商品（选填） ##################################
 ## 只有在满足以下条件时，才自动投入电力：一是存储的电力满足生产商品所需的电力，二是心仪的商品有库存，如果没有输入心仪的商品，那么当前你正在生产的商品视作心仪的商品
 ## 如果你看不懂上面的话，请去东东工厂游戏中查阅攻略
 ## 心仪的商品请输入商品的全称或能唯一识别出该商品的关键字
-FACTORAY_WANTPRODUCT_NAME=""
+export FACTORAY_WANTPRODUCT_NAME=""
 
 
 ################################## 定义取关参数（选填） ##################################
 ## jd_unsubscribe这个任务是用来取关每天做任务关注的商品和店铺，默认在每次运行时取关20个商品和20个店铺
 ## 如果取关数量不够，可以根据情况增加，还可以设置 jdUnsubscribeStopGoods 和 jdUnsubscribeStopShop 
 ## 商品取关数量
-goodPageSize=
+goodPageSize=""
 ## 店铺取关数量
-shopPageSize=
-## 遇到此商品不再取关此商品以及它后面的商品，需去商品详情页长按拷贝商品信息，需要用一对双引号括起来
+shopPageSize=""
+## 遇到此商品不再取关此商品以及它后面的商品，需去商品详情页长按拷贝商品信息
 jdUnsubscribeStopGoods=""
-## 遇到此店铺不再取关此店铺以及它后面的店铺，请从头开始输入店铺名称，需要用一对双引号括起来
+## 遇到此店铺不再取关此店铺以及它后面的店铺，请从头开始输入店铺名称
 jdUnsubscribeStopShop=""
 
 
 ################################## 京东发现-看一看的视频抓包（选填） ##################################
-## 强烈建议有能力者自行抓包，想要使用自行抓的包有两种方式：
-## 1.按照jd_watch.js脚本中的注释说明，抓包后另存watch.chlsj，放在和jd_watch.js同一个目录下
+## 虽然脚本内置了BODY，但强烈建议有能力者自行抓包，想要使用自行抓的包有两种方式：
+## 1.按照jd_watch.js脚本中的注释说明，抓包后另存为watch.chlsj，放在和jd_watch.js同一个目录下
 ## 2.按照jd_watch.js脚本中的注释说明，把抓到的包整理后填在下面（WATCH_ACCEPTBODY和WATCH_DOBODY各需40个，每个之间使用@符号隔开）
-WATCH_ACCEPTBODY=""
-WATCH_DOBODY=""
+export WATCH_ACCEPTBODY=""
+export WATCH_DOBODY=""
 
 
 ################################## Telegram 代理（选填） ##################################
 ## Telegram 代理的 IP，代理类型为 http，比如你代理是 http://127.0.0.1:1080，则填写 "127.0.0.1"
-TG_PROXY_HOST=""
+export TG_PROXY_HOST=""
 
 ## Telegram 代理的端口，代理类型为 http，比如你代理是 http://127.0.0.1:1080，则填写 "1080"
-TG_PROXY_PORT=""
+export TG_PROXY_PORT=""

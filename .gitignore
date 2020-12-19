@@ -1,1 +1,4 @@
-.jd_scripts/
+scripts*
+log*
+crontab.list
+config.conf
