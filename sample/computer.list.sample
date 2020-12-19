@@ -16,37 +16,37 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 57 13 * * 6 bash /home/myid/jd/rm_log.sh >/dev/null 2>&1
 
 # 运行lxk0301大佬的js脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务，请保留任务名称中的前缀"jd_"，去掉后缀".js"
-0 9 * * * bash /home/myid/jd/jd.sh jd_bean_change
-28 4 * * * bash /home/myid/jd/jd.sh jd_bean_home
-3 0,8,14 * * * bash /home/myid/jd/jd.sh jd_bean_sign
+5 9 * * * bash /home/myid/jd/jd.sh jd_bean_change
+28 5 * * * bash /home/myid/jd/jd.sh jd_bean_home
+4 0,9 * * * bash /home/myid/jd/jd.sh jd_bean_sign
 0 0 * * * bash /home/myid/jd/jd.sh jd_blueCoin
 23 2 * * * bash /home/myid/jd/jd.sh jd_car
 2 0 * * * bash /home/myid/jd/jd.sh jd_club_lottery
 #36 9 * * * bash /home/myid/jd/jd.sh jd_ds  #限学生认证用户，如果你是，请自己解除注释
 54 2-23/3 * * * bash /home/myid/jd/jd.sh jd_daily_egg
 20 * * * * bash /home/myid/jd/jd.sh jd_dreamFactory
-30 7,12,18 * * * bash /home/myid/jd/jd.sh jd_fruit
+29 7,12,18 * * * bash /home/myid/jd/jd.sh jd_fruit
 36 * * * * bash /home/myid/jd/jd.sh jd_jdfactory
-10 11 * * * bash /home/myid/jd/jd.sh jd_jdzz
-1 0,8,9,13,18,23 * * * bash /home/myid/jd/jd.sh jd_joy
+14 11 * * * bash /home/myid/jd/jd.sh jd_jdzz
+6 0,8,9,13,18,22 * * * bash /home/myid/jd/jd.sh jd_joy
 */20 0-22 * * * bash /home/myid/jd/jd.sh jd_joy_feedPets
 0 0,8,12,16 * * * bash /home/myid/jd/jd.sh jd_joy_reward
 18 10,13 * * * bash /home/myid/jd/jd.sh jd_joy_run
 0 0,6 * * * bash /home/myid/jd/jd.sh jd_joy_steal
-28 7 * * * bash /home/myid/jd/jd.sh jd_kd
-10-20/5 13 * * * bash /home/myid/jd/jd.sh jd_live
+32 7 * * * bash /home/myid/jd/jd.sh jd_kd
+13-23/5 13 * * * bash /home/myid/jd/jd.sh jd_live
 15 1 * * * bash /home/myid/jd/jd.sh jd_lotteryMachine
 40 */4 * * * bash /home/myid/jd/jd.sh jd_moneyTree
 20 0,20 * * * bash /home/myid/jd/jd.sh jd_necklace
 10 7,12,18 * * * bash /home/myid/jd/jd.sh jd_pet
-12 13 * * * bash /home/myid/jd/jd.sh jd_pigPet
+25 * * * * bash /home/myid/jd/jd.sh jd_pigPet
 35 7-22 * * * bash /home/myid/jd/jd.sh jd_plantBean
 11 0 * * * bash /home/myid/jd/jd.sh jd_rankingList
 1 1 * * * bash /home/myid/jd/jd.sh jd_redPacket
 0 0 * * * bash /home/myid/jd/jd.sh jd_shop
 16 0 * * * bash /home/myid/jd/jd.sh jd_small_home
 35 */3 * * * bash /home/myid/jd/jd.sh jd_speed
-10 1-23/5 * * * bash /home/myid/jd/jd.sh jd_superMarket
+9 1-23/5 * * * bash /home/myid/jd/jd.sh jd_superMarket
 25 9 * * * bash /home/myid/jd/jd.sh jd_syj
 17 11,14 * * * bash /home/myid/jd/jd.sh jd_watch
 45 23 * * * bash /home/myid/jd/jd.sh jd_unsubscribe
