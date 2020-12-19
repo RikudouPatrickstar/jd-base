@@ -21,10 +21,13 @@ ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
 isGithub=$(grep "github" "${ShellDir}/.git/config")
 isGitee=$(grep "gitee" "${ShellDir}/.git/config")
-[ ${isGithub} ] && ScriptsURL=https://github.com/lxk0301/jd_scripts
-[ ${isGithub} ] && ShellURL=https://github.com/EvineDeng/jd-base
-[ ${isGitee} ] && ScriptsURL=https://gitee.com/lxk0301/jd_scripts
-[ ${isGitee} ] && ShellURL=https://gitee.com/evine/jd-base
+if [ -n "${isGithub}" ]; then
+  ScriptsURL=https://github.com/lxk0301/jd_scripts
+  ShellURL=https://github.com/EvineDeng/jd-base
+elif [ -n "${isGitee}" ]; then
+  ScriptsURL=https://gitee.com/lxk0301/jd_scripts
+  ShellURL=https://gitee.com/evine/jd-base
+fi
 
 ## 导入config.sh
 function Import_Conf {
@@ -40,7 +43,7 @@ function Import_Conf {
 ## 克隆js脚本
 function Git_CloneScripts {
   echo -e "克隆JS脚本，原地址：${ScriptsURL}\n"
-  git clone ${ScriptsURL} ${ScriptsDir}
+  git clone -b master ${ScriptsURL} ${ScriptsDir}
   echo
 }
 
