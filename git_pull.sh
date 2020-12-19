@@ -129,6 +129,7 @@ function Diff_Cron {
     grep -vwf ${ListJs} ${ListTask} > ${ListJsDrop}
   else
     echo -e "${ListCron} 文件不存在，请先定义你自己的crontab.list...\n"
+  fi
 }
 
 ## 发送新的定时任务消息
