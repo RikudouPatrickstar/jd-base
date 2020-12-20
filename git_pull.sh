@@ -63,6 +63,7 @@ function Import_Conf {
 function Git_CloneScripts {
   echo -e "克隆JS脚本，原地址：${ScriptsURL}\n"
   git clone -b master ${ScriptsURL} ${ScriptsDir}
+  ExitStatusScripts=$?
   echo
 }
 
@@ -71,6 +72,7 @@ function Git_PullScripts {
   echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
   cd ${ScriptsDir}
   git fetch --all
+  ExitStatusScripts=$?
   git reset --hard origin/master
   echo
 }
@@ -80,8 +82,8 @@ function Git_PullShell {
   echo -e "更新shell脚本，原地址：${ShellURL}\n"
   cd ${ShellDir}
   git fetch --all
-  git reset --hard origin/v3
   ExitStatusShell=$?
+  git reset --hard origin/v3
 }
 
 ## 用户数量UserSum
@@ -218,10 +220,8 @@ if [ $? -eq 0 ]; then
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
   if [ -d ${ScriptsDir} ]; then
     Git_PullScripts
-    ExitStatusScripts=$?
   else
     Git_CloneScripts
-    ExitStatusScripts=$?
   fi
 fi
 
