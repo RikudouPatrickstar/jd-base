@@ -20,7 +20,7 @@ else
   ShellDir=${JD_DIR}
 fi
 
-LogDir=${ShellDirDir}/log
+LogDir=${ShellDir}/log
 
 ## 导入配置文件
 . ${ShellDir}/config/config.sh
