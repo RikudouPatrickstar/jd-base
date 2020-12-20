@@ -158,7 +158,7 @@ function Diff_Cron {
 function Notify_NewTask {
   node ${ShellDir}/update.js
   if [ $? -eq 0 ] && [ -f ${LogDir}/new_task ]; then
-    && rm -f ${LogDir}/new_task
+    rm -f ${LogDir}/new_task
   fi
 }
 
