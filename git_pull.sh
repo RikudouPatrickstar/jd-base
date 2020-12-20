@@ -297,7 +297,7 @@ fi
 if [ ${ExitStatusScripts} -eq 0 ]; then
   cd ${ScriptsDir}
   if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
-    echo -e "检测到 ${ScriptsDir}/package.json 内容有变化，再次运行 npm install...\n"
+    echo -e "运行 npm install...\n"
     NpmInstallSub
     if [ $? -ne 0 ]; then
       echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules 后再次尝试一遍..."
@@ -306,10 +306,10 @@ if [ ${ExitStatusScripts} -eq 0 ]; then
     echo
   fi
   if [ ! -d ${ScriptsDir}/node_modules ]; then
-    echo -e "运行npm install...\n"
+    echo -e "运行 npm install...\n"
     NpmInstallSub
     if [ $? -ne 0 ]; then
-      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n\n请进入 ${ScriptsDir} 目录后手动运行 npm install...\n"
+      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n\n请进入 ${ScriptsDir} 目录后按照wiki教程手动运行 npm install...\n"
       rm -rf ${ScriptsDir}/node_modules
       exit 1
     fi
@@ -331,7 +331,7 @@ if [ $? -eq 0 ]; then
 fi
 
 ## 调用用户自定义的diy.sh
-if [ "${EnableExtraShell}" = "true" ]; then
+if [ ${ExitStatusShell} -eq 0 ] && [ "${EnableExtraShell}" = "true" ]; then
   if [ -f ${FileDiy} ]
   then
     . ${FileDiy}
