@@ -27,8 +27,8 @@ ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config/config.sh
 FileDiy=${ShellDir}/config/diy.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
-[ -f ${FileConf} ] && VerConf=$(grep -i "Version" ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-VerConfSample=$(grep -i "Version" ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+[ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 
 ListCron=${ShellDir}/config/crontab.list
 ListTask=${LogDir}/task.list
