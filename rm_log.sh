@@ -3,16 +3,31 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-19
-## Version： v3.0.0
+## Version： v3.0.1
 
-isDocker=$(cat /proc/1/cgroup | grep docker)
-[ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
-[ -n "${isDocker}" ] && ShellDir=${JD_DIR}
+## 判断环境
+if [ -f /proc/1/cgroup ]
+then
+  isDocker=$(cat /proc/1/cgroup | grep docker)
+else
+  isDocker=""
+fi
+
+if [ -z "${isDocker}" ]
+then
+  ShellDir=$(cd $(dirname $0); pwd)
+else
+  ShellDir=${JD_DIR}
+fi
+
 LogDir=${ShellDirDir}/log
 
+## 导入配置文件
 . ${ShellDirDir}/config/config.sh
 
+## 删除日志
 if [ -n "${RmLogDaysAgo}" ]; then
+
   ## 删除运行js脚本的旧日志
   LogFileList=$(ls -l ${LogDir}/j*_*/*.log | awk '{print $9}')
   for log in ${LogFileList}
@@ -31,4 +46,5 @@ if [ -n "${RmLogDaysAgo}" ]; then
   DateDelLog=$(date "+%Y-%m-%d" -d "${RmLogDaysAgo} days ago")
   LineEndGitPull=$[$(cat ${LogDir}/git_pull.log | grep -n "系统时间：${DateDelLog}" | head -1 | awk -F ":" '{print $1}') - 3]
   perl -i -ne "{print unless 1 .. ${LineEndGitPull} }" ${LogDir}/git_pull.log
+
 fi
