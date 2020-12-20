@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-18
-## Version： v3.0.3
+## Modified： 2020-12-20
+## Version： v3.2.0
 
 ## 路径
 if [ -f /proc/1/cgroup ]
