@@ -3,12 +3,23 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-18
-## Version： v3.0.2
+## Version： v3.0.3
 
 ## 路径
-isDocker=$(cat /proc/1/cgroup | grep docker)
-[ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
-[ -n "${isDocker}" ] && ShellDir=${JD_DIR}
+if [ -f /proc/1/cgroup ]
+then
+  isDocker=$(cat /proc/1/cgroup | grep docker)
+else
+  isDocker=""
+fi
+
+if [ -z "${isDocker}" ]
+then
+  ShellDir=$(cd $(dirname $0); pwd)
+else
+  ShellDir=${JD_DIR}
+fi
+
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
