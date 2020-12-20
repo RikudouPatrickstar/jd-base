@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-19
-## Version： v3.0.1
+## Version： v3.0.2
 
 ## 判断环境
 if [ -f /proc/1/cgroup ]
@@ -23,7 +23,7 @@ fi
 LogDir=${ShellDirDir}/log
 
 ## 导入配置文件
-. ${ShellDirDir}/config/config.sh
+. ${ShellDir}/config/config.sh
 
 ## 删除日志
 if [ -n "${RmLogDaysAgo}" ]; then
