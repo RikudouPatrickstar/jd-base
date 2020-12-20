@@ -273,7 +273,7 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${Lis
   JsDrop=$(cat ${ListJsDrop})
   for Cron in ${JsDrop}
   do
-    perl -i -ne "{print unless / ${Cron}\W/}" ${ListCron}
+    perl -i -ne "{print unless / ${Cron}( |$)/}" ${ListCron}
   done
   crontab ${ListCron}
   echo -e "成功删除失效的脚本与定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
