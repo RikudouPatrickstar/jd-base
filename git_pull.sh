@@ -172,15 +172,15 @@ function Notify_Version {
   then
     UpdateDate=$(grep -i "Date" ${FileConfSample} | awk -F ": " '{print $2}')
     echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n新的版本: ${VerConfSample}\n当前版本: ${VerConf}\n" | tee ${ContentVersion}
-    echo -e "版本号中，如果第2位数字有变化，则代表增加了新的参数，你如果要用到新的参数，要么重新复制本仓库的sample/config.sh.sample文件重新配置，要么把新增加的参数增加到你现有的config.sh文件中（自己增加的话加完把你自己config.sh中第一行的版本号也改一下）。\n" >> ${ContentVersion}
-    echo -e "版本号中，如果第3位数字有变化，仅代表更新了配置文件注释，没有增加新的参数，可更新可不更新。\n" >> ${ContentVersion}
-    echo -e "本消息只在配置文件更新当天发送一次，之后不再发送。" >> ${ContentVersion}
+    echo -e "版本号中，第2位数字有变化代表增加了新的参数，有需要者可更新。\n" >> ${ContentVersion}
+    echo -e "版本号中，第3位数字有变化代表仅仅是更新了配置文件注释。\n" >> ${ContentVersion}
+    echo -e "本消息只在配置文件更新当天发送一次。" >> ${ContentVersion}
     if [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
     then
       if [ ! -f ${SendCount} ]; then
         cd ${ShellDir}
         node update.js
-        if [ $? -eq 0 ]; then 
+        if [ $? -eq 0 ]; then
           echo "1" > ${SendCount}
           [ -f ${ContentVersion} ] && rm -f ${ContentVersion}
         fi

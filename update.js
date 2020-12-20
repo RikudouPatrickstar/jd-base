@@ -28,7 +28,7 @@ async function update() {
     if (fs.existsSync('version')) {
       const versionContent = await fs.readFileSync('./version', 'utf8');
       if (versionContent) {
-        await notify.sendNotify('config.sh配置文件版本更新通知', versionContent);
+        await notify.sendNotify('配置文件更新通知', versionContent);
       } else {
         console.log(`version文件里面暂无内容`)
       }
