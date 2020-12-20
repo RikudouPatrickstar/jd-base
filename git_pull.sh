@@ -278,11 +278,11 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${Lis
   crontab ${ListCron}
   echo -e "成功删除失效的脚本与定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
   crontab -l
+  echo -e "\n--------------------------------------------------------------\n"
   if [ -d ${ScriptsDir}/node_modules ]; then
     echo -e "jd-base脚本成功删除失效的定时任务：\n\n${JsDrop}" > ${ContentDropTask}
     Notify_DropTask
   fi
-  echo -e "\n--------------------------------------------------------------\n"
 fi
 
 ## 自动增加新的定时任务，需要5个条件：1.AutoAddCron 设置为 true；2.正常更新js脚本，没有报错；3.js-add.list不为空；4.crontab.list存在并且不为空；5.已经正常运行过npm install
@@ -302,11 +302,11 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
     crontab ${ListCron}
     echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
     crontab -l
+    echo -e "\n--------------------------------------------------------------\n"
     if [ -d ${ScriptsDir}/node_modules ]; then
       echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}" > ${ContentNewTask}
       Notify_NewTask
     fi
-    echo -e "\n--------------------------------------------------------------\n"
   else
     echo -e "添加新的定时任务出错，请手动添加...\n"
     if [ -d ${ScriptsDir}/node_modules ]; then
