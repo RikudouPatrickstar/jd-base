@@ -1,3 +1,6 @@
 scripts*
 log*
 config*
+version
+new_task
+send_count

@@ -16,7 +16,7 @@ const fs = require('fs');
 async function update() {
   try {
     if (fs.existsSync('new_task')) {
-      const newTaskContent = await fs.readFileSync('./log/new_task', 'utf8');
+      const newTaskContent = await fs.readFileSync('./new_task', 'utf8');
       if (newTaskContent) {
         await notify.sendNotify('新增薅羊毛脚本通知', newTaskContent);
       } else {
@@ -26,7 +26,7 @@ async function update() {
       console.log(`new_task文件不存在`)
     }
     if (fs.existsSync('version')) {
-      const versionContent = await fs.readFileSync('./log/version', 'utf8');
+      const versionContent = await fs.readFileSync('./version', 'utf8');
       if (versionContent) {
         await notify.sendNotify('config.sh配置文件版本更新通知', versionContent);
       } else {

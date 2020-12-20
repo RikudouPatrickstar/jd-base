@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-20
-## Version： v3.3.0
+## Version： v3.3.1
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -35,6 +35,9 @@ ListTask=${LogDir}/task.list
 ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
+ContentVersion=${ShellDir}/version
+ContentNewTask=${ShellDir}/new_task
+SendCount=${ShellDir}/send_count
 
 isGithub=$(grep "github" "${ShellDir}/.git/config")
 isGitee=$(grep "gitee" "${ShellDir}/.git/config")
@@ -156,9 +159,10 @@ function Diff_Cron {
 
 ## 发送新的定时任务消息
 function Notify_NewTask {
-  node ${ShellDir}/update.js
-  if [ $? -eq 0 ] && [ -f ${LogDir}/new_task ]; then
-    rm -f ${LogDir}/new_task
+  cd ${ShellDir}
+  node update.js
+  if [ $? -eq 0 ] && [ -f ${ContentNewTask} ]; then
+    rm -f ${ContentNewTask}
   fi
 }
 
@@ -167,25 +171,26 @@ function Notify_Version {
   if [ "${VerConf}" != "${VerConfSample}" ]
   then
     UpdateDate=$(grep -i "Date" ${FileConfSample} | awk -F ": " '{print $2}')
-    echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n新的版本: ${VerConfSample}\n当前版本: ${VerConf}\n\n" | tee ${LogDir}/version
-    echo -e "版本号中，如果第2位数字有变化，则代表增加了新的参数，你如果要用到新的参数，要么重新复制本仓库的sample/config.sh.sample文件重新配置，要么把新增加的参数增加到你现有的config.sh文件中（自己增加的话加完把你自己config.sh中第一行的版本号也改一下）。" >> ${LogDir}/version
-    echo -e "版本号中，如果第3位数字有变化，仅代表更新了配置文件注释，没有增加新的参数，可更新可不更新。\n\n" >> ${LogDir}/version
-    echo -e "本消息只在配置文件更新当天发送一次，之后不再发送。" >> ${LogDir}/version
+    echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n新的版本: ${VerConfSample}\n当前版本: ${VerConf}\n\n" | tee ${ContentVersion}
+    echo -e "版本号中，如果第2位数字有变化，则代表增加了新的参数，你如果要用到新的参数，要么重新复制本仓库的sample/config.sh.sample文件重新配置，要么把新增加的参数增加到你现有的config.sh文件中（自己增加的话加完把你自己config.sh中第一行的版本号也改一下）。" >> ${ContentVersion}
+    echo -e "版本号中，如果第3位数字有变化，仅代表更新了配置文件注释，没有增加新的参数，可更新可不更新。\n\n" >> ${ContentVersion}
+    echo -e "本消息只在配置文件更新当天发送一次，之后不再发送。" >> ${ContentVersion}
     if [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
     then
-      if [ ! -f ${LogDir}/send_count ]; then
-        node ${ShellDir}/update.js
+      if [ ! -f ${SendCount} ]; then
+        cd ${ShellDir}
+        node update.js
         if [ $? -eq 0 ]; then 
-          echo "1" > ${LogDir}/send_count
-          [ -f ${LogDir}/version ] && rm -f ${LogDir}/version
+          echo "1" > ${SendCount}
+          [ -f ${ContentVersion} ] && rm -f ${ContentVersion}
         fi
       fi
     else
-      [ -f ${LogDir}/send_count ] && rm -f ${LogDir}/send_count
+      [ -f ${SendCount} ] && rm -f ${SendCount}
     fi
   else
-    [ -f ${LogDir}/version ] && rm -f ${LogDir}/version
-    [ -f ${LogDir}/send_count ] && rm -f ${LogDir}/send_count
+    [ -f ${ContentVersion} ] && rm -f ${ContentVersion}
+    [ -f ${SendCount} ] && rm -f ${SendCount}
   fi
 }
 
@@ -291,12 +296,12 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
     crontab ${ListCron}
     echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
     crontab -l
-    echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}" > {LogDir}/new_task
+    echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}" > {ShellDir}/new_task
     Notify_NewTask
     echo -e "\n--------------------------------------------------------------\n"
   else
     echo -e "添加新的定时任务出错，请手动添加...\n" 
-    echo -e "jd-base脚本尝试自动添加以下新的定时任务出错，请手动添加：\n\n${JsAdd}" > {LogDir}/new_task
+    echo -e "jd-base脚本尝试自动添加以下新的定时任务出错，请手动添加：\n\n${JsAdd}" > {ShellDir}/new_task
     Notify_NewTask
   fi
 fi
@@ -332,7 +337,7 @@ if [ $? -eq 0 ]; then
   if [ ${ExitStatusShell} -eq 0 ]
   then
     echo -e "\nshell脚本更新完成...\n"
-    # Notify_Version
+    Notify_Version
   else
     echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
   fi
