@@ -224,7 +224,7 @@ function Run_Js {
     [ $# -eq 1 ] && Random_Delay
     LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
     LogFile="${LogDir}/${FileName}/${LogTime}.log"
-	  [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
+    [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
     cd ${ScriptsDir}
     node ${FileName}.js | tee ${LogFile}
   else
