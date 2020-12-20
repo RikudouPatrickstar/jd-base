@@ -166,15 +166,9 @@ function Combin_JD_BEAN_SIGN_NOTIFY {
   case ${NotifyBeanSign} in
     0)
       export JD_BEAN_SIGN_STOP_NOTIFY="true"
-      export JD_BEAN_SIGN_NOTIFY_SIMPLE=""
       ;;
     1)
-      export JD_BEAN_SIGN_STOP_NOTIFY=""
       export JD_BEAN_SIGN_NOTIFY_SIMPLE="true"
-      ;;
-    *)
-      export JD_BEAN_SIGN_STOP_NOTIFY=""
-      export JD_BEAN_SIGN_NOTIFY_SIMPLE=""
       ;;
   esac
 }
