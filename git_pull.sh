@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-20
-## Version： v3.1.3
+## Version： v3.2.0
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -316,7 +316,7 @@ if [ ${ExitStatusScripts} -eq 0 ]; then
   fi
 fi
 
-## 更新shell脚本并检测配置文件版本
+## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
 if [ $? -eq 0 ]; then
   cd ${ShellDir}
   echo -e "--------------------------------------------------------------\n"
@@ -327,6 +327,9 @@ if [ $? -eq 0 ]; then
     # Notify_Version
   else
     echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+  fi
+  if [ -n "${isDocker}" ] && [ -d ${ShellDir}/config ]; then
+    cp -f ${FileConfSample} ${ShellDir}/config/config.sh.sample
   fi
 fi
 
