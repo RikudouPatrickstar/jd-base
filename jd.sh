@@ -147,6 +147,20 @@ function Combin_DDFACTORY_SHARECODES {
   export DDFACTORY_SHARECODES=$(echo ${ForOtherJdFactoryALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
 }
 
+## 组合JDZZ_SHARECODES
+function Combin_JDZZ_SHARECODES {
+  ForOtherJdzzALL=""
+  i=1
+  while [ ${i} -le ${UserSum} ]
+  do
+    TmpZZ=ForOtherJdzz${i}
+    eval ForOtherJdzzTemp=$(echo \$${TmpZZ})
+    ForOtherJdzzALL="${ForOtherJdzzALL}&${ForOtherJdzzTemp}"
+    let i++
+  done
+  export JDZZ_SHARECODES=$(echo ${ForOtherJdzzALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
+}
+
 ## 设置JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
 function Combin_JD_BEAN_SIGN_NOTIFY {
   case ${NotifyBeanSign} in
@@ -179,6 +193,7 @@ function Set_Env {
   Combin_PLANT_BEAN_SHARECODES
   Combin_DREAM_FACTORY_SHARE_CODES
   Combin_DDFACTORY_SHARECODES
+  Combin_JDZZ_SHARECODES
   Combin_JD_BEAN_SIGN_NOTIFY
   Combin_UN_SUBSCRIBES
 }

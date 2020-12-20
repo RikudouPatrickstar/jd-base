@@ -1,4 +1,4 @@
-## Version: v3.1.4
+## Version: v3.2.0
 ## Date: 2020-12-20
 
 ## 上面的版本号中，如果第2位数字有变化，那么代表增加了新的参数，你如果要用到新的参数，要么重新下载本仓库的sample/config.sh.sample文件重新配置，要么把新增加的参数增加到你现有的config.sh文件中(自己增加的话加完把你自己config.sh上的版本号也改一下)
@@ -236,6 +236,34 @@ ForOtherJdFactory3=""
 ForOtherJdFactory4=""
 ForOtherJdFactory5=""
 ForOtherJdFactory6=""
+
+
+################################## 定义京东赚赚每个人自己的互助码（选填） ##################################
+## 京东赚赚每个Cookie自己的互助码，可以在运行一次京东赚赚脚本（jd_jdzz）后从日志中查看
+## 约定：MyJdzz后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyJdzz1、MyJdzz2
+## 约定：MyJdzz后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyJdzzA、MyJdzzB
+## 这里的码只是为了下面“定义东东工厂要为哪些人助力”服务的
+MyJdzz1=""
+MyJdzz2=""
+MyJdzz3=""
+MyJdzz4=""
+MyJdzz5=""
+MyJdzz6=""
+MyJdzzA=""
+MyJdzzB=""
+
+
+################################## 定义京东赚赚要为哪些人助力（选填） ##################################
+## 1.每个Cookie要为谁助力，填入对应MyJdzz系列变量名即可，用 @ 分隔每个变量名
+## 2.举例：ForOtherJdzz1="${MyJdzz3}@${MyJdzz4}@${MyJdzzA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
+## 3.Cookie定义了多少个，ForOtherJdzz系列变量就多少有效（从编号1开始计）
+## 4.可以不赋值
+ForOtherJdzz1=""
+ForOtherJdzz2=""
+ForOtherJdzz3=""
+ForOtherJdzz4=""
+ForOtherJdzz5=""
+ForOtherJdzz6=""
 
 
 ################################## 定义东东超市蓝币兑换数量（选填） ##################################
