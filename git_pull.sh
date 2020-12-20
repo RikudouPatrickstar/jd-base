@@ -3,28 +3,43 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-20
-## Version： v3.1.2
+## Version： v3.1.3
 
-## 文件路径、脚本网址、文件版本
-isDocker=$(cat /proc/1/cgroup | grep docker)
-[ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
-[ -n "${isDocker}" ] && ShellDir=${JD_DIR}
+## 文件路径、脚本网址、文件版本以及各种环境的判断
+if [ -f /proc/1/cgroup ]
+then
+  isDocker=$(cat /proc/1/cgroup | grep docker)
+else
+  isDocker=""
+fi
+
+if [ -z "${isDocker}" ]
+then
+  ShellDir=$(cd $(dirname $0); pwd)
+else
+  ShellDir=${JD_DIR}
+fi
+
 LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
+
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config/config.sh
 FileDiy=${ShellDir}/config/diy.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 [ -f ${FileConf} ] && VerConf=$(grep -i "Version" ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 VerConfSample=$(grep -i "Version" ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+
 ListCron=${ShellDir}/config/crontab.list
 ListTask=${LogDir}/task.list
 ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
+
 isGithub=$(grep "github" "${ShellDir}/.git/config")
 isGitee=$(grep "gitee" "${ShellDir}/.git/config")
 isTermux=$(echo ${ANDROID_RUNTIME_ROOT})
+
 if [ -n "${isGithub}" ]; then
   ScriptsURL=https://github.com/lxk0301/jd_scripts
   ShellURL=https://github.com/EvineDeng/jd-base
@@ -243,8 +258,7 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${Lis
   echo
   for Cron in $(cat ${ListJsDrop})
   do
-    perl -i -ne "{print unless /\/${Cron}\./}" ${ListCron}
-    rm -f "${ShellDir}/${Cron}.sh"
+    perl -i -ne "{print unless / ${Cron}( |$)}" ${ListCron}
   done
   crontab ${ListCron}
   echo -e "成功删除失效的脚本与定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
