@@ -19,21 +19,21 @@ async function update() {
       const newTaskContent = await fs.readFileSync('./new_task', 'utf8');
       if (newTaskContent) {
         await notify.sendNotify('新增薅羊毛脚本通知', newTaskContent);
-      } else {
-        console.log(`new_task文件里面暂无内容`)
       }
-    } else {
-      console.log(`new_task文件不存在`)
     }
+
+    if (fs.existsSync('drop_task')) {
+      const dropTaskContent = await fs.readFileSync('./drop_task', 'utf8');
+      if (dropTaskContent) {
+        await notify.sendNotify('删除失效脚本通知', dropTaskContent);
+      }
+    }
+
     if (fs.existsSync('version')) {
       const versionContent = await fs.readFileSync('./version', 'utf8');
       if (versionContent) {
         await notify.sendNotify('配置文件更新通知', versionContent);
-      } else {
-        console.log(`version文件里面暂无内容`)
       }
-    } else {
-      console.log(`version文件不存在`)
     }
   } catch (err) {
     console.error(err)

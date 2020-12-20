@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-20
-## Version： v3.3.1
+## Version： v3.3.2
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -37,6 +37,7 @@ ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
 ContentVersion=${ShellDir}/version
 ContentNewTask=${ShellDir}/new_task
+ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
 
 isGithub=$(grep "github" "${ShellDir}/.git/config")
@@ -157,36 +158,36 @@ function Diff_Cron {
   fi
 }
 
+## 发送删除失效定时任务的消息
+function Notify_DropTask {
+  cd ${ShellDir}
+  node update.js
+  [ -f ${ContentDropTask} ] && rm -f ${ContentDropTask}
+}
+
 ## 发送新的定时任务消息
 function Notify_NewTask {
   cd ${ShellDir}
   node update.js
-  if [ $? -eq 0 ] && [ -f ${ContentNewTask} ]; then
-    rm -f ${ContentNewTask}
-  fi
+  [ -f ${ContentNewTask} ] && rm -f ${ContentNewTask}
 }
 
 ## 检测配置文件版本
 function Notify_Version {
-  if [ "${VerConf}" != "${VerConfSample}" ]
+  UpdateDate=$(grep " Date: " ${FileConfSample} | awk -F ": " '{print $2}')
+  if [[ "${VerConf}" != "${VerConfSample}" ]] && [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
   then
-    UpdateDate=$(grep -i "Date" ${FileConfSample} | awk -F ": " '{print $2}')
-    echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n新的版本: ${VerConfSample}\n当前版本: ${VerConf}\n" | tee ${ContentVersion}
-    echo -e "版本号中，第2位数字有变化代表增加了新的参数，有需要者可更新。\n" >> ${ContentVersion}
-    echo -e "版本号中，第3位数字有变化代表仅仅是更新了配置文件注释。\n" >> ${ContentVersion}
-    echo -e "本消息只在配置文件更新当天发送一次。" >> ${ContentVersion}
-    if [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
-    then
-      if [ ! -f ${SendCount} ]; then
-        cd ${ShellDir}
-        node update.js
-        if [ $? -eq 0 ]; then
-          echo "1" > ${SendCount}
-          [ -f ${ContentVersion} ] && rm -f ${ContentVersion}
-        fi
+    if [ ! -f ${SendCount} ]; then
+      echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n新的版本: ${VerConfSample}\n当前版本: ${VerConf}\n" | tee ${ContentVersion}
+      echo -e "版本号中，第2位数字有变化代表增加了新的参数，有需要者可更新。\n" >> ${ContentVersion}
+      echo -e "版本号中，第3位数字有变化代表仅仅是更新了配置文件注释。\n" >> ${ContentVersion}
+      echo -e "本消息只在配置文件更新当天发送一次。" >> ${ContentVersion}
+      cd ${ShellDir}
+      node update.js
+      if [ $? -eq 0 ]; then
+        echo "1" > ${SendCount}
+        [ -f ${ContentVersion} ] && rm -f ${ContentVersion}
       fi
-    else
-      [ -f ${SendCount} ] && rm -f ${SendCount}
     fi
   else
     [ -f ${ContentVersion} ] && rm -f ${ContentVersion}
@@ -269,13 +270,18 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${Lis
   echo -e "开始尝试自动删除定时任务如下：\n"
   cat ${ListJsDrop}
   echo
-  for Cron in $(cat ${ListJsDrop})
+  JsDrop=$(cat ${ListJsDrop})
+  for Cron in ${JsDrop}
   do
     perl -i -ne "{print unless / ${Cron}( |$)}" ${ListCron}
   done
   crontab ${ListCron}
   echo -e "成功删除失效的脚本与定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
   crontab -l
+  if [ -d ${ScriptsDir}/node_modules ]; then
+    echo -e "jd-base脚本成功删除失效的定时任务：\n\n${JsDrop}" > ${ContentDropTask}
+    Notify_DropTask
+  fi
   echo -e "\n--------------------------------------------------------------\n"
 fi
 
@@ -296,13 +302,17 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
     crontab ${ListCron}
     echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
     crontab -l
-    echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}" > ${ContentNewTask}
-    Notify_NewTask
+    if [ -d ${ScriptsDir}/node_modules ]; then
+      echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}" > ${ContentNewTask}
+      Notify_NewTask
+    fi
     echo -e "\n--------------------------------------------------------------\n"
   else
-    echo -e "添加新的定时任务出错，请手动添加...\n" 
-    echo -e "jd-base脚本尝试自动添加以下新的定时任务出错，请手动添加：\n\n${JsAdd}" > ${ContentNewTask}
-    Notify_NewTask
+    echo -e "添加新的定时任务出错，请手动添加...\n"
+    if [ -d ${ScriptsDir}/node_modules ]; then
+      echo -e "jd-base脚本尝试自动添加以下新的定时任务出错，请手动添加：\n\n${JsAdd}" > ${ContentNewTask}
+      Notify_NewTask
+    fi
   fi
 fi
 
@@ -337,7 +347,7 @@ if [ $? -eq 0 ]; then
   if [ ${ExitStatusShell} -eq 0 ]
   then
     echo -e "\nshell脚本更新完成...\n"
-    Notify_Version
+    [ -d ${ScriptsDir}/node_modules ] && Notify_Version
   else
     echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
   fi
