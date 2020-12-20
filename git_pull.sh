@@ -157,8 +157,8 @@ function Diff_Cron {
 ## 发送新的定时任务消息
 function Notify_NewTask {
   node ${ShellDir}/update.js
-  if [ $? -eq 0 ] && [ -f {LogDir}/new_task ]; then
-    && rm -f {LogDir}/new_task
+  if [ $? -eq 0 ] && [ -f ${LogDir}/new_task ]; then
+    && rm -f ${LogDir}/new_task
   fi
 }
 
