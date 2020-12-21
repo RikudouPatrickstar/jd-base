@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-20
-## Version： v3.3.2
+## Modified： 2020-12-21
+## Version： v3.3.3
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -149,7 +149,12 @@ function Change_ALL {
 ## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
   if [ -f ${ListCron} ]; then
-    grep -E " j[dr]_\w+" ${ListCron} | perl -pe "s|.+ (j[dr]_\w+).*|\1|" | uniq > ${ListTask}
+    if [ -n "${isDocker}" ]
+    then
+      grep -E " j[dr]_\w+" ${ListCron} | perl -pe "s|.+ (j[dr]_\w+).*|\1|" | uniq > ${ListTask}
+    else
+      grep "${ShellDir}" ${ListCron} | grep -E " j[dr]_\w+" | perl -pe "s|.+ (j[dr]_\w+).*|\1|" | uniq > ${ListTask}
+    fi
     grep -E "j[dr]_\w+\.js" ${ScriptsDir}/docker/crontab_list.sh | perl -pe "s|.+(j[dr]_\w+)\.js.+|\1|" | sort > ${ListJs}
     grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
     grep -vwf ${ListJs} ${ListTask} > ${ListJsDrop}
@@ -174,18 +179,18 @@ function Notify_NewTask {
 
 ## 检测配置文件版本
 function Notify_Version {
+  [ -f "${SendCount}" ] && [[ $(cat ${SendCount}) != ${VerConfSample} ]] && rm -f ${SendCount}
   UpdateDate=$(grep " Date: " ${FileConfSample} | awk -F ": " '{print $2}')
+  UpdateContent=$(grep " Update Content: " ${FileConfSample} | awk -F ": " '{print $2}')
   if [[ "${VerConf}" != "${VerConfSample}" ]] && [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
   then
     if [ ! -f ${SendCount} ]; then
-      echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n新的版本: ${VerConfSample}\n当前版本: ${VerConf}\n" | tee ${ContentVersion}
-      echo -e "版本号中，第2位数字有变化代表增加了新的参数，有需要者可更新。\n" >> ${ContentVersion}
-      echo -e "版本号中，第3位数字有变化代表仅仅是更新了配置文件注释。\n" >> ${ContentVersion}
-      echo -e "本消息只在配置文件更新当天发送一次。" >> ${ContentVersion}
+      echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n当前版本: ${VerConf}\n新的版本: ${VerConfSample}\n更新内容：${UpdateContent}\n" | tee ${ContentVersion}
+      echo -e "本消息只在该新版本配置文件更新当天发送一次。" >> ${ContentVersion}
       cd ${ShellDir}
       node update.js
       if [ $? -eq 0 ]; then
-        echo "1" > ${SendCount}
+        echo "${VerConfSample}" > ${SendCount}
         [ -f ${ContentVersion} ] && rm -f ${ContentVersion}
       fi
     fi
@@ -195,7 +200,7 @@ function Notify_Version {
   fi
 }
 
-## npm install 子程序，判断是否为安卓
+## npm install 子程序，判断是否为安卓，判断是否安装有yarn
 function NpmInstallSub {
   if [ -n "${isTermux}" ]
   then
@@ -252,6 +257,37 @@ then
 else
   echo -e "js脚本更新失败，请检查原因或再次运行git_pull.sh...\n"
   Change_ALL
+fi
+
+## npm install
+if [ ${ExitStatusScripts} -eq 0 ]; then
+  cd ${ScriptsDir}
+  if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
+    echo -e "运行 npm install...\n"
+    NpmInstallSub
+    if [ $? -ne 0 ]; then
+      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules 后再次尝试一遍..."
+      rm -rf ${ScriptsDir}/node_modules
+    fi
+    echo
+  fi
+  if [ ! -d ${ScriptsDir}/node_modules ]; then
+    echo -e "运行 npm install...\n"
+    NpmInstallSub
+    if [ $? -ne 0 ]; then
+      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n"
+      echo -e "请进入 ${ScriptsDir} 目录后按照wiki教程手动运行 npm install...\n"
+      echo -e "当 npm install 失败时，如果检测到有新任务或失效任务，只会输出日志，不会自动增加或删除定时任务...\n"
+      echo -e "3...\n"
+      sleep 1
+      echo -e "2...\n"
+      sleep 1
+      echo -e "1...\n"
+      sleep 1
+      rm -rf ${ScriptsDir}/node_modules
+      exit 1
+    fi
+  fi
 fi
 
 ## 输出是否有新的定时任务
@@ -316,29 +352,6 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
     if [ -d ${ScriptsDir}/node_modules ]; then
       echo -e "jd-base脚本尝试自动添加以下新的定时任务出错，请手动添加：\n\n${JsAdd}" > ${ContentNewTask}
       Notify_NewTask
-    fi
-  fi
-fi
-
-## npm install
-if [ ${ExitStatusScripts} -eq 0 ]; then
-  cd ${ScriptsDir}
-  if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
-    echo -e "运行 npm install...\n"
-    NpmInstallSub
-    if [ $? -ne 0 ]; then
-      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules 后再次尝试一遍..."
-      rm -rf ${ScriptsDir}/node_modules
-    fi
-    echo
-  fi
-  if [ ! -d ${ScriptsDir}/node_modules ]; then
-    echo -e "运行 npm install...\n"
-    NpmInstallSub
-    if [ $? -ne 0 ]; then
-      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n\n请进入 ${ScriptsDir} 目录后按照wiki教程手动运行 npm install...\n"
-      rm -rf ${ScriptsDir}/node_modules
-      exit 1
     fi
   fi
 fi
