@@ -200,8 +200,12 @@ function NpmInstallSub {
   if [ -n "${isTermux}" ]
   then
     npm install --no-bin-links || npm install --no-bin-links --registry=https://registry.npm.taobao.org
-  else
+  elif ! type yarn
+  then
     npm install || npm install --registry=https://registry.npm.taobao.org
+  else
+    echo -e '使用 yarn 替代 npm'
+    yarn install || yarn install --registry=https://registry.npm.taobao.org
   fi
 }
 
