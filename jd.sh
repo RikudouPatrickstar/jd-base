@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-21
-## Version： v3.3.1
+## Version： v3.3.2
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -196,7 +196,7 @@ function Set_Env {
 ## 随机延迟子程序
 function Random_DelaySub {
   CurDelay=$((${RANDOM} % ${RandomDelay}))
-  echo -e "命令未添加\"now\"，随机延迟 ${CurDelay} 秒后再执行任务，如需立即终止，请按CTRL+C...\n"
+  echo -e "\n命令未添加 \"now\"，随机延迟 ${CurDelay} 秒后再执行任务，如需立即终止，请按 CTRL+C...\n"
   sleep ${CurDelay}
 }
 
@@ -223,7 +223,8 @@ function Help {
     echo -e "1. bash jd.sh xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
     echo -e "2. bash jd.sh xxx now  # 无论是否设置了随机延迟，均立即运行\n"
   fi
-  echo -e "无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略，当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本）：\n"
+  echo -e "无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略...\n"
+  echo -e "当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本，但不含自定义脚本）：\n"
   echo -e "${ListScripts}\n"
 }
 
@@ -259,7 +260,7 @@ function Run_Js {
     cd ${WhichDir}
     node ${FileName}.js | tee ${LogFile}
   else
-    echo -e "在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在，请确认..."
+    echo -e "\n在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在，请确认...\n"
     Help
   fi
 }
@@ -267,6 +268,7 @@ function Run_Js {
 ## 命令检测
 case $# in
   0)
+    echo
     Help
     ;;
   1)
@@ -276,12 +278,12 @@ case $# in
     if [[ $2 == now ]]; then
       Run_Js $1 $2
     else
-      echo -e "命令输入错误...\n"
+      echo -e "\n命令输入错误...\n"
       Help
     fi
     ;;
   *)
-    echo -e "命令过多...\n"
+    echo -e "\n命令过多...\n"
     Help
     ;;
 esac
