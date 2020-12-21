@@ -204,7 +204,7 @@ function NpmInstallSub {
   then
     npm install || npm install --registry=https://registry.npm.taobao.org
   else
-    echo -e '使用 yarn 替代 npm'
+    echo -e "检测到本机安装了 yarn，使用 yarn 替代 npm...\n"
     yarn install || yarn install --registry=https://registry.npm.taobao.org
   fi
 }
