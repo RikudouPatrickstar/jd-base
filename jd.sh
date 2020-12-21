@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-21
-## Version： v3.3.0
+## Version： v3.3.1
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -193,14 +193,21 @@ function Set_Env {
   Combin_UN_SUBSCRIBES
 }
 
+## 随机延迟子程序
+function Random_DelaySub {
+  CurDelay=$((${RANDOM} % ${RandomDelay}))
+  echo -e "命令未添加\"now\"，随机延迟 ${CurDelay} 秒后再执行任务，如需立即终止，请按CTRL+C...\n"
+  sleep ${CurDelay}
+}
+
 ## 随机延迟判断
 function Random_Delay {
   if [ -n "${RandomDelay}" ] && [ ${RandomDelay} -gt 0 ]; then
     CurMin=$(date "+%M")
     if [ ${CurMin} -gt 2 ] && [ ${CurMin} -lt 30 ]; then
-      sleep $((${RANDOM} % ${RandomDelay}))
+      Random_DelaySub
     elif [ ${CurMin} -gt 31 ] && [ ${CurMin} -lt 59 ]; then
-      sleep $((${RANDOM} % ${RandomDelay}))
+      Random_DelaySub
     fi
   fi
 }
