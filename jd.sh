@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-20
-## Version： v3.2.0
+## Modified： 2020-12-21
+## Version： v3.3.0
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -21,7 +21,8 @@ else
 fi
 
 ScriptsDir=${ShellDir}/scripts
-FileConf=${ShellDir}/config/config.sh
+ConfigDir=${ShellDir}/config
+FileConf=${ConfigDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
 ListScripts=$(ls ${ScriptsDir} | grep -E "j[dr]_\w+\.js" | perl -pe "s|\.js||")
@@ -222,22 +223,36 @@ function Help {
 ## 运行京东脚本
 function Run_Js {
   Import_Conf && Detect_Cron && Set_Env
+  
+  FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
+  FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
+  SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${ConfigDir}"
+  FileName=""
+  WhichDir=""
 
-  if [[ $1 == jr_* ]]; then
-    FileName=$(echo $1 | perl -pe "s|\.js||")
-  else
-    FileName=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
-  fi
-
-  if [ -f ${ScriptsDir}/${FileName}.js ]; then
+  for dir in ${SeekDir}
+  do
+    if [ -f ${dir}/${FileNameTmp1}.js ]; then
+      FileName=${FileNameTmp1}
+      WhichDir=${dir}
+      break
+    elif [ -f ${dir}/${FileNameTmp2}.js ]; then
+      FileName=${FileNameTmp2}
+      WhichDir=${dir}
+      break
+    fi
+  done
+  
+  if [ -n "${FileName}" ] && [ -n "${WhichDir}" ]
+  then
     [ $# -eq 1 ] && Random_Delay
     LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
     LogFile="${LogDir}/${FileName}/${LogTime}.log"
     [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
-    cd ${ScriptsDir}
+    cd ${WhichDir}
     node ${FileName}.js | tee ${LogFile}
   else
-    echo -e "$1 脚本未找到，请检查是否输入准确...\n"
+    echo -e "在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在，请确认..."
     Help
   fi
 }
