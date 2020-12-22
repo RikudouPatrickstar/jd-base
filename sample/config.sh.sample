@@ -1,6 +1,6 @@
-## Version: v3.3.0
-## Date: 2020-12-21
-## Update Content: 增加酷推(Cool Push)消息通知方式的环境变量配置，增加额外的环境变量填写区域。
+## Version: v3.4.0
+## Date: 2020-12-22
+## Update Content: 增加Push Plus(类似ServerChan但功能稍强)消息通知方式的环境变量配置。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，你如果要用到新的参数，要么重新下载本仓库的sample/config.sh.sample文件重新配置，要么把新增加的参数增加到你现有的config.sh文件中(自己增加的话加完把你自己config.sh上的版本号也改一下)
 ## 上面版本号中，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
@@ -87,6 +87,11 @@ export IGOT_PUSH_KEY=""
 ## 酷推(Cool Push)，向QQ发送推送消息，参考文档：https://cp.xuthus.cc ，其中QQ_MODE的可选项有：send(默认值),group,wx
 export QQ_SKEY=""
 export QQ_MODE=""
+
+## Push Plus，微信扫码登录后一对一推送或一对多推送，参考文档：http://pushplus.hxtrip.com/
+## 其中PUSH_PLUS_USER是一对多推送的“群组编码”（一对多推送下面->您的群组(如无则新建)->群组编码）注:(1、需订阅者扫描二维码 2、如果您是创建群组所属人，也需点击“查看二维码”扫描绑定，否则不能接受群组消息推送)，只填PUSH_PLUS_TOKEN默认为一对一推送
+export PUSH_PLUS_TOKEN=""
+export PUSH_PLUS_USER=""
 
 
 ################################## 定义每日签到的通知形式（选填） ##################################
