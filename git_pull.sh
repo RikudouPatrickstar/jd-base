@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-21
-## Version： v3.3.3
+## Modified： 2020-12-22
+## Version： v3.3.4
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -63,6 +63,15 @@ function Import_Conf {
   fi
 }
 
+## 更新shell脚本
+function Git_PullShell {
+  echo -e "更新shell脚本，原地址：${ShellURL}\n"
+  cd ${ShellDir}
+  git fetch --all
+  ExitStatusShell=$?
+  git reset --hard origin/v3
+}
+
 ## 克隆js脚本
 function Git_CloneScripts {
   echo -e "克隆JS脚本，原地址：${ScriptsURL}\n"
@@ -79,15 +88,6 @@ function Git_PullScripts {
   ExitStatusScripts=$?
   git reset --hard origin/master
   echo
-}
-
-## 更新shell脚本
-function Git_PullShell {
-  echo -e "更新shell脚本，原地址：${ShellURL}\n"
-  cd ${ShellDir}
-  git fetch --all
-  ExitStatusShell=$?
-  git reset --hard origin/v3
 }
 
 ## 用户数量UserSum
@@ -185,7 +185,7 @@ function Notify_Version {
   if [[ "${VerConf}" != "${VerConfSample}" ]] && [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
   then
     if [ ! -f ${SendCount} ]; then
-      echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n当前版本: ${VerConf}\n新的版本: ${VerConfSample}\n更新内容: ${UpdateContent}\n\n如需使用新功能按该文件前几行注释操作，否则请无视本消息。" | tee ${ContentVersion}
+      echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n当前版本: ${VerConf}\n新的版本: ${VerConfSample}\n更新内容: ${UpdateContent}\n\n如需使用新功能按该文件前几行注释操作，否则请无视本消息。\n" | tee ${ContentVersion}
       echo -e "本消息只在该新版本配置文件更新当天发送一次。" >> ${ContentVersion}
       cd ${ShellDir}
       node update.js
@@ -236,12 +236,25 @@ echo -e "\nSHELL脚本目录：${ShellDir}\n"
 echo -e "JS脚本目录：${ScriptsDir}\n"
 echo -e "--------------------------------------------------------------\n"
 
+## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
+Import_Conf && Git_PullShell
+if [ ${ExitStatusShell} -eq 0 ]
+then
+  echo -e "\nshell脚本更新完成...\n"
+  [ -d ${ScriptsDir}/node_modules ] && Notify_Version
+else
+  echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+fi
+if [ -n "${isDocker}" ] && [ -d ${ShellDir}/config ]; then
+  cp -f ${FileConfSample} ${ShellDir}/config/config.sh.sample
+fi
+
 ## 克隆或更新js脚本
-cd ${ShellDir}
-Import_Conf
-if [ $? -eq 0 ]; then
+echo -e "--------------------------------------------------------------\n"
+if [ ${ExitStatusShell} -eq 0 ]; then
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
   if [ -d ${ScriptsDir} ]; then
+    cd ${ScriptsDir}
     Git_PullScripts
   else
     Git_CloneScripts
@@ -353,23 +366,6 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
       echo -e "jd-base脚本尝试自动添加以下新的定时任务出错，请手动添加：\n\n${JsAdd}" > ${ContentNewTask}
       Notify_NewTask
     fi
-  fi
-fi
-
-## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
-if [ $? -eq 0 ]; then
-  cd ${ShellDir}
-  echo -e "--------------------------------------------------------------\n"
-  Git_PullShell
-  if [ ${ExitStatusShell} -eq 0 ]
-  then
-    echo -e "\nshell脚本更新完成...\n"
-    [ -d ${ScriptsDir}/node_modules ] && Notify_Version
-  else
-    echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
-  fi
-  if [ -n "${isDocker}" ] && [ -d ${ShellDir}/config ]; then
-    cp -f ${FileConfSample} ${ShellDir}/config/config.sh.sample
   fi
 fi
 
