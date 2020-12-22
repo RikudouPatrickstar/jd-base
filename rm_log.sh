@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-19
-## Version： v3.0.3
+## Modified： 2020-12-22
+## Version： v3.0.4
 
 ## 判断环境
 if [ -f /proc/1/cgroup ]
@@ -29,7 +29,7 @@ LogDir=${ShellDir}/log
 if [ -n "${RmLogDaysAgo}" ]; then
 
   ## 删除运行js脚本的旧日志
-  LogFileList=$(ls -l ${LogDir}/j*_*/*.log | awk '{print $9}')
+  LogFileList=$(ls -l ${LogDir}/*/*.log | awk '{print $9}')
   for log in ${LogFileList}
   do
     LogDate=$(echo ${log} | awk -F "/" '{print $NF}' | cut -c1-10)   #文件名比文件属性获得的日期要可靠
