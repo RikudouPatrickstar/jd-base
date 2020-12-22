@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-19
-## Version： v3.0.2
+## Version： v3.0.3
 
 ## 判断环境
 if [ -f /proc/1/cgroup ]
@@ -39,7 +39,7 @@ if [ -n "${RmLogDaysAgo}" ]; then
     else
       DiffTime=$(($(date +%s) - $(date +%s -d "${LogDate}")))
     fi
-    [ ${DiffTime} -gt $((${RmLogDaysAgo} * 86400)) ] && rm -f ${log}
+    [ ${DiffTime} -gt $((${RmLogDaysAgo} * 86400)) ] && rm -vf ${log}
   done
 
   # 删除git_pull.sh的运行日志
