@@ -1,6 +1,6 @@
-## Version: v3.6.1
+## Version: v3.6.2
 ## Date: 2020-12-23
-## Update Content: 更新AutoDelCron和AutoAddCron注释。
+## Update Content: 12月23日晚20点多更新错误造成严重bug，以致无法再自动更新脚本，解决办法请查看https://github.com/EvineDeng/jd-base/issues/140
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，你如果要用到新的参数，要么重新下载本仓库的sample/config.sh.sample文件重新配置，要么把新增加的参数增加到你现有的config.sh文件中(自己增加的话加完把你自己config.sh上的版本号也改一下)
 ## 上面版本号中，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
