@@ -26,7 +26,6 @@ LogDir=${ShellDir}/log
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config/config.sh
 FileDiy=${ShellDir}/config/diy.sh
-FileConfSample=${ShellDir}/sample/config.sh.sample
 [ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 
@@ -238,6 +237,8 @@ echo -e "--------------------------------------------------------------\n"
 
 ## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
 Import_Conf && Git_PullShell
+FileConfSample=${ShellDir}/sample/config.sh.sample
+
 if [ ${ExitStatusShell} -eq 0 ]
 then
   echo -e "\nshell脚本更新完成...\n"
@@ -245,6 +246,7 @@ then
 else
   echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
 fi
+
 if [ -n "${isDocker}" ] && [ -d ${ShellDir}/config ]; then
   cp -f ${FileConfSample} ${ShellDir}/config/config.sh.sample
 fi
