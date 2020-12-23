@@ -50,4 +50,5 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 9 1-23/5 * * * bash /home/myid/jd/jd.sh jd_superMarket
 25 9 * * * bash /home/myid/jd/jd.sh jd_syj
 17 11,14 * * * bash /home/myid/jd/jd.sh jd_watch
+44 5 * * 6 bash /home/myid/jd/jd.sh jd_unbind
 45 23 * * * bash /home/myid/jd/jd.sh jd_unsubscribe
