@@ -2,18 +2,30 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-18
-## Version： v3.0.0
+## Modified： 2020-12-21
+## Version： v3.3.2
 
 ## 路径
-isDocker=$(cat /proc/1/cgroup | grep docker)
-[ -z "${isDocker}" ] && ShellDir=$(cd $(dirname $0); pwd)
-[ -n "${isDocker}" ] && ShellDir=${JD_DIR}
+if [ -f /proc/1/cgroup ]
+then
+  isDocker=$(cat /proc/1/cgroup | grep docker)
+else
+  isDocker=""
+fi
+
+if [ -z "${isDocker}" ]
+then
+  ShellDir=$(cd $(dirname $0); pwd)
+else
+  ShellDir=${JD_DIR}
+fi
+
 ScriptsDir=${ShellDir}/scripts
-FileConf=${ShellDir}/config/config.sh
+ConfigDir=${ShellDir}/config
+FileConf=${ConfigDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
-ListScripts=$(ls ${ScriptsDir} | grep -E "j[dr]_\w+\.js" | perl -pe "s|.js||")
+ListScripts=$(ls ${ScriptsDir} | grep -E "j[dr]_\w+\.js" | perl -pe "s|\.js||")
 ListCron=${ShellDir}/config/crontab.list
 CurrentCron=$(crontab -l)
 
@@ -136,20 +148,28 @@ function Combin_DDFACTORY_SHARECODES {
   export DDFACTORY_SHARECODES=$(echo ${ForOtherJdFactoryALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
 }
 
+## 组合JDZZ_SHARECODES
+function Combin_JDZZ_SHARECODES {
+  ForOtherJdzzALL=""
+  i=1
+  while [ ${i} -le ${UserSum} ]
+  do
+    TmpZZ=ForOtherJdzz${i}
+    eval ForOtherJdzzTemp=$(echo \$${TmpZZ})
+    ForOtherJdzzALL="${ForOtherJdzzALL}&${ForOtherJdzzTemp}"
+    let i++
+  done
+  export JDZZ_SHARECODES=$(echo ${ForOtherJdzzALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
+}
+
 ## 设置JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
 function Combin_JD_BEAN_SIGN_NOTIFY {
   case ${NotifyBeanSign} in
     0)
       export JD_BEAN_SIGN_STOP_NOTIFY="true"
-      export JD_BEAN_SIGN_NOTIFY_SIMPLE=""
       ;;
     1)
-      export JD_BEAN_SIGN_STOP_NOTIFY=""
       export JD_BEAN_SIGN_NOTIFY_SIMPLE="true"
-      ;;
-    *)
-      export JD_BEAN_SIGN_STOP_NOTIFY=""
-      export JD_BEAN_SIGN_NOTIFY_SIMPLE=""
       ;;
   esac
 }
@@ -168,17 +188,27 @@ function Set_Env {
   Combin_PLANT_BEAN_SHARECODES
   Combin_DREAM_FACTORY_SHARE_CODES
   Combin_DDFACTORY_SHARECODES
+  Combin_JDZZ_SHARECODES
   Combin_JD_BEAN_SIGN_NOTIFY
   Combin_UN_SUBSCRIBES
 }
 
+## 随机延迟子程序
+function Random_DelaySub {
+  CurDelay=$((${RANDOM} % ${RandomDelay}))
+  echo -e "\n命令未添加 \"now\"，随机延迟 ${CurDelay} 秒后再执行任务，如需立即终止，请按 CTRL+C...\n"
+  sleep ${CurDelay}
+}
+
 ## 随机延迟判断
 function Random_Delay {
-  CurMin=$(date "+%M")
-  if [ ${CurMin} -gt 2 ] && [ ${CurMin} -lt 30 ]; then
-    sleep $((${RANDOM} % ${RandomDelay}))
-  elif [ ${CurMin} -gt 31 ] && [ ${CurMin} -lt 59 ]; then
-    sleep $((${RANDOM} % ${RandomDelay}))
+  if [ -n "${RandomDelay}" ] && [ ${RandomDelay} -gt 0 ]; then
+    CurMin=$(date "+%M")
+    if [ ${CurMin} -gt 2 ] && [ ${CurMin} -lt 30 ]; then
+      Random_DelaySub
+    elif [ ${CurMin} -gt 31 ] && [ ${CurMin} -lt 59 ]; then
+      Random_DelaySub
+    fi
   fi
 }
 
@@ -193,29 +223,44 @@ function Help {
     echo -e "1. bash jd.sh xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
     echo -e "2. bash jd.sh xxx now  # 无论是否设置了随机延迟，均立即运行\n"
   fi
-  echo -e "无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略，当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本）：\n"
+  echo -e "无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略...\n"
+  echo -e "当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本，但不含自定义脚本）：\n"
   echo -e "${ListScripts}\n"
 }
 
 ## 运行京东脚本
 function Run_Js {
   Import_Conf && Detect_Cron && Set_Env
+  
+  FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
+  FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
+  SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${ConfigDir}"
+  FileName=""
+  WhichDir=""
 
-  if [[ $1 == jr_* ]]; then
-    FileName=$(echo $1 | perl -pe "s|\.js||")
-  else
-    FileName=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
-  fi
-
-  if [ -f ${ScriptsDir}/${FileName}.js ]; then
+  for dir in ${SeekDir}
+  do
+    if [ -f ${dir}/${FileNameTmp1}.js ]; then
+      FileName=${FileNameTmp1}
+      WhichDir=${dir}
+      break
+    elif [ -f ${dir}/${FileNameTmp2}.js ]; then
+      FileName=${FileNameTmp2}
+      WhichDir=${dir}
+      break
+    fi
+  done
+  
+  if [ -n "${FileName}" ] && [ -n "${WhichDir}" ]
+  then
     [ $# -eq 1 ] && Random_Delay
     LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
     LogFile="${LogDir}/${FileName}/${LogTime}.log"
-	  [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
-    cd ${ScriptsDir}
+    [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
+    cd ${WhichDir}
     node ${FileName}.js | tee ${LogFile}
   else
-    echo -e "$1 脚本未找到，请检查是否输入准确...\n"
+    echo -e "\n在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在，请确认...\n"
     Help
   fi
 }
@@ -223,6 +268,7 @@ function Run_Js {
 ## 命令检测
 case $# in
   0)
+    echo
     Help
     ;;
   1)
@@ -232,12 +278,12 @@ case $# in
     if [[ $2 == now ]]; then
       Run_Js $1 $2
     else
-      echo -e "命令输入错误...\n"
+      echo -e "\n命令输入错误...\n"
       Help
     fi
     ;;
   *)
-    echo -e "命令过多...\n"
+    echo -e "\n命令过多...\n"
     Help
     ;;
 esac
