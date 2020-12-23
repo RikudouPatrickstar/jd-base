@@ -27,8 +27,6 @@ ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config/config.sh
 FileDiy=${ShellDir}/config/diy.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
-VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-
 ListCron=${ShellDir}/config/crontab.list
 ListTask=${LogDir}/task.list
 ListJs=${LogDir}/js.list
@@ -38,7 +36,6 @@ ContentVersion=${ShellDir}/version
 ContentNewTask=${ShellDir}/new_task
 ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
-
 isGithub=$(grep "github" "${ShellDir}/.git/config")
 isGitee=$(grep "gitee" "${ShellDir}/.git/config")
 isTermux=$(echo ${ANDROID_RUNTIME_ROOT})
@@ -131,7 +128,7 @@ function Change_JoyRunPins {
 function Change_InviteCode {
   CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn', 'P04z54XCjVUnoaW5m9cZ2asjngclP6bwGQx-n4\@P04z54XCjVUnoaW5uOanrVTc6XTCbVCmoLyWhx9og'"
   CodeZz="  'AfnMPwfg\@A3oT8SyUgFKev3u1PC_joQpaQqr6bl8E8\@AUWE5mauUmGZbCzL_1XVOkA\@ACTJRmqmYxTAOZz0\@AUWE5mfnDyWMJXTT-23hIlg\@A3afASgY-FKyU3ttBCOjgQkn4\@A3LTVSjkHGpmE0NBJBPDa',"
-  CodeJoy=",\n'i7J-rBjC1cY=@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=@TZaj4q_GSarkd-u40-hYJg=='"
+  CodeJoy=",\n  'i7J-rBjC1cY=@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=@TZaj4q_GSarkd-u40-hYJg=='"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" ${ScriptsDir}/jd_health.js
   perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+\n\])|\1${CodeZz}\n\2|" ${ScriptsDir}/jd_jdzz.js
   perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+)(\n\];?)|\1\2${CodeJoy}\3|" ${ScriptsDir}/jd_crazy_joy.js
@@ -239,6 +236,7 @@ echo -e "--------------------------------------------------------------\n"
 
 ## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
 Import_Conf && Git_PullShell
+VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 [ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 
 if [ ${ExitStatusShell} -eq 0 ]
