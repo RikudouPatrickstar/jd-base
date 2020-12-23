@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-23
-## Version： v3.3.5
+## Version： v3.3.6
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -26,7 +26,7 @@ LogDir=${ShellDir}/log
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config/config.sh
 FileDiy=${ShellDir}/config/diy.sh
-[ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+FileConfSample=${ShellDir}/sample/config.sh.sample
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 
 ListCron=${ShellDir}/config/crontab.list
@@ -239,7 +239,7 @@ echo -e "--------------------------------------------------------------\n"
 
 ## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
 Import_Conf && Git_PullShell
-FileConfSample=${ShellDir}/sample/config.sh.sample
+[ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 
 if [ ${ExitStatusShell} -eq 0 ]
 then
