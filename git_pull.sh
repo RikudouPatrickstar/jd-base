@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-24
-## Version： v3.3.7
+## Modified： 2020-12-25
+## Version： v3.3.8
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -151,7 +151,7 @@ function Diff_Cron {
     then
       grep -E " j[dr]_\w+" ${ListCron} | perl -pe "s|.+ (j[dr]_\w+).*|\1|" | uniq > ${ListTask}
     else
-      grep "${ShellDir}" ${ListCron} | grep -E " j[dr]_\w+" | perl -pe "s|.+ (j[dr]_\w+).*|\1|" | uniq > ${ListTask}
+      grep "${ShellDir}/" ${ListCron} | grep -E " j[dr]_\w+" | perl -pe "s|.+ (j[dr]_\w+).*|\1|" | uniq > ${ListTask}
     fi
     grep -E "j[dr]_\w+\.js" ${ScriptsDir}/docker/crontab_list.sh | perl -pe "s|.+(j[dr]_\w+)\.js.+|\1|" | sort > ${ListJs}
     grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
