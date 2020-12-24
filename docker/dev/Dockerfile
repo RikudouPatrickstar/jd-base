@@ -30,6 +30,7 @@ RUN chmod 777 /usr/local/bin/entrypoint.sh \
     && npm install \
     && ln -sf ${JD_DIR}/jd.sh /usr/local/bin/jd \
     && ln -sf ${JD_DIR}/git_pull.sh /usr/local/bin/git_pull \
-    && ln -sf ${JD_DIR}/rm_log.sh /usr/local/bin/rm_log
+    && ln -sf ${JD_DIR}/rm_log.sh /usr/local/bin/rm_log \
+    && ln -sf ${JD_DIR}/export_sharecodes.sh /usr/local/bin/export_sharecodes
 WORKDIR ${JD_DIR}
 ENTRYPOINT entrypoint.sh
