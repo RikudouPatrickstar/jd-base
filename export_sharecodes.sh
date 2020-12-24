@@ -178,6 +178,6 @@ function Cat_All {
 ## 执行并写入日志
 LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
 LogFile="${LogDir}/export_sharecodes/${LogTime}.log"
-[ ! -d "${LogDir}/export_sharecodes" ] && mkidr -p ${LogDir}/export_sharecodes
+[ ! -d "${LogDir}/export_sharecodes" ] && mkdir -p ${LogDir}/export_sharecodes
 touch ${LogFile}
 Cat_All | tee ${LogFile}
