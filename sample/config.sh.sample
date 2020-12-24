@@ -1,6 +1,6 @@
-## Version: v3.6.1
-## Date: 2020-12-23
-## Update Content: 更新AutoDelCron和AutoAddCron注释。
+## Version: v3.7.0
+## Date: 2020-12-24
+## Update Content: 增加疯狂的JOY互助码功能；安卓Termux已经可以在外置存储上正常运行，看日志更方便了。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，你如果要用到新的参数，要么重新下载本仓库的sample/config.sh.sample文件重新配置，要么把新增加的参数增加到你现有的config.sh文件中(自己增加的话加完把你自己config.sh上的版本号也改一下)
 ## 上面版本号中，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
@@ -277,6 +277,34 @@ ForOtherJdzz3=""
 ForOtherJdzz4=""
 ForOtherJdzz5=""
 ForOtherJdzz6=""
+
+
+################################## 定义疯狂的JOY每个人自己的互助码（选填） ##################################
+## 疯狂的JOY每个Cookie自己的互助码，可以在运行一次疯狂的JOY脚本（jd_crazy_joy）后从日志中查看
+## 约定：MyJoy后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyJoy1、MyJoy2
+## 约定：MyJoy后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyJoyA、MyJoyB
+## 这里的码只是为了下面“定义京东赚赚要为哪些人助力”服务的
+MyJoy1=""
+MyJoy2=""
+MyJoy3=""
+MyJoy4=""
+MyJoy5=""
+MyJoy6=""
+MyJoyA=""
+MyJoyB=""
+
+
+################################## 定义疯狂的JOY要为哪些人助力（选填） ##################################
+## 1.每个Cookie要为谁助力，填入对应MyJoy系列变量名即可，用 @ 分隔每个变量名
+## 2.举例：ForOtherJoy1="${MyJoy3}@${MyJoy4}@${MyJoyA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
+## 3.Cookie定义了多少个，ForOtherJoy系列变量就多少有效（从编号1开始计）
+## 4.可以不赋值
+ForOtherJoy1=""
+ForOtherJoy2=""
+ForOtherJoy3=""
+ForOtherJoy4=""
+ForOtherJoy5=""
+ForOtherJoy6=""
 
 
 ################################## 定义东东超市蓝币兑换数量（选填） ##################################

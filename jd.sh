@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-21
-## Version： v3.3.2
+## Modified： 2020-12-24
+## Version： v3.4.0
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -162,6 +162,20 @@ function Combin_JDZZ_SHARECODES {
   export JDZZ_SHARECODES=$(echo ${ForOtherJdzzALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
 }
 
+## 组合JDJOY_SHARECODES
+function Combin_JDJOY_SHARECODES {
+  ForOtherJoyALL=""
+  i=1
+  while [ ${i} -le ${UserSum} ]
+  do
+    TmpJy=ForOtherJoy${i}
+    eval ForOtherJoyTemp=$(echo \$${TmpJy})
+    ForOtherJoyALL="${ForOtherJoyALL}&${ForOtherJoyTemp}@i7J-rBjC1cY=@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=@TZaj4q_GSarkd-u40-hYJg=="
+    let i++
+  done
+  export JDJOY_SHARECODES=$(echo ${ForOtherJoyALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
+}
+
 ## 设置JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
 function Combin_JD_BEAN_SIGN_NOTIFY {
   case ${NotifyBeanSign} in
@@ -189,6 +203,7 @@ function Set_Env {
   Combin_DREAM_FACTORY_SHARE_CODES
   Combin_DDFACTORY_SHARECODES
   Combin_JDZZ_SHARECODES
+  Combin_JDJOY_SHARECODES
   Combin_JD_BEAN_SIGN_NOTIFY
   Combin_UN_SUBSCRIBES
 }

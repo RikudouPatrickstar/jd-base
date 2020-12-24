@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-23
-## Version： v3.3.6
+## Modified： 2020-12-25
+## Version： v3.3.8
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -126,8 +126,8 @@ function Change_JoyRunPins {
 
 ## 将我的invitecode加到脚本中
 function Change_InviteCode {
-  CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn', 'P04z54XCjVUnoaW5m9cZ2asjngclP6bwGQx-n4\@P04z54XCjVUnoaW5uOanrVTc6XTCbVCmoLyWhx9og'"
-  CodeZz="  'AfnMPwfg\@A3oT8SyUgFKev3u1PC_joQpaQqr6bl8E8\@AUWE5mauUmGZbCzL_1XVOkA\@ACTJRmqmYxTAOZz0\@AUWE5mfnDyWMJXTT-23hIlg\@A3afASgY-FKyU3ttBCOjgQkn4\@A3LTVSjkHGpmE0NBJBPDa',"
+  CodeHealth="'T007y7sqHksCjVUnoaW5kRrbA@T032a0zZlJapLMZw9pdDQnOoo2clfysC8H5aCjVUnoaW5kRrbA', 'T0225KkcRhgdoAeEI0jznP4OcQCjVUnoaW5kRrbA@T015vPp0RRoR_VHRT0cCjVUnoaW5kRrbA', 'T0225KkcRkpK8QLWdU7ykvMIdwCjVUnoaW5kRrbA@T024aG_llbW3LM1L9qFNQWOgo2QwCjVUnoaW5kRrbA'"
+  CodeZz="  'Sy7sqHks@Sa0zZlJapLMZw9pdDQnOoo2clfysC8H5a@S5KkcRhgdoAeEI0jznP4OcQ@SvPp0RRoR_VHRT0c@S5KkcRkpK8QLWdU7ykvMIdw@SaG_llbW3LM1L9qFNQWOgo2Qw@SaXzwlYqOIvhb-KpFTXua',"
   CodeJoy=",\n  'i7J-rBjC1cY=@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=@TZaj4q_GSarkd-u40-hYJg=='"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" ${ScriptsDir}/jd_health.js
   perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+\n\])|\1${CodeZz}\n\2|" ${ScriptsDir}/jd_jdzz.js
@@ -151,7 +151,7 @@ function Diff_Cron {
     then
       grep -E " j[dr]_\w+" ${ListCron} | perl -pe "s|.+ (j[dr]_\w+).*|\1|" | uniq > ${ListTask}
     else
-      grep "${ShellDir}" ${ListCron} | grep -E " j[dr]_\w+" | perl -pe "s|.+ (j[dr]_\w+).*|\1|" | uniq > ${ListTask}
+      grep "${ShellDir}/" ${ListCron} | grep -E " j[dr]_\w+" | perl -pe "s|.+ (j[dr]_\w+).*|\1|" | uniq > ${ListTask}
     fi
     grep -E "j[dr]_\w+\.js" ${ScriptsDir}/docker/crontab_list.sh | perl -pe "s|.+(j[dr]_\w+)\.js.+|\1|" | sort > ${ListJs}
     grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
