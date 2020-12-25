@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-25
-## Version： v3.1.0
+## Version： v3.1.1
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -144,31 +144,31 @@ function Cat_All {
     echo -e "东东小窝互助码一天一变，未检测到今天的日志...\n"
   fi
 
-  echo "东东农场："
+  echo "东东农场（缺失的账号意味着在最近一次运行日志中Cookie是失效状态）："
   Cat_ScodesFruit
   echo -e "${ScodesFruit}\n"
 
-  echo "东东萌宠："
+  echo "东东萌宠（缺失的账号意味着在最近一次运行日志中Cookie是失效状态）："
   Cat_ScodesPet
   echo -e "${ScodesPet}\n"
 
-  echo "种豆得豆："
+  echo "种豆得豆（缺失的账号意味着在最近一次运行日志中Cookie是失效状态）："
   Cat_ScodesBean
   echo -e "${ScodesBean}\n"
 
-  echo "京喜工厂："
+  echo "京喜工厂（缺失的账号意味着在最近一次运行日志中Cookie是失效状态）："
   Cat_ScodesJx
   echo -e "${ScodesJx}\n"
 
-  echo "东东工厂："
+  echo "东东工厂（缺失的账号意味着在最近一次运行日志中Cookie是失效状态）："
   Cat_ScodesDd
   echo -e "${ScodesDd}\n"
 
-  echo "疯狂的JOY："
+  echo "疯狂的JOY（缺失的账号意味着在最近一次运行日志中Cookie是失效状态）："
   Cat_ScodesJoy
   echo -e "${ScodesJoy}\n"
 
-  echo "京东赚赚："
+  echo "京东赚赚（缺失的账号意味着在最近一次运行日志中Cookie是失效状态）："
   Cat_ScodesZz
   echo -e "${ScodesZz}\n"
 
