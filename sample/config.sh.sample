@@ -1,6 +1,6 @@
-## Version: v3.7.0
-## Date: 2020-12-24
-## Update Content: 增加疯狂的JOY互助码功能；安卓Termux已经可以在外置存储上正常运行，看日志更方便了。
+## Version: v3.7.1
+## Date: 2020-12-26
+## Update Content: 更新互助码填写示例图，详见互助码注释中的链接。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，你如果要用到新的参数，要么重新下载本仓库的sample/config.sh.sample文件重新配置，要么把新增加的参数增加到你现有的config.sh文件中(自己增加的话加完把你自己config.sh上的版本号也改一下)
 ## 上面版本号中，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
@@ -131,6 +131,7 @@ MyFruitB=""
 ## 2.比如：ForOtherFruit1="${MyFruit2}@${MyFruit3}@${MyFruit5}@${MyFruitA}"，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie5的账户以及没有提供Cookie只提供了助力码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherFruit系列变量就多少个有效（从编号1开始计）
 ## 4.可以不赋值，这种情况下，将自动随机给他人助力
+## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherFruit1=""
 ForOtherFruit2=""
 ForOtherFruit3=""
@@ -158,7 +159,8 @@ MyPetB=""
 ## 1.每个Cookie要为谁助力，填入对应MyPet系列变量名即可，用 @ 分隔每个变量名
 ## 2.比如：ForOtherPet1="${MyPet2}@${MyPet3}@${MyPetA}"，含义是Cookie1的账户将为Cookie2、Cookie3的账户以及没有提供Cookie只提供了互助码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherPet系列变量就多少个有效（从编号1开始计）
-## 4.可以不赋值，在这种情况下，将自动随机给他人助力
+## 4.可以不赋值，这种情况下，将自动随机给他人助力
+## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherPet1=""
 ForOtherPet2=""
 ForOtherPet3=""
@@ -187,6 +189,7 @@ MyBeanB=""
 ## 2.比如：ForOtherBean1="${MyBean2}@${MyBean6}@${MyBeanB}"，含义是Cookie1的账户将为Cookie2、Cookie6的账户以及没有提供Cookie只提供了互助码的B用户提供助力
 ## 3.Cookie定义了多少个，ForOtherBean系列变量就多少个有效（从编号1开始计）
 ## 4.可以不赋值，这种情况下，将自动随机给他人助力
+## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherBean1=""
 ForOtherBean2=""
 ForOtherBean3=""
@@ -215,6 +218,7 @@ MyDreamFactoryB=""
 ## 2.举例：ForOtherDreamFactory1="${MyDreamFactory3}@${MyDreamFactory5}@${MyDreamFactoryA}"，含义是Cookie1的账户将为Cookie3、Cookie5的账户以及没有提供Cookie只提供了互助码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherDreamFactory系列变量就多少有效（从编号1开始计）
 ## 4.可以不赋值，这种情况下，将自动随机给他人助力
+## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherDreamFactory1=""
 ForOtherDreamFactory2=""
 ForOtherDreamFactory3=""
@@ -243,6 +247,7 @@ MyJdFactoryB=""
 ## 2.举例：ForOtherJdFactory1="${MyJdFactory3}@${MyJdFactory4}@${MyJdFactoryA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherJdFactory系列变量就多少有效（从编号1开始计）
 ## 4.可以不赋值，这种情况下，将自动随机给他人助力
+## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherJdFactory1=""
 ForOtherJdFactory2=""
 ForOtherJdFactory3=""
@@ -270,7 +275,8 @@ MyJdzzB=""
 ## 1.每个Cookie要为谁助力，填入对应MyJdzz系列变量名即可，用 @ 分隔每个变量名
 ## 2.举例：ForOtherJdzz1="${MyJdzz3}@${MyJdzz4}@${MyJdzzA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherJdzz系列变量就多少有效（从编号1开始计）
-## 4.可以不赋值
+## 4.可以不赋值，这种情况下，将自动随机给他人助力
+## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherJdzz1=""
 ForOtherJdzz2=""
 ForOtherJdzz3=""
@@ -298,7 +304,8 @@ MyJoyB=""
 ## 1.每个Cookie要为谁助力，填入对应MyJoy系列变量名即可，用 @ 分隔每个变量名
 ## 2.举例：ForOtherJoy1="${MyJoy3}@${MyJoy4}@${MyJoyA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
 ## 3.Cookie定义了多少个，ForOtherJoy系列变量就多少有效（从编号1开始计）
-## 4.可以不赋值
+## 4.可以不赋值，这种情况下，将自动随机给他人助力
+## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherJoy1=""
 ForOtherJoy2=""
 ForOtherJoy3=""
