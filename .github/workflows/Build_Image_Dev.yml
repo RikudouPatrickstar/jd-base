@@ -1,11 +1,11 @@
-name: "jd-base Docker Image Buildx Dev"
+name: "JD Docker Image Buildx Dev"
 on:
   release:
     types: [published]
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build jd-base Docker Image Dev
+    name: Build JD Docker Image Dev
     steps:
       - name: Checkout master
         uses: actions/checkout@master

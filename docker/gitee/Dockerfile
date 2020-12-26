@@ -25,6 +25,7 @@ ENV LANG=zh_CN.UTF-8 \
     JD_DIR=/jd
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod 777 /usr/local/bin/entrypoint.sh \
+    && rm -f /usr/local/bin/docker-entrypoint.sh \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone \
     && git clone -b ${JD_BASE_BRANCH} ${JD_BASE_URL} ${JD_DIR} \
