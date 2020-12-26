@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-26
-## Version： v3.3.9
+## Version： v3.3.10
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -38,7 +38,7 @@ ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
 isGithub=$(grep "github" "${ShellDir}/.git/config")
 isGitee=$(grep "gitee" "${ShellDir}/.git/config")
-isTermux=$(echo ${ANDROID_RUNTIME_ROOT})
+isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
 
 if [ -n "${isGithub}" ]; then
   ScriptsURL=https://github.com/lxk0301/jd_scripts

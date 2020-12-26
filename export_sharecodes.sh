@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-25
-## Version： v3.1.1
+## Modified： 2020-12-26
+## Version： v3.1.3
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -24,11 +24,12 @@ LogDir=${ShellDir}/log
 ScriptsDir=${ShellDir}/scripts
 FileConf=${ShellDir}/config/config.sh
 DateToday=$(date "+%Y-%m-%d")
-if [[ -z $(echo ${ANDROID_RUNTIME_ROOT}) ]]
+isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
+if [[ ${isTermux} ]]
 then
-  Opt="E"
-else
   Opt="P"
+else
+  Opt="E"
 fi
 
 ## 东东小窝，一天一变
