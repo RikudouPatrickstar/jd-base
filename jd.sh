@@ -86,10 +86,10 @@ function Combin_FRUITSHARECODES {
   do
     TmpFR=ForOtherFruit${i}
     eval ForOtherFruitTemp=$(echo \$${TmpFR})
-    ForOtherFruitALL="${ForOtherFruitALL}&${ForOtherFruitTemp}@e6e04602d5e343258873af1651b603ec@52801b06ce2a462f95e1d59d7e856ef4@e2fd1311229146cc9507528d0b054da8@6dc9461f662d490991a31b798f624128"
+    ForOtherFruitALL="${ForOtherFruitALL}&${ForOtherFruitTemp}@e6e04602d5e343258873af1651b603ec@52801b06ce2a462f95e1d59d7e856ef4@e2fd1311229146cc9507528d0b054da8@6dc9461f662d490991a31b798f624128@5efc7fdbb8e0436f8694c4c393359576"
     let i++
   done
-  export FRUITSHARECODES=$(echo ${ForOtherFruitALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
+  export FRUITSHARECODES=$(echo ${ForOtherFruitALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
 }
 
 ## 组合PETSHARECODES
@@ -103,7 +103,7 @@ function Combin_PETSHARECODES {
     ForOtherPetALL="${ForOtherPetALL}&${ForOtherPetTemp}"
     let i++
   done
-  export PETSHARECODES=$(echo ${ForOtherPetALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
+  export PETSHARECODES=$(echo ${ForOtherPetALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
 }
 
 ## 组合PLANT_BEAN_SHARECODES
@@ -114,10 +114,10 @@ function Combin_PLANT_BEAN_SHARECODES {
   do
     TmpPB=ForOtherBean${i}
     eval ForOtherBeanTemp=$(echo \$${TmpPB})
-    ForOtherBeanALL="${ForOtherBeanALL}&${ForOtherBeanTemp}@mze7pstbax4l7u5ggn5y2olhfy@3nwlq2wyvmz7sn4d5akh4rnrczsih2dehcx7as4ym6fgb3q7y5tq@olmijoxgmjutybihibx67mwivxbag4rjviz3cji@rsuben7ys7sfbu5eub7knbibke"
+    ForOtherBeanALL="${ForOtherBeanALL}&${ForOtherBeanTemp}@mze7pstbax4l7u5ggn5y2olhfy@3nwlq2wyvmz7sn4d5akh4rnrczsih2dehcx7as4ym6fgb3q7y5tq@olmijoxgmjutybihibx67mwivxbag4rjviz3cji@rsuben7ys7sfbu5eub7knbibke@mze7pstbax4l7dmo4vq6wz7vgu"
     let i++
   done
-  export PLANT_BEAN_SHARECODES=$(echo ${ForOtherBeanALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
+  export PLANT_BEAN_SHARECODES=$(echo ${ForOtherBeanALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
 }
 
 ## 组合DREAM_FACTORY_SHARE_CODES
@@ -131,7 +131,7 @@ function Combin_DREAM_FACTORY_SHARE_CODES {
     ForOtherDreamFactoryALL="${ForOtherDreamFactoryALL}&${ForOtherDreamFactoryTemp}"
     let i++
   done
-  export DREAM_FACTORY_SHARE_CODES=$(echo ${ForOtherDreamFactoryALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
+  export DREAM_FACTORY_SHARE_CODES=$(echo ${ForOtherDreamFactoryALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
 }
 
 ## 组合DDFACTORY_SHARECODES
@@ -145,7 +145,7 @@ function Combin_DDFACTORY_SHARECODES {
     ForOtherJdFactoryALL="${ForOtherJdFactoryALL}&${ForOtherJdFactoryTemp}"
     let i++
   done
-  export DDFACTORY_SHARECODES=$(echo ${ForOtherJdFactoryALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
+  export DDFACTORY_SHARECODES=$(echo ${ForOtherJdFactoryALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
 }
 
 ## 组合JDZZ_SHARECODES
@@ -159,7 +159,7 @@ function Combin_JDZZ_SHARECODES {
     ForOtherJdzzALL="${ForOtherJdzzALL}&${ForOtherJdzzTemp}"
     let i++
   done
-  export JDZZ_SHARECODES=$(echo ${ForOtherJdzzALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
+  export JDZZ_SHARECODES=$(echo ${ForOtherJdzzALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
 }
 
 ## 组合JDJOY_SHARECODES
@@ -173,7 +173,7 @@ function Combin_JDJOY_SHARECODES {
     ForOtherJoyALL="${ForOtherJoyALL}&${ForOtherJoyTemp}@i7J-rBjC1cY=@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=@TZaj4q_GSarkd-u40-hYJg=="
     let i++
   done
-  export JDJOY_SHARECODES=$(echo ${ForOtherJoyALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g}")
+  export JDJOY_SHARECODES=$(echo ${ForOtherJoyALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
 }
 
 ## 设置JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
