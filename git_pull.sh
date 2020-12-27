@@ -125,9 +125,9 @@ function Change_JoyRunPins {
 
 ## 将我的invitecode加到脚本中
 function Change_InviteCode {
-  CodeHealth="'T007y7sqHksCjVUnoaW5kRrbA@T032a0zZlJapLMZw9pdDQnOoo2clfysC8H5aCjVUnoaW5kRrbA@T011y7sqHksZ9VMCjVUnoaW5kRrbA', 'T0225KkcRhgdoAeEI0jznP4OcQCjVUnoaW5kRrbA@T015vPp0RRoR_VHRT0cCjVUnoaW5kRrbA', 'T0225KkcRkpK8QLWdU7ykvMIdwCjVUnoaW5kRrbA@T024aG_llbW3LM1L9qFNQWOgo2QwCjVUnoaW5kRrbA'"
-  CodeZz="  'Sy7sqHks@Sa0zZlJapLMZw9pdDQnOoo2clfysC8H5a@S5KkcRhgdoAeEI0jznP4OcQ@SvPp0RRoR_VHRT0c',  'S5KkcRkpK8QLWdU7ykvMIdw@SaG_llbW3LM1L9qFNQWOgo2Qw@SaXzwlYqOIvhb-KpFTXua@Sy7sqHksZ9VM',"
-  CodeJoy=",\n  'i7J-rBjC1cY=@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=@TZaj4q_GSarkd-u40-hYJg==@7ZiMxCUnP2Orfc3eWGgXhA=='"
+  CodeHealth="'T007y7sqHksCjVUnoaW5kRrbA\@T032a0zZlJapLMZw9pdDQnOoo2clfysC8H5aCjVUnoaW5kRrbA\@T011y7sqHksZ9VMCjVUnoaW5kRrbA', 'T0225KkcRhgdoAeEI0jznP4OcQCjVUnoaW5kRrbA\@T015vPp0RRoR_VHRT0cCjVUnoaW5kRrbA', 'T0225KkcRkpK8QLWdU7ykvMIdwCjVUnoaW5kRrbA\@T024aG_llbW3LM1L9qFNQWOgo2QwCjVUnoaW5kRrbA'"
+  CodeZz="  'Sy7sqHks\@Sa0zZlJapLMZw9pdDQnOoo2clfysC8H5a\@S5KkcRhgdoAeEI0jznP4OcQ\@SvPp0RRoR_VHRT0c',  'S5KkcRkpK8QLWdU7ykvMIdw\@SaG_llbW3LM1L9qFNQWOgo2Qw\@SaXzwlYqOIvhb-KpFTXua\@Sy7sqHksZ9VM',"
+  CodeJoy=",\n  'i7J-rBjC1cY=\@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=\@TZaj4q_GSarkd-u40-hYJg==\@7ZiMxCUnP2Orfc3eWGgXhA=='"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" ${ScriptsDir}/jd_health.js
   perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+\n\])|\1${CodeZz}\n\2|" ${ScriptsDir}/jd_jdzz.js
   perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+)(\n\];?)|\1\2${CodeJoy}\3|" ${ScriptsDir}/jd_crazy_joy.js
