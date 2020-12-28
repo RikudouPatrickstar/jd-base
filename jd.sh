@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-24
-## Version： v3.4.0
+## Modified： 2020-12-28
+## Version： v3.5.0
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -27,7 +27,6 @@ FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
 ListScripts=$(ls ${ScriptsDir} | grep -E "j[dr]_\w+\.js" | perl -pe "s|\.js||")
 ListCron=${ShellDir}/config/crontab.list
-CurrentCron=$(crontab -l)
 
 ## 导入config.sh
 function Import_Conf {
@@ -42,7 +41,7 @@ function Import_Conf {
 
 ## 更新crontab
 function Detect_Cron {
-  if [[ $(cat ${ListCron}) != ${CurrentCron} ]]; then
+  if [[ $(cat ${ListCron}) != $(crontab -l) ]]; then
     crontab ${ListCron}
   fi
 }
@@ -64,120 +63,39 @@ function Count_UserSum {
   done
 }
 
-## 组合JD_COOKIE
-function Combin_JD_COOKIE {
-  CookieALL=""
+## 组合Cookie和互助码子程序
+function Combin_Sub {
+  CombinAll=""
   i=1
-  while [ ${i} -le ${UserSum} ]
+  while [ $i -le ${UserSum} ]
   do
-    TmpCK=Cookie${i}
-    eval CookieTemp=$(echo \$${TmpCK})
-    CookieALL="${CookieALL}&${CookieTemp}"
+    Tmp1=$1$i
+    eval Tmp2=$(echo \$${Tmp1})
+    if [ $# -eq 2 ]
+    then
+      CombinAll="${CombinAll}&${Tmp2}@$2"
+    else
+      CombinAll="${CombinAll}&${Tmp2}"
+    fi
     let i++
   done
-  export JD_COOKIE=$(echo ${CookieALL} | perl -pe "s|^&+||")
+  echo ${CombinAll} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}"
 }
 
-## 组合FRUITSHARECODES
-function Combin_FRUITSHARECODES {
-  ForOtherFruitALL=""
-  i=1
-  while [ ${i} -le ${UserSum} ]
-  do
-    TmpFR=ForOtherFruit${i}
-    eval ForOtherFruitTemp=$(echo \$${TmpFR})
-    ForOtherFruitALL="${ForOtherFruitALL}&${ForOtherFruitTemp}@e6e04602d5e343258873af1651b603ec@52801b06ce2a462f95e1d59d7e856ef4@e2fd1311229146cc9507528d0b054da8@6dc9461f662d490991a31b798f624128@5efc7fdbb8e0436f8694c4c393359576"
-    let i++
-  done
-  export FRUITSHARECODES=$(echo ${ForOtherFruitALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
+## 组合Cookie与互助码
+function Combin_All {
+  export JD_COOKIE=$(Combin_Sub Cookie)
+  export FRUITSHARECODES=$(Combin_Sub ForOtherFruit "e6e04602d5e343258873af1651b603ec@52801b06ce2a462f95e1d59d7e856ef4@e2fd1311229146cc9507528d0b054da8@6dc9461f662d490991a31b798f624128@5efc7fdbb8e0436f8694c4c393359576")
+  export PETSHARECODES=$(Combin_Sub ForOtherPet)
+  export PLANT_BEAN_SHARECODES=$(Combin_Sub ForOtherBean "mze7pstbax4l7u5ggn5y2olhfy@3nwlq2wyvmz7sn4d5akh4rnrczsih2dehcx7as4ym6fgb3q7y5tq@olmijoxgmjutybihibx67mwivxbag4rjviz3cji@rsuben7ys7sfbu5eub7knbibke@mze7pstbax4l7dmo4vq6wz7vgu")
+  export DREAM_FACTORY_SHARE_CODES=$(Combin_Sub ForOtherDreamFactory)
+  export DDFACTORY_SHARECODES=$(Combin_Sub ForOtherJdFactory)
+  export JDZZ_SHARECODES=$(Combin_Sub ForOtherJdzz)
+  export JDJOY_SHARECODES=$(Combin_Sub ForOtherJoy)
 }
 
-## 组合PETSHARECODES
-function Combin_PETSHARECODES {
-  ForOtherPetALL=""
-  i=1
-  while [ ${i} -le ${UserSum} ]
-  do
-    TmpPT=ForOtherPet${i}
-    eval ForOtherPetTemp=$(echo \$${TmpPT})
-    ForOtherPetALL="${ForOtherPetALL}&${ForOtherPetTemp}"
-    let i++
-  done
-  export PETSHARECODES=$(echo ${ForOtherPetALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
-}
-
-## 组合PLANT_BEAN_SHARECODES
-function Combin_PLANT_BEAN_SHARECODES {
-  ForOtherBeanALL=""
-  i=1
-  while [ ${i} -le ${UserSum} ]
-  do
-    TmpPB=ForOtherBean${i}
-    eval ForOtherBeanTemp=$(echo \$${TmpPB})
-    ForOtherBeanALL="${ForOtherBeanALL}&${ForOtherBeanTemp}@mze7pstbax4l7u5ggn5y2olhfy@3nwlq2wyvmz7sn4d5akh4rnrczsih2dehcx7as4ym6fgb3q7y5tq@olmijoxgmjutybihibx67mwivxbag4rjviz3cji@rsuben7ys7sfbu5eub7knbibke@mze7pstbax4l7dmo4vq6wz7vgu"
-    let i++
-  done
-  export PLANT_BEAN_SHARECODES=$(echo ${ForOtherBeanALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
-}
-
-## 组合DREAM_FACTORY_SHARE_CODES
-function Combin_DREAM_FACTORY_SHARE_CODES {
-  ForOtherDreamFactoryALL=""
-  i=1
-  while [ ${i} -le ${UserSum} ]
-  do
-    TmpDF=ForOtherDreamFactory${i}
-    eval ForOtherDreamFactoryTemp=$(echo \$${TmpDF})
-    ForOtherDreamFactoryALL="${ForOtherDreamFactoryALL}&${ForOtherDreamFactoryTemp}"
-    let i++
-  done
-  export DREAM_FACTORY_SHARE_CODES=$(echo ${ForOtherDreamFactoryALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
-}
-
-## 组合DDFACTORY_SHARECODES
-function Combin_DDFACTORY_SHARECODES {
-  ForOtherJdFactoryALL=""
-  i=1
-  while [ ${i} -le ${UserSum} ]
-  do
-    TmpJF=ForOtherJdFactory${i}
-    eval ForOtherJdFactoryTemp=$(echo \$${TmpJF})
-    ForOtherJdFactoryALL="${ForOtherJdFactoryALL}&${ForOtherJdFactoryTemp}"
-    let i++
-  done
-  export DDFACTORY_SHARECODES=$(echo ${ForOtherJdFactoryALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
-}
-
-## 组合JDZZ_SHARECODES
-function Combin_JDZZ_SHARECODES {
-  ForOtherJdzzALL=""
-  i=1
-  while [ ${i} -le ${UserSum} ]
-  do
-    TmpZZ=ForOtherJdzz${i}
-    eval ForOtherJdzzTemp=$(echo \$${TmpZZ})
-    ForOtherJdzzALL="${ForOtherJdzzALL}&${ForOtherJdzzTemp}"
-    let i++
-  done
-  export JDZZ_SHARECODES=$(echo ${ForOtherJdzzALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
-}
-
-## 组合JDJOY_SHARECODES
-function Combin_JDJOY_SHARECODES {
-  ForOtherJoyALL=""
-  i=1
-  while [ ${i} -le ${UserSum} ]
-  do
-    TmpJy=ForOtherJoy${i}
-    eval ForOtherJoyTemp=$(echo \$${TmpJy})
-    ForOtherJoyALL="${ForOtherJoyALL}&${ForOtherJoyTemp}@i7J-rBjC1cY=@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=@TZaj4q_GSarkd-u40-hYJg=="
-    let i++
-  done
-  export JDJOY_SHARECODES=$(echo ${ForOtherJoyALL} | perl -pe "{s|^&+||; s|^@+||; s|&@|&|g; s|@+|@|g}")
-}
-
-## 设置JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
-function Combin_JD_BEAN_SIGN_NOTIFY {
+## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
+function Trans_JD_BEAN_SIGN_NOTIFY {
   case ${NotifyBeanSign} in
     0)
       export JD_BEAN_SIGN_STOP_NOTIFY="true"
@@ -188,29 +106,22 @@ function Combin_JD_BEAN_SIGN_NOTIFY {
   esac
 }
 
-## 组合UN_SUBSCRIBES
-function Combin_UN_SUBSCRIBES {
+## 转换UN_SUBSCRIBES
+function Trans_UN_SUBSCRIBES {
   export UN_SUBSCRIBES="${goodPageSize}\n${shopPageSize}\n${jdUnsubscribeStopGoods}\n${jdUnsubscribeStopShop}"
 }
 
-## 组合函数汇总
+## 申明全部变量
 function Set_Env {
   Count_UserSum
-  Combin_JD_COOKIE
-  Combin_FRUITSHARECODES
-  Combin_PETSHARECODES
-  Combin_PLANT_BEAN_SHARECODES
-  Combin_DREAM_FACTORY_SHARE_CODES
-  Combin_DDFACTORY_SHARECODES
-  Combin_JDZZ_SHARECODES
-  Combin_JDJOY_SHARECODES
-  Combin_JD_BEAN_SIGN_NOTIFY
-  Combin_UN_SUBSCRIBES
+  Combin_All
+  Trans_JD_BEAN_SIGN_NOTIFY
+  Trans_UN_SUBSCRIBES
 }
 
 ## 随机延迟子程序
 function Random_DelaySub {
-  CurDelay=$((${RANDOM} % ${RandomDelay}))
+  CurDelay=$((${RANDOM} % ${RandomDelay} + 1))
   echo -e "\n命令未添加 \"now\"，随机延迟 ${CurDelay} 秒后再执行任务，如需立即终止，请按 CTRL+C...\n"
   sleep ${CurDelay}
 }
