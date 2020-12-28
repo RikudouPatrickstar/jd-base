@@ -26,7 +26,7 @@ FileConf=${ConfigDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
 ListScripts=$(ls ${ScriptsDir} | grep -E "j[dr]_\w+\.js" | perl -pe "s|\.js||")
-ListCron=${ShellDir}/config/crontab.list
+ListCron=${ConfigDir}/crontab.list
 
 ## 导入config.sh
 function Import_Conf {
