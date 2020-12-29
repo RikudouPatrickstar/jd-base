@@ -88,7 +88,7 @@ function Combin_All {
   export FRUITSHARECODES=$(Combin_Sub ForOtherFruit "e6e04602d5e343258873af1651b603ec@52801b06ce2a462f95e1d59d7e856ef4@e2fd1311229146cc9507528d0b054da8@6dc9461f662d490991a31b798f624128@5efc7fdbb8e0436f8694c4c393359576")
   export PETSHARECODES=$(Combin_Sub ForOtherPet)
   export PLANT_BEAN_SHARECODES=$(Combin_Sub ForOtherBean "mze7pstbax4l7u5ggn5y2olhfy@3nwlq2wyvmz7sn4d5akh4rnrczsih2dehcx7as4ym6fgb3q7y5tq@olmijoxgmjutybihibx67mwivxbag4rjviz3cji@rsuben7ys7sfbu5eub7knbibke@mze7pstbax4l7dmo4vq6wz7vgu")
-  export DREAM_FACTORY_SHARE_CODES=$(Combin_Sub ForOtherDreamFactory "xYd7cjQ3c1LyUse79rEFnw==@6E5_eFU3YHRLTljqYh_B1fg9iKwFvbWQsugw1xHcY3Q=")
+  export DREAM_FACTORY_SHARE_CODES=$(Combin_Sub ForOtherDreamFactory "xYd7cjQ3c1LyUse79rEFnw==@6E5_eFU3YHRLTljqYh_B1fg9iKwFvbWQsugw1xHcY3Q=@5AnP-NWntIbO2rEf58NCnA==@CNt5BX1eD8Tw-Wq045YSWg==@phEELHGm3o7VKPIyiBO3Vw==")
   export DDFACTORY_SHARECODES=$(Combin_Sub ForOtherJdFactory)
   export JDZZ_SHARECODES=$(Combin_Sub ForOtherJdzz)
   export JDJOY_SHARECODES=$(Combin_Sub ForOtherJoy)
