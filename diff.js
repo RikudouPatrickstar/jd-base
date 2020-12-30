@@ -150,6 +150,7 @@ function createHttpServer() {
                         switch (uri.pathname) {
                             case '/save':
                                 let post = '';
+                                request.setEncoding("utf8");
                                 request.on('data', function (chunk) {
                                     post += chunk;
                                 });
