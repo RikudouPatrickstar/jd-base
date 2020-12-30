@@ -145,9 +145,11 @@ function Help {
   then
     echo -e "1. bash jd xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
     echo -e "2. bash jd xxx now  # 无论是否设置了随机延迟，均立即运行\n"
+    echo -e "3. bash jd hangup   # 重启挂机程序\n"
   else
     echo -e "1. bash jd.sh xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
     echo -e "2. bash jd.sh xxx now  # 无论是否设置了随机延迟，均立即运行\n"
+    echo -e "3. bash jd.sh hangup   # 重启挂机程序\n"
   fi
   echo -e "无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略...\n"
   echo -e "当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本，但不含自定义脚本）：\n"
