@@ -180,6 +180,7 @@ function Run_HangUp {
     cd ${ScriptsDir}
     LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
     LogFile="${LogDir}/${js}/${LogTime}.log"
+    touch ${LogFile}
     nohup node ${js}.js > ${LogFile} &
   done
 }
