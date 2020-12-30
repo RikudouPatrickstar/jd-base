@@ -178,9 +178,9 @@ function Run_HangUp {
   for js in ${HangUpJs}
   do
     cd ${ScriptsDir}
+    [ ! -d ${LogDir}/${js} ] && mkdir -p ${LogDir}/${js}
     LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
     LogFile="${LogDir}/${js}/${LogTime}.log"
-    touch ${LogFile}
     nohup node ${js}.js > ${LogFile} &
   done
 }
