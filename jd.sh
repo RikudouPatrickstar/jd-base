@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-28
-## Version： v3.5.1
+## Modified： 2020-12-30
+## Version： v3.6.0
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -154,8 +154,36 @@ function Help {
   echo -e "${ListScripts}\n"
 }
 
+## 运行挂机脚本
+function Run_HangUp {
+  Import_Conf && Detect_Cron && Set_Env
+
+  HangUpJs="jd_crazy_joy_coin"
+
+  
+  for js in ${HangUpJs}
+  do
+    if [[ $(ps -ef | grep "${js}" | grep -v "grep") != "" ]]; then
+      if [ -n "${isDocker}" ]
+      then
+        ps -ef | grep "${js}" | grep -v "grep" | awk '{print $1}' | xargs kill -9
+      else
+        ps -ef | grep "${js}" | grep -v "grep" | awk '{print $2}' | xargs kill -9
+      fi
+    fi
+  done
+
+  for js in ${HangUpJs}
+  do
+    cd ${ScriptsDir}
+    LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
+    LogFile="${LogDir}/${js}/${LogTime}.log"
+    nohup node ${js}.js > ${LogFile} &
+  done
+}
+
 ## 运行京东脚本
-function Run_Js {
+function Run_Normal {
   Import_Conf && Detect_Cron && Set_Env
   
   FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
@@ -198,11 +226,15 @@ case $# in
     Help
     ;;
   1)
-    Run_Js $1
+    if [[ $1 == hangup ]]; then
+      Run_HangUp
+    else
+      Run_Normal $1
+    fi
     ;;
   2)
     if [[ $2 == now ]]; then
-      Run_Js $1 $2
+      Run_Normal $1 $2
     else
       echo -e "\n命令输入错误...\n"
       Help
