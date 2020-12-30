@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-28
-## Version： v3.5.1
+## Modified： 2020-12-30
+## Version： v3.6.0
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -145,17 +145,48 @@ function Help {
   then
     echo -e "1. bash jd xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
     echo -e "2. bash jd xxx now  # 无论是否设置了随机延迟，均立即运行\n"
+    echo -e "3. bash jd hangup   # 重启挂机程序\n"
   else
     echo -e "1. bash jd.sh xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
     echo -e "2. bash jd.sh xxx now  # 无论是否设置了随机延迟，均立即运行\n"
+    echo -e "3. bash jd.sh hangup   # 重启挂机程序\n"
   fi
-  echo -e "无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略...\n"
+  echo -e "针对用法1、用法2中的\"xxx\"，无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略...\n"
   echo -e "当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本，但不含自定义脚本）：\n"
   echo -e "${ListScripts}\n"
 }
 
+## 运行挂机脚本
+function Run_HangUp {
+  Import_Conf && Detect_Cron && Set_Env
+
+  HangUpJs="jd_crazy_joy_coin"
+
+  
+  for js in ${HangUpJs}
+  do
+    if [[ $(ps -ef | grep "${js}" | grep -v "grep") != "" ]]; then
+      if [ -n "${isDocker}" ]
+      then
+        ps -ef | grep "${js}" | grep -v "grep" | awk '{print $1}' | xargs kill -9
+      else
+        ps -ef | grep "${js}" | grep -v "grep" | awk '{print $2}' | xargs kill -9
+      fi
+    fi
+  done
+
+  for js in ${HangUpJs}
+  do
+    cd ${ScriptsDir}
+    [ ! -d ${LogDir}/${js} ] && mkdir -p ${LogDir}/${js}
+    LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
+    LogFile="${LogDir}/${js}/${LogTime}.log"
+    nohup node ${js}.js > ${LogFile} &
+  done
+}
+
 ## 运行京东脚本
-function Run_Js {
+function Run_Normal {
   Import_Conf && Detect_Cron && Set_Env
   
   FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
@@ -198,11 +229,15 @@ case $# in
     Help
     ;;
   1)
-    Run_Js $1
+    if [[ $1 == hangup ]]; then
+      Run_HangUp
+    else
+      Run_Normal $1
+    fi
     ;;
   2)
     if [[ $2 == now ]]; then
-      Run_Js $1 $2
+      Run_Normal $1 $2
     else
       echo -e "\n命令输入错误...\n"
       Help

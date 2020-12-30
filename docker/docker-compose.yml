@@ -11,6 +11,8 @@ services:
     volumes:
       - ./jd1/config:/jd/config       # 请在部署容器前先把./jd1/config这个文件下准备好config.sh和crontab.list，下同
       - ./jd1/log:/jd/log
+    ports:
+      - 5678:5678                     # 如果需要智能对比config.sh和config.sh.sample的差异，请映射端口，每个容器要映射不同的端口
 
   # 第2个容器
   jd2:
@@ -23,6 +25,8 @@ services:
     volumes:
       - ./jd2/config:/jd/config
       - ./jd2/log:/jd/log
+    ports:
+      - 5679:5678                     # 如果需要智能对比config.sh和config.sh.sample的差异，请映射端口，每个容器要映射不同的端口
 
   # 第3个容器，以此类推
   jd3:
@@ -35,3 +39,5 @@ services:
     volumes:
       - ./jd3/config:/jd/config
       - ./jd3/log:/jd/log
+    ports:
+      - 5680:5678                     # 如果需要智能对比config.sh和config.sh.sample的差异，请映射端口，每个容器要映射不同的端口
