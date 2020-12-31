@@ -1,6 +1,5 @@
-## 重要：针对物理机，请先在命令行中使用 echo $PATH 命令查看你的系统PATH是不是和下面一样，如果不一样，请使用你的PATH代替下一行中PATH的值
-## ①使用nvm安装nodejs的、②安装了多个nodejs版本的、③想使用的nodejs所在位置不在系统PATH中的，请注意将你拟使用的nodejs所在路径添加在PATH最前面
-## 使用 which node、which npm 命令可以查到当前node、npm所在路径，如果不在下面路径中，则添加在下面的路径前并以半角冒号分隔
+## 重要：针对物理机，请按以下步骤检查：一、先在命令行中使用 echo $PATH 命令查看你的系统PATH是不是和下面一样，如果不一样，请先使用你的PATH代替下一行中PATH的值；
+## 二、①使用nvm安装nodejs的、②安装了多个nodejs版本的、③想使用的nodejs所在位置不在系统PATH中的，请注意将你拟使用的nodejs所在路径添加在PATH最前面，以冒号分隔每个路径（which node、which npm可以查看具体路径）
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 ## 物理机请务必将你原本的定时任务加在本行之下（命令行中输入crontab -l可查看你原来的定时任务）
