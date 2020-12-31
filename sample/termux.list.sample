@@ -20,7 +20,7 @@ PATH=/data/data/com.termux/files/usr/bin
 28 5 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_bean_home
 4 0,9 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_bean_sign
 0,30 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_blueCoin
-23 2 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car
+0 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car
 2 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_club_lottery
 27 13 * * * bash bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_crazy_joy
 #36 9 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_ds  #限学生认证用户，如果你是，请自己解除注释

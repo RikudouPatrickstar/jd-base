@@ -27,7 +27,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 28 5 * * * bash /home/myid/jd/jd.sh jd_bean_home
 4 0,9 * * * bash /home/myid/jd/jd.sh jd_bean_sign
 0,30 0 * * * bash /home/myid/jd/jd.sh jd_blueCoin
-23 2 * * * bash /home/myid/jd/jd.sh jd_car
+0 0 * * * bash /home/myid/jd/jd.sh jd_car
 2 0 * * * bash /home/myid/jd/jd.sh jd_club_lottery
 32 14 * * * bash /home/myid/jd/jd.sh jd_crazy_joy
 #36 9 * * * bash /home/myid/jd/jd.sh jd_ds  #限学生认证用户，如果你是，请自己解除注释
