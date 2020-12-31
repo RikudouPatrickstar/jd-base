@@ -159,9 +159,7 @@ function Help {
 ## 运行挂机脚本
 function Run_HangUp {
   Import_Conf && Detect_Cron && Set_Env
-
   HangUpJs="jd_crazy_joy_coin"
-
   
   for js in ${HangUpJs}
   do
