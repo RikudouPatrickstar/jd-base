@@ -15,7 +15,7 @@
 5 9 * * * bash jd jd_bean_change
 28 5 * * * bash jd jd_bean_home
 4 0,9 * * * bash jd jd_bean_sign
-0 0 * * * bash jd jd_blueCoin
+0,30 0 * * * bash jd jd_blueCoin
 23 2 * * * bash jd jd_car
 2 0 * * * bash jd jd_club_lottery
 43 13 * * * bash jd jd_crazy_joy
