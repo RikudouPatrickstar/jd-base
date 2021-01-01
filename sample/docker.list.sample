@@ -45,6 +45,5 @@
 35 */3 * * * bash jd jd_speed
 9 1-23/5 * * * bash jd jd_superMarket
 25 9 * * * bash jd jd_syj
-17 11,14 * * * bash jd jd_watch
 44 5 * * 5 bash jd jd_unbind
 45 23 * * * bash jd jd_unsubscribe

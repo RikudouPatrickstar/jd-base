@@ -49,6 +49,5 @@ PATH=/data/data/com.termux/files/usr/bin
 35 */3 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_speed
 9 1-23/5 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_superMarket
 25 9 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_syj
-17 11,14 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_watch
 41 14 * * 4 bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_unbind
 45 23 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_unsubscribe
