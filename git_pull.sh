@@ -24,10 +24,11 @@ LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
 
 ScriptsDir=${ShellDir}/scripts
-FileConf=${ShellDir}/config/config.sh
-FileDiy=${ShellDir}/config/diy.sh
+ConfigDir=${ShellDir}/config
+FileConf=${ConfigDir}/config.sh
+FileDiy=${ConfigDir}/diy.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
-ListCron=${ShellDir}/config/crontab.list
+ListCron=${ConfigDir}/crontab.list
 ListTask=${LogDir}/task.list
 ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
@@ -246,8 +247,8 @@ else
   echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
 fi
 
-if [ -n "${isDocker}" ] && [ -d ${ShellDir}/config ]; then
-  cp -f ${FileConfSample} ${ShellDir}/config/config.sh.sample
+if [ -n "${isDocker}" ] && [ -d ${ConfigDir} ]; then
+  cp -f ${FileConfSample} ${ConfigDir}/config.sh.sample
 fi
 
 ## 克隆或更新js脚本
