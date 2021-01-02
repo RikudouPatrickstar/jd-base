@@ -1,4 +1,4 @@
-## 想要提issue的请自己仔细读[WIKI](https://github.com/EvineDeng/jd-base/wiki)和各文件的注释，你们90%的问题都能找到答案
+## 请仔细阅读[WIKI](https://github.com/EvineDeng/jd-base/wiki)和各文件注释，90%的问题都能找到答案
 
 ## 如有帮助到你，请点亮Star
 
