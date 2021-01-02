@@ -2,7 +2,7 @@
 
 ## 如有帮助到你，请点亮Star
 
-## 如有二次使用，希望注明来源
+## 如有二次使用，请注明来源
 
 本脚本是[https://github.com/lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts)的shell套壳工具，适用于以下系统：
 
