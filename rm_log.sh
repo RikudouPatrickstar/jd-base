@@ -56,8 +56,7 @@ function Rm_GitPullLog {
 ## 删除空文件夹
 function Rm_EmptyDir {
   cd ${LogDir}
-  DirList=$(ls)
-  for dir in ${DirList}
+  for dir in $(ls)
   do
     if [ -d ${dir} ] && [[ $(ls ${dir}) == "" ]]; then
       rm -rf ${dir}
