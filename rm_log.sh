@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-03
-## Version： v3.2.0
+## Version： v3.2.1
 
 ## 判断环境
 if [ -f /proc/1/cgroup ]
@@ -49,7 +49,7 @@ function Rm_GitPullLog {
   else
     DateDelLog=$(date "+%Y-%m-%d" -d "${RmLogDaysAgo} days ago")
   fi
-  LineEndGitPull=$[$(cat ${LogDir}/git_pull.log | grep -n "系统时间：${DateDelLog}" | head -1 | awk -F ":" '{print $1}') - 3]
+  LineEndGitPull=$[$(cat ${LogDir}/git_pull.log | grep -n "${DateDelLog} " | head -1 | awk -F ":" '{print $1}') - 3]
   [ ${LineEndGitPull} -gt 0 ] && perl -i -ne "{print unless 1 .. ${LineEndGitPull} }" ${LogDir}/git_pull.log
 }
 
