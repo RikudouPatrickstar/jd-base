@@ -12,7 +12,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 55 * * * * bash /home/myid/jd/git_pull.sh >> /home/myid/jd/log/git_pull.log 2>&1
 
 # 删除 RmLogDaysAgo 指定天数以前的旧日志，不记录日志
-57 13 * * 6 bash /home/myid/jd/rm_log.sh >/dev/null 2>&1
+57 13 * * * bash /home/myid/jd/rm_log.sh >/dev/null 2>&1
 
 # 每日导出所有互助码清单，注意东东小窝一天一变，本cron要在东东小窝运行过后才能运行，日志在log/export_sharecodes下
 48 5 * * * bash /home/myid/jd/export_sharecodes.sh
