@@ -121,16 +121,16 @@ function Change_JoyRunPins {
     PinALL="${PinTempFormat},${PinALL}"
     let j--
   done
-  PinEvine="Evine,做一颗潇洒的蛋蛋,Evine007,jd_7bb2be8dbd65c,jd_664ecc3b78945,277548856_m,米大眼老鼠,jd_6dc4f1ed66423,梦回马拉多纳,"
+  PinEvine="Evine,做一颗潇洒的蛋蛋,Evine007,jd_7bb2be8dbd65c,jd_6fae2af082798,jd_664ecc3b78945,277548856_m,米大眼老鼠,jd_6dc4f1ed66423,梦回马拉多纳,"
   PinALL="${PinALL}${PinEvine}"
   perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|}" ${ScriptsDir}/jd_joy_run.js
 }
 
 ## 将我的invitecode加到脚本中
 function Change_InviteCode {
-  CodeHealth="'T007y7sqHksCjVUnoaW5kRrbA\@T032a0zZlJapLMZw9pdDQnOoo2clfysC8H5aCjVUnoaW5kRrbA\@T011y7sqHksZ9VMCjVUnoaW5kRrbA', 'T0225KkcRhgdoAeEI0jznP4OcQCjVUnoaW5kRrbA\@T015vPp0RRoR_VHRT0cCjVUnoaW5kRrbA', 'T0225KkcRkpK8QLWdU7ykvMIdwCjVUnoaW5kRrbA\@T024aG_llbW3LM1L9qFNQWOgo2QwCjVUnoaW5kRrbA'"
-  CodeZz="  'Sy7sqHks\@Sa0zZlJapLMZw9pdDQnOoo2clfysC8H5a\@S5KkcRhgdoAeEI0jznP4OcQ\@SvPp0RRoR_VHRT0c',\n  'S5KkcRkpK8QLWdU7ykvMIdw\@SaG_llbW3LM1L9qFNQWOgo2Qw\@SaXzwlYqOIvhb-KpFTXua\@Sy7sqHksZ9VM',"
-  CodeJoy=",\n  'i7J-rBjC1cY=\@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=\@TZaj4q_GSarkd-u40-hYJg==\@7ZiMxCUnP2Orfc3eWGgXhA==',\n  'ZKfuxUZxKdGbDxTmAHnqkqt9zd5YaBeE\@xWXlN8vLwpFOy71e_SEYsg==\@ym8TOcaoUTQnJZKpDzKWd6t9zd5YaBeE\@9_dxd9S1-R7nohQ1FGiupUGIzB-QNOGN'"
+  CodeHealth="'T007y7sqHksCjVUnoaW5kRrbA\@T032a0zZlJapLMZw9pdDQnOoo2clfysC8H5aCjVUnoaW5kRrbA\@T011y7sqHksZ9VMCjVUnoaW5kRrbA', 'T0225KkcRkhIoFaGdhr8lvADfACjVUnoaW5kRrbA\@T0225KkcRhgdoAeEI0jznP4OcQCjVUnoaW5kRrbA\@T015vPp0RRoR_VHRT0cCjVUnoaW5kRrbA', 'T0225KkcRkpK8QLWdU7ykvMIdwCjVUnoaW5kRrbA\@T024aG_llbW3LM1L9qFNQWOgo2QwCjVUnoaW5kRrbA'"
+  CodeZz="  'Sy7sqHks\@Sa0zZlJapLMZw9pdDQnOoo2clfysC8H5a\@S5KkcRhgdoAeEI0jznP4OcQ\@SvPp0RRoR_VHRT0c\@S5KkcRkhIoFaGdhr8lvADfA',\n  'S5KkcRkpK8QLWdU7ykvMIdw\@SaG_llbW3LM1L9qFNQWOgo2Qw\@SaXzwlYqOIvhb-KpFTXua\@Sy7sqHksZ9VM',"
+  CodeJoy=",\n  'i7J-rBjC1cY=\@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=\@TZaj4q_GSarkd-u40-hYJg==\@aEYNdH9WkHKZzdje-aDvWqt9zd5YaBeE\@7ZiMxCUnP2Orfc3eWGgXhA==',\n  'ZKfuxUZxKdGbDxTmAHnqkqt9zd5YaBeE\@xWXlN8vLwpFOy71e_SEYsg==\@ym8TOcaoUTQnJZKpDzKWd6t9zd5YaBeE\@9_dxd9S1-R7nohQ1FGiupUGIzB-QNOGN'"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" ${ScriptsDir}/jd_health.js
   perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+\n\])|\1${CodeZz}\n\2|" ${ScriptsDir}/jd_jdzz.js
   perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+)(\n\];?)|\1\2${CodeJoy}\3|" ${ScriptsDir}/jd_crazy_joy.js
