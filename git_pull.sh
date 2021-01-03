@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-03
-## Version： v3.3.12
+## Version： v3.3.13
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -16,8 +16,10 @@ fi
 if [ -z "${isDocker}" ]
 then
   ShellDir=$(cd $(dirname $0); pwd)
+  ShellJd=${ShellDir}/jd.sh
 else
   ShellDir=${JD_DIR}
+  ShellJd=jd
 fi
 
 LogDir=${ShellDir}/log
@@ -214,10 +216,11 @@ function NpmInstallSub {
 
 ## 增加定时任务，Docker和物理机不同
 function Add_Cron {
-  if [ -z "${isDocker}" ]; then
-    grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node */scripts/(j[dr]_\w+)\.js.+|\1bash ${ShellDir}/jd.sh \2|"  >> ${ListCron}
+  if [[ ${Cron} == jd_bean_sign ]]
+  then
+      echo "4 0,9 * * * bash ${ShellJd} ${Cron}" >> ${ListCron}
   else
-    grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node */scripts/(j[dr]_\w+)\.js.+|\1bash jd \2|"  >> ${ListCron}
+      grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node */scripts/(j[dr]_\w+)\.js.+|\1bash ${ShellJd} \2|" >> ${ListCron}
   fi
 }
 
