@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-03
-## Version： v3.1.0
+## Version： v3.2.0
 
 ## 判断环境
 if [ -f /proc/1/cgroup ]
@@ -41,7 +41,7 @@ function Rm_JsLog {
   done
 }
 
-# 删除git_pull.sh的运行日志
+## 删除git_pull.sh的运行日志
 function Rm_GitPullLog {
   if [[ $(uname -s) == Darwin ]]
   then
@@ -53,8 +53,21 @@ function Rm_GitPullLog {
   [ ${LineEndGitPull} -gt 0 ] && perl -i -ne "{print unless 1 .. ${LineEndGitPull} }" ${LogDir}/git_pull.log
 }
 
+## 删除空文件夹
+function Rm_EmptyDir {
+  cd ${LogDir}
+  DirList=$(ls)
+  for dir in ${DirList}
+  do
+    if [ -d ${dir} ] && [[ $(ls ${dir}) == "" ]]; then
+      rm -rf ${dir}
+    fi
+  done
+}
+
 ## 运行
 if [ -n "${RmLogDaysAgo}" ]; then
   Rm_JsLog
   Rm_GitPullLog
+  Rm_EmptyDir
 fi
