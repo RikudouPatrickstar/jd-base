@@ -3,7 +3,7 @@ set -e
 
 function Start_Container {
   crontab ${JD_DIR}/config/crontab.list
-  echo -e "导入定时任务成功...n"
+  echo -e "导入定时任务成功...\n"
   echo -e "====================3. 启动挂机程序====================\n"
   bash jd hangup >/dev/null 2>&1
   echo -e "挂机程序启动成功...\n"
