@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-03
-## Version： v3.3.13
+## Modified： 2021-01-04
+## Version： v3.3.14
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -258,11 +258,13 @@ fi
 echo -e "--------------------------------------------------------------\n"
 if [ ${ExitStatusShell} -eq 0 ]; then
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
-  if [ -d ${ScriptsDir} ]; then
+  if [ ! -d ${ScriptsDir} ]; then
+    Git_CloneScripts
+  elif [ -d ${ScriptsDir} ] && [[ $(cd ${ScriptsDir}; ls) == "" ]]; then
+    Git_CloneScripts
+  else
     cd ${ScriptsDir}
     Git_PullScripts
-  else
-    Git_CloneScripts
   fi
 fi
 
