@@ -26,11 +26,11 @@
 
 > 只记录大的更新，小修小改不记录。
 
+2021-01-04，Docker启动时即自动启动挂机程序。
+
 2020-12-30，增加`config.sh`和`config.sh.sample`文件差异智能比对的脚本，使用方法详见WIKI。
 
 2020-12-30，增加自动挂机功能，如需使用，在运行过一次`bash git_pull.sh`以后，输入`bash jd.sh hangup`即可（docker要进入容器后输入），然后挂机脚本就会一直运行。如果你希望每天终止旧的挂机进程，然后启动新的挂机进程，请参考sample文件夹下各个平台 的list中的挂机定时任务，添加到自己的`crontab.list`中。目前仅一个`jd_crazy_joy_coin.js`为挂机脚本。
-
-2020-12-24，增加导出互助码的一键脚本`export_sharecodes.sh`，老用户需要参考仓库的sample文件添加自己的cron方可使用。
 
 ## Star趋势
 
