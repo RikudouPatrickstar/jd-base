@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-27
-## Version： v3.3.11
+## Modified： 2021-01-03
+## Version： v3.3.13
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -16,18 +16,21 @@ fi
 if [ -z "${isDocker}" ]
 then
   ShellDir=$(cd $(dirname $0); pwd)
+  ShellJd=${ShellDir}/jd.sh
 else
   ShellDir=${JD_DIR}
+  ShellJd=jd
 fi
 
 LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
 
 ScriptsDir=${ShellDir}/scripts
-FileConf=${ShellDir}/config/config.sh
-FileDiy=${ShellDir}/config/diy.sh
+ConfigDir=${ShellDir}/config
+FileConf=${ConfigDir}/config.sh
+FileDiy=${ConfigDir}/diy.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
-ListCron=${ShellDir}/config/crontab.list
+ListCron=${ConfigDir}/crontab.list
 ListTask=${LogDir}/task.list
 ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
@@ -118,16 +121,16 @@ function Change_JoyRunPins {
     PinALL="${PinTempFormat},${PinALL}"
     let j--
   done
-  PinEvine="Evine,做一颗潇洒的蛋蛋,Evine007,jd_7bb2be8dbd65c,jd_664ecc3b78945,277548856_m,米大眼老鼠,jd_6dc4f1ed66423,梦回马拉多纳,"
+  PinEvine="Evine,做一颗潇洒的蛋蛋,Evine007,jd_7bb2be8dbd65c,jd_6fae2af082798,jd_664ecc3b78945,277548856_m,米大眼老鼠,jd_6dc4f1ed66423,梦回马拉多纳,"
   PinALL="${PinALL}${PinEvine}"
   perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|}" ${ScriptsDir}/jd_joy_run.js
 }
 
 ## 将我的invitecode加到脚本中
 function Change_InviteCode {
-  CodeHealth="'T007y7sqHksCjVUnoaW5kRrbA\@T032a0zZlJapLMZw9pdDQnOoo2clfysC8H5aCjVUnoaW5kRrbA\@T011y7sqHksZ9VMCjVUnoaW5kRrbA', 'T0225KkcRhgdoAeEI0jznP4OcQCjVUnoaW5kRrbA\@T015vPp0RRoR_VHRT0cCjVUnoaW5kRrbA', 'T0225KkcRkpK8QLWdU7ykvMIdwCjVUnoaW5kRrbA\@T024aG_llbW3LM1L9qFNQWOgo2QwCjVUnoaW5kRrbA'"
-  CodeZz="  'Sy7sqHks\@Sa0zZlJapLMZw9pdDQnOoo2clfysC8H5a\@S5KkcRhgdoAeEI0jznP4OcQ\@SvPp0RRoR_VHRT0c',\n  'S5KkcRkpK8QLWdU7ykvMIdw\@SaG_llbW3LM1L9qFNQWOgo2Qw\@SaXzwlYqOIvhb-KpFTXua\@Sy7sqHksZ9VM',"
-  CodeJoy=",\n  'i7J-rBjC1cY=\@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=\@TZaj4q_GSarkd-u40-hYJg==\@7ZiMxCUnP2Orfc3eWGgXhA==',\n  'ZKfuxUZxKdGbDxTmAHnqkqt9zd5YaBeE\@xWXlN8vLwpFOy71e_SEYsg==\@ym8TOcaoUTQnJZKpDzKWd6t9zd5YaBeE\@9_dxd9S1-R7nohQ1FGiupUGIzB-QNOGN'"
+  CodeHealth="'T007y7sqHksCjVUnoaW5kRrbA\@T032a0zZlJapLMZw9pdDQnOoo2clfysC8H5aCjVUnoaW5kRrbA\@T011y7sqHksZ9VMCjVUnoaW5kRrbA', 'T0225KkcRkhIoFaGdhr8lvADfACjVUnoaW5kRrbA\@T0225KkcRhgdoAeEI0jznP4OcQCjVUnoaW5kRrbA\@T015vPp0RRoR_VHRT0cCjVUnoaW5kRrbA', 'T0225KkcRkpK8QLWdU7ykvMIdwCjVUnoaW5kRrbA\@T024aG_llbW3LM1L9qFNQWOgo2QwCjVUnoaW5kRrbA'"
+  CodeZz="  'Sy7sqHks\@Sa0zZlJapLMZw9pdDQnOoo2clfysC8H5a\@S5KkcRhgdoAeEI0jznP4OcQ\@SvPp0RRoR_VHRT0c\@S5KkcRkhIoFaGdhr8lvADfA',\n  'S5KkcRkpK8QLWdU7ykvMIdw\@SaG_llbW3LM1L9qFNQWOgo2Qw\@SaXzwlYqOIvhb-KpFTXua\@Sy7sqHksZ9VM',"
+  CodeJoy=",\n  'i7J-rBjC1cY=\@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=\@TZaj4q_GSarkd-u40-hYJg==\@aEYNdH9WkHKZzdje-aDvWqt9zd5YaBeE\@7ZiMxCUnP2Orfc3eWGgXhA==',\n  'ZKfuxUZxKdGbDxTmAHnqkqt9zd5YaBeE\@xWXlN8vLwpFOy71e_SEYsg==\@ym8TOcaoUTQnJZKpDzKWd6t9zd5YaBeE\@9_dxd9S1-R7nohQ1FGiupUGIzB-QNOGN'"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" ${ScriptsDir}/jd_health.js
   perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+\n\])|\1${CodeZz}\n\2|" ${ScriptsDir}/jd_jdzz.js
   perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+)(\n\];?)|\1\2${CodeJoy}\3|" ${ScriptsDir}/jd_crazy_joy.js
@@ -183,7 +186,7 @@ function Notify_Version {
   then
     if [ ! -f ${SendCount} ]; then
       echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n当前版本: ${VerConf}\n新的版本: ${VerConfSample}\n更新内容: ${UpdateContent}\n\n如需使用新功能按该文件前几行注释操作，否则请无视本消息。\n" | tee ${ContentVersion}
-      echo -e "本消息只在该新版本配置文件更新当天发送一次。" >> ${ContentVersion}
+      echo -e "本消息只在该新版本配置文件更新当天发送一次，脚本地址：${ShellURL}" >> ${ContentVersion}
       cd ${ShellDir}
       node update.js
       if [ $? -eq 0 ]; then
@@ -213,10 +216,11 @@ function NpmInstallSub {
 
 ## 增加定时任务，Docker和物理机不同
 function Add_Cron {
-  if [ -z "${isDocker}" ]; then
-    grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node */scripts/(j[dr]_\w+)\.js.+|\1bash ${ShellDir}/jd.sh \2|"  >> ${ListCron}
+  if [[ ${Cron} == jd_bean_sign ]]
+  then
+      echo "4 0,9 * * * bash ${ShellJd} ${Cron}" >> ${ListCron}
   else
-    grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node */scripts/(j[dr]_\w+)\.js.+|\1bash jd \2|"  >> ${ListCron}
+      grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node */scripts/(j[dr]_\w+)\.js.+|\1bash ${ShellJd} \2|" >> ${ListCron}
   fi
 }
 
@@ -246,8 +250,8 @@ else
   echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
 fi
 
-if [ -n "${isDocker}" ] && [ -d ${ShellDir}/config ]; then
-  cp -f ${FileConfSample} ${ShellDir}/config/config.sh.sample
+if [ -n "${isDocker}" ] && [ -d ${ConfigDir} ]; then
+  cp -f ${FileConfSample} ${ConfigDir}/config.sh.sample
 fi
 
 ## 克隆或更新js脚本
@@ -334,7 +338,7 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${Lis
   crontab -l
   echo -e "\n--------------------------------------------------------------\n"
   if [ -d ${ScriptsDir}/node_modules ]; then
-    echo -e "jd-base脚本成功删除失效的定时任务：\n\n${JsDrop}" > ${ContentDropTask}
+    echo -e "jd-base脚本成功删除失效的定时任务：\n\n${JsDrop}\n\n脚本地址：${ShellURL}" > ${ContentDropTask}
     Notify_DropTask
   fi
 fi
@@ -358,7 +362,7 @@ if [ ${ExitStatusScripts} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
     crontab -l
     echo -e "\n--------------------------------------------------------------\n"
     if [ -d ${ScriptsDir}/node_modules ]; then
-      echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}" > ${ContentNewTask}
+      echo -e "jd-base脚本成功添加新的定时任务：\n\n${JsAdd}\n\n脚本地址：${ShellURL}" > ${ContentNewTask}
       Notify_NewTask
     fi
   else
