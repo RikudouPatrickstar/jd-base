@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-30
-## Version： v3.6.0
+## Modified： 2021-01-05
+## Version： v3.6.1
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -165,6 +165,11 @@ function Help {
   echo -e "${ListScripts}\n"
 }
 
+## nohup
+function Run_Nohup {
+  nohup node ${js}.js > ${LogFile} &
+}
+
 ## 运行挂机脚本
 function Run_HangUp {
   Import_Conf && Detect_Cron && Set_Env
@@ -188,7 +193,7 @@ function Run_HangUp {
     [ ! -d ${LogDir}/${js} ] && mkdir -p ${LogDir}/${js}
     LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
     LogFile="${LogDir}/${js}/${LogTime}.log"
-    nohup node ${js}.js > ${LogFile} &
+    Run_Nohup >/dev/null 2>&1
   done
 }
 
