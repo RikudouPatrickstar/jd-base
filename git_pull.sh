@@ -219,7 +219,7 @@ function Npm_Install {
   cd ${ScriptsDir}
   if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
     echo -e "运行 npm install...\n"
-    NpmInstallSub
+    Npm_InstallSub
     if [ $? -ne 0 ]; then
       echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules 后再次尝试一遍..."
       rm -rf ${ScriptsDir}/node_modules
@@ -229,7 +229,7 @@ function Npm_Install {
 
   if [ ! -d ${ScriptsDir}/node_modules ]; then
     echo -e "运行 npm install...\n"
-    NpmInstallSub
+    Npm_InstallSub
     if [ $? -ne 0 ]; then
       echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n"
       echo -e "请进入 ${ScriptsDir} 目录后按照wiki教程手动运行 npm install...\n"
