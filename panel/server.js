@@ -1,4 +1,4 @@
-  
+
 /*
  * @Author: Jerrykuku https://github.com/jerrykuku
  * @Date: 2021-1-6
@@ -14,16 +14,16 @@ const e = require('express');
 
 
 // config.sh 文件所在目录
-var confDir = '/jd/config/';
+var confDir = '../config/';
 var confFile = confDir + 'config.sh';
 // config.sh.sample 文件所在目录
-var sampleDir = '/jd/sample/';
+var sampleDir = '../sample/';
 var sampleFile = sampleDir + 'config.sh.sample';
 
-var crontabFile = '/jd/config/crontab.list';
+var crontabFile = '../config/crontab.list';
 // config.sh 文件备份目录
 var confBakDir = confDir + 'bak/';
-var authConfigFile = '/jd/config/config.json';
+var authConfigFile = '../config/auth.json';
 
 var authError = "错误的用户名密码，请重试";
 var loginFaild = "请先登录!";
@@ -114,7 +114,7 @@ app.get('/', function (request, response) {
     if (request.session.loggedin) {
         response.redirect('/home');
     } else {
-        response.sendFile(path.join(__dirname + '/public/login.html'));
+        response.sendFile(path.join(__dirname + '/public/auth.html'));
     }
 });
 
@@ -150,7 +150,7 @@ app.get('/api/config/:key', function (request, response) {
                 default:
                     break;
             }
-
+            response.setHeader("Content-Type", "text/plain");
             response.send(content);
         } else {
             response.send("no config");
@@ -268,7 +268,7 @@ app.post('/api/save', function (request, response) {
     if (request.session.loggedin) {
         let postContent = request.body.content;
         let postfile = request.body.name;
-        saveNewConf(postfile,postContent);
+        saveNewConf(postfile, postContent);
         content = 'config.sh 保存成功! 将自动刷新页面查看修改后的 config.sh 文件';
         response.send(content);
     } else {
@@ -277,4 +277,8 @@ app.post('/api/save', function (request, response) {
     response.end();
 });
 
-app.listen(5678);
+checkConfigFile()
+
+app.listen(5678, () => {
+    console.log('示应用正在监听 5678 端口!');
+});
