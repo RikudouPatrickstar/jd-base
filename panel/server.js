@@ -12,18 +12,15 @@ var path = require('path');
 var fs = require('fs');
 const e = require('express');
 
-
+var rootPath = path.resolve(__dirname, '..')
 // config.sh 文件所在目录
-var confDir = '../config/';
-var confFile = confDir + 'config.sh';
+var confFile = path.join(rootPath,'config/config.sh');
 // config.sh.sample 文件所在目录
-var sampleDir = '../sample/';
-var sampleFile = sampleDir + 'config.sh.sample';
-
-var crontabFile = '../config/crontab.list';
+var sampleFile = path.join(rootPath,'sample/config.sh.sample');
+var crontabFile = path.join(rootPath,'config/crontab.list');
 // config.sh 文件备份目录
-var confBakDir = confDir + 'bak/';
-var authConfigFile = '../config/auth.json';
+var confBakDir = path.join(rootPath,'config/bak/');;
+var authConfigFile = path.join(rootPath,'config/auth.json');
 
 var authError = "错误的用户名密码，请重试";
 var loginFaild = "请先登录!";
@@ -280,5 +277,5 @@ app.post('/api/save', function (request, response) {
 checkConfigFile()
 
 app.listen(5678, () => {
-    console.log('示应用正在监听 5678 端口!');
+    console.log('应用正在监听 5678 端口!');
 });
