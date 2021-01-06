@@ -1,3 +1,5 @@
+panel/node_modules*
+panel/yarn.lock
 scripts*
 log*
 config*
