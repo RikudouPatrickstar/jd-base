@@ -1,7 +1,7 @@
 FROM node:lts-alpine
 LABEL maintainer="Evine Deng <evinedeng@foxmail.com>"
 ARG JD_BASE_URL=https://github.com/EvineDeng/jd-base
-ARG JD_BASE_BRANCH=v3
+ARG JD_BASE_BRANCH=dev
 ARG JD_SCRIPTS_URL=https://github.com/lxk0301/jd_scripts
 ARG JD_SCRIPTS_BRANCH=master
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
