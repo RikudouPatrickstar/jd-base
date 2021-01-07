@@ -122,7 +122,7 @@ requestPromise(mGet)
                 // console.log("s_pin:" + s_pin);
                 cookies = "TrackerID=" + TrackerID + "; pt_key=" + pt_key + "; pt_pin=" + pt_pin + "; pt_token=" + pt_token + "; pwdt_id=" + pwdt_id + "; s_key=" + s_key + "; s_pin=" + s_pin + "; wq_skey="
                 // console.log("cookies:" + cookies);
-                var cookie1 = "pt_key:" + pt_key + ";pt_pin:" + pt_pin + ";";
+                var cookie1 = "pt_key=" + pt_key + ";pt_pin=" + pt_pin + ";";
 
                 console.log("\n############  登录成功，获取到 Cookie  #############\n\n");
                 console.log('Cookie1="' + cookie1 + '"\n');
