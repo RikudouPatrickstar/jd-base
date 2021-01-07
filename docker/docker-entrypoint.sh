@@ -17,6 +17,7 @@ echo -e "更新shell脚本，原地址：${ShellURL}\n"
 cd ${JD_DIR}
 git fetch --all
 git reset --hard origin/v3
+echo
 
 if [ -d ${JD_DIR}/scripts/.git ]; then
   echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
@@ -75,8 +76,9 @@ else
 fi
 
 echo -e "========================4. 启动控制面板========================\n"
-pm2 start ${JD_DIR}/panel/server.js
-echo -e "控制面板启动成功..."
+cd ${JD_DIR}/panel
+pm2 start server.js
+echo -e "控制面板启动成功...\n"
 echo -e "如未修改用户名密码，则初始用户名为：admin，初始密码为：adminadmin\n"
 echo -e "请访问 http://<ip>:5678 登陆并修改配置...\n"
 
