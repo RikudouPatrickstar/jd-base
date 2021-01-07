@@ -2,7 +2,32 @@
 set -e
 
 echo -e "\n========================1. 更新源代码========================\n"
-bash git_pull
+
+isGithub=$(grep "github" "${JD_DIR}/.git/config")
+isGitee=$(grep "gitee" "${JD_DIR}/.git/config")
+
+if [ -n "${isGithub}" ]; then
+  ScriptsURL=https://github.com/lxk0301/jd_scripts
+  ShellURL=https://github.com/EvineDeng/jd-base
+elif [ -n "${isGitee}" ]; then
+  ScriptsURL=https://gitee.com/lxk0301/jd_scripts
+  ShellURL=https://gitee.com/evine/jd-base
+fi
+echo -e "更新shell脚本，原地址：${ShellURL}\n"
+cd ${JD_DIR}
+git fetch --all
+git reset --hard origin/v3
+
+if [ -d ${JD_DIR}/scripts/.git ]; then
+  echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
+  cd ${JD_DIR}/scripts
+  git fetch --all
+  git reset --hard origin/master
+else
+  echo -e "克隆JS脚本，原地址：${ScriptsURL}\n"
+  git clone -b master ${ScriptsURL} ${JD_DIR}/scripts
+fi
+echo
 [ ! -d ${JD_DIR}/log ] && mkdir -p ${JD_DIR}/log
 crond
 
