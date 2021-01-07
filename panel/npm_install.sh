@@ -2,7 +2,7 @@
 
 ## 将 package.json 需要的包在 scripts 目录执行
 
-cd ../scripts
+cd ${JD_DIR}/scripts
 npm install body-parser@1.19.0
 npm install express@^4.17.1
 npm install express-session@^1.17.1
