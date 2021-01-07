@@ -9,6 +9,8 @@
 const requestPromise = require('request-promise');
 const qrcode = require('qrcode-terminal');
 
+console.log("正在获取二维码，请打开京东 APP 准备扫码登录\n");
+
 var s_token, cookies, guid, lsid, lstoken, okl_token, token
 var timeStamp = (new Date()).getTime()
 var mGet = {
@@ -36,8 +38,8 @@ requestPromise(mGet)
     lstoken = response.headers['set-cookie'][3]
     lstoken = lstoken.substring(lstoken.indexOf("=") + 1, lstoken.indexOf(";"))
     cookies = "guid=" + guid + "; lang=chs; lsid=" + lsid + "; lstoken=" + lstoken + "; "
-    console.log("s_token:" + s_token);
-    console.log("cookies:" + cookies);
+    // console.log("s_token:" + s_token);
+    // console.log("cookies:" + cookies);
     timeStamp = (new Date()).getTime()
     var mPost = {
       method: 'POST',
@@ -66,11 +68,10 @@ requestPromise(mGet)
         token = response.body.token
         okl_token = response.headers['set-cookie'][0]
         okl_token = okl_token.substring(okl_token.indexOf("=") + 1, okl_token.indexOf(";"))
-        console.log("token:" + token);
-        console.log("okl_token:" + okl_token);
+        // console.log("token:" + token);
+        // console.log("okl_token:" + okl_token);
 
         var mInterval = setInterval(function(){
-          console.log('检查是否扫码成功……');
           timeStamp = (new Date()).getTime()
           var mPostCheck = {
             method: 'POST',
@@ -92,7 +93,7 @@ requestPromise(mGet)
             json: true, // Automatically stringifies the body to JSON
             resolveWithFullResponse: true
           };
-          console.log(mPostCheck.uri)
+          // console.log(mPostCheck.uri)
           requestPromise(mPostCheck)
             .then(function (response) {
               // console.log(response)
@@ -112,16 +113,21 @@ requestPromise(mGet)
                 s_key = s_key.substring(s_key.indexOf("=") + 1, s_key.indexOf(";"))
                 var s_pin = response.headers['set-cookie'][6]
                 s_pin = s_pin.substring(s_pin.indexOf("=") + 1, s_pin.indexOf(";"))
-                console.log("TrackerID:" + TrackerID);
-                console.log("pt_key:" + pt_key);
-                console.log("pt_pin:" + pt_pin);
-                console.log("pt_token:" + pt_token);
-                console.log("pwdt_id:" + pwdt_id);
-                console.log("s_key:" + s_key);
-                console.log("s_pin:" + s_pin);
+                // console.log("TrackerID:" + TrackerID);
+                // console.log("pt_key:" + pt_key);
+                // console.log("pt_pin:" + pt_pin);
+                // console.log("pt_token:" + pt_token);
+                // console.log("pwdt_id:" + pwdt_id);
+                // console.log("s_key:" + s_key);
+                // console.log("s_pin:" + s_pin);
                 cookies = "TrackerID=" + TrackerID + "; pt_key=" + pt_key + "; pt_pin=" + pt_pin + "; pt_token=" + pt_token + "; pwdt_id=" + pwdt_id + "; s_key=" + s_key + "; s_pin=" + s_pin + "; wq_skey="
-                console.log("cookies:" + cookies);
-                console.log("这是脚本需要的 Cookie1=\"pt_key:" + pt_key + ";pt_pin:" + pt_pin + ";\"");
+                // console.log("cookies:" + cookies);
+                var cookie1 = "pt_key:" + pt_key + ";pt_pin:" + pt_pin + ";";
+
+                console.log("\n############  登录成功，获取到 Cookie  #############\n\n");
+                console.log('Cookie1="' + cookie1 + '"\n');
+                console.log("\n####################################################\n\n");
+
                 var mGet = {
                   uri: 'https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2&g_login_type=1&callback=',
                   headers: {
@@ -137,8 +143,7 @@ requestPromise(mGet)
                 };
                 requestPromise(mGet)
                   .then(function (response) {
-                    console.log('当前登录用户信息');
-                    console.log(response.body.base);
+                    console.log("当前登录用户昵称：" + response.body.base.nickname);
                   })
               }
             })
@@ -146,7 +151,6 @@ requestPromise(mGet)
 
         var url = 'https://plogin.m.jd.com/cgi-bin/m/tmauth?appid=300&client_type=m&token=' + token;
         qrcode.generate(url,{small:true}); // 输出二维码
-        console.log('打开京东 APP 扫码登录，自动获取 cookie');
-
+        console.log("请扫码登录，正在检测是否扫码成功（每 3 秒检测一次）……");
       })
   })
