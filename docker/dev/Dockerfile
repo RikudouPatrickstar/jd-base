@@ -26,13 +26,12 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone \
     && git clone -b ${JD_BASE_BRANCH} ${JD_BASE_URL} ${JD_DIR} \
+    && cd ${JD_DIR}/panel \
+    && npm install \
     && git clone -b ${JD_SCRIPTS_BRANCH} ${JD_SCRIPTS_URL} ${JD_DIR}/scripts \
     && cd ${JD_DIR}/scripts \
     && npm install \
     && npm install -g pm2 \
-    && cd ${JD_DIR}/panel \
-    && bash npm_install.sh \
-    && ln -sf ${JD_DIR}/scripts/node_modules ${JD_DIR}/panel/node_modules \
     && ln -sf ${JD_DIR}/jd.sh /usr/local/bin/jd \
     && ln -sf ${JD_DIR}/git_pull.sh /usr/local/bin/git_pull \
     && ln -sf ${JD_DIR}/rm_log.sh /usr/local/bin/rm_log \
