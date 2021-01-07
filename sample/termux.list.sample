@@ -19,13 +19,15 @@ PATH=/data/data/com.termux/files/usr/bin
 28 5 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_bean_home
 4 0,9 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_bean_sign
 0,30 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_blueCoin
-0 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car
+19 8 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car
+0 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car_exchange
 2 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_club_lottery
 27 13 * * * bash bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_crazy_joy
 #36 9 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_ds  #限学生认证用户，如果你是，请自己解除注释
 54 2-23/3 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_daily_egg
 20 * * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_dreamFactory
 29 7,12,18 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_fruit
+7 7 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_get_share_code
 36 * * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_jdfactory
 14 11 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_jdzz
 6 0,8,9,13,18,22 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_joy
