@@ -1,7 +1,8 @@
 name: "JD Docker Image Buildx Dev"
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - build2
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,5 +18,5 @@ jobs:
           dockerFile: docker/dev/Dockerfile
           platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
           tag: unstable
-          dockerHubUser: ${{ secrets.DOCKER_USERNAME }}
-          dockerHubPassword: ${{ secrets.DOCKER_PASSWORD }}
+          dockerUser: ${{ secrets.DOCKER_USERNAME }}
+          dockerPassword: ${{ secrets.DOCKER_PASSWORD }}

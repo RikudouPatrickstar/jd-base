@@ -18,14 +18,14 @@ async function update() {
     if (fs.existsSync('new_task')) {
       const newTaskContent = await fs.readFileSync('./new_task', 'utf8');
       if (newTaskContent) {
-        await notify.sendNotify('新增薅羊毛脚本通知', newTaskContent);
+        await notify.sendNotify('新增薅羊毛任务通知', newTaskContent);
       }
     }
 
     if (fs.existsSync('drop_task')) {
       const dropTaskContent = await fs.readFileSync('./drop_task', 'utf8');
       if (dropTaskContent) {
-        await notify.sendNotify('删除失效脚本通知', dropTaskContent);
+        await notify.sendNotify('删除失效任务通知', dropTaskContent);
       }
     }
 

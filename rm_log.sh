@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-22
-## Version： v3.0.4
+## Modified： 2021-01-03
+## Version： v3.2.1
 
 ## 判断环境
 if [ -f /proc/1/cgroup ]
@@ -25,10 +25,8 @@ LogDir=${ShellDir}/log
 ## 导入配置文件
 . ${ShellDir}/config/config.sh
 
-## 删除日志
-if [ -n "${RmLogDaysAgo}" ]; then
-
-  ## 删除运行js脚本的旧日志
+## 删除运行js脚本的旧日志
+function Rm_JsLog {
   LogFileList=$(ls -l ${LogDir}/*/*.log | awk '{print $9}')
   for log in ${LogFileList}
   do
@@ -41,10 +39,34 @@ if [ -n "${RmLogDaysAgo}" ]; then
     fi
     [ ${DiffTime} -gt $((${RmLogDaysAgo} * 86400)) ] && rm -vf ${log}
   done
+}
 
-  # 删除git_pull.sh的运行日志
-  DateDelLog=$(date "+%Y-%m-%d" -d "${RmLogDaysAgo} days ago")
-  LineEndGitPull=$[$(cat ${LogDir}/git_pull.log | grep -n "系统时间：${DateDelLog}" | head -1 | awk -F ":" '{print $1}') - 3]
-  perl -i -ne "{print unless 1 .. ${LineEndGitPull} }" ${LogDir}/git_pull.log
+## 删除git_pull.sh的运行日志
+function Rm_GitPullLog {
+  if [[ $(uname -s) == Darwin ]]
+  then
+    DateDelLog=$(date -v-${RmLogDaysAgo}d "+%Y-%m-%d")
+  else
+    DateDelLog=$(date "+%Y-%m-%d" -d "${RmLogDaysAgo} days ago")
+  fi
+  LineEndGitPull=$[$(cat ${LogDir}/git_pull.log | grep -n "${DateDelLog} " | head -1 | awk -F ":" '{print $1}') - 3]
+  [ ${LineEndGitPull} -gt 0 ] && perl -i -ne "{print unless 1 .. ${LineEndGitPull} }" ${LogDir}/git_pull.log
+}
 
+## 删除空文件夹
+function Rm_EmptyDir {
+  cd ${LogDir}
+  for dir in $(ls)
+  do
+    if [ -d ${dir} ] && [[ $(ls ${dir}) == "" ]]; then
+      rm -rf ${dir}
+    fi
+  done
+}
+
+## 运行
+if [ -n "${RmLogDaysAgo}" ]; then
+  Rm_JsLog
+  Rm_GitPullLog
+  Rm_EmptyDir
 fi

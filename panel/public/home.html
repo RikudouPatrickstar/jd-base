@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>在线编辑工具</title>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/codemirror.min.js"></script>
+    <script type="text/javascript" src="./js/shell.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/codemirror.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/twilight.css">
+    <link rel="stylesheet" type="text/css" href="./css/dracula.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="diffs">
+            <nav>
+                <ul>
+                    <li class="active"><a href="/home" >首页</a></li>
+                    <li><a href="/crontab" >定时设定</a></li>
+                    <li><a href="/diff" >对比工具</a></li>
+                    <li><a href="/changepwd" >修改密码</a></li>
+                    <li><a href="/logout" >退出</a></li>
+                </ul>
+            </nav>
+            <header>
+                <h1>在线编辑工具</h1>
+                <button id="save" title="保存">保存 config.sh</button>
+                <button id="cookietools" title="下载" onclick="window.location.href='./JDCookie.zip'">cookie工具</button>
+                <button id="jdlink" title="访问京东" onclick="javascript:window.open('https://bean.m.jd.com','target');">京东链接</button>
+            </header>
+            <p> 点击上面的按钮安装下载获取cookie工具，解压后在[chrome://extensions/]中使用加载已解压的扩展程序进行安装。（请使用F12调试工具，进入模拟手机浏览器模式获取cookie）</p>
+            <h4>config.sh</h4>
+            
+            <div class="wrapper">
+                    <textarea id="code" name="code"></textarea>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                lineNumbers: true,
+                lineWrapping: true,
+                styleActiveLine: true,
+                matchBrackets: true,
+                mode: 'shell',
+                theme: 'dracula'
+            });
+
+            $.get("/api/config/config", function (data) {
+                editor.setValue(data);
+            });
+            
+            $('#save').click(function () {
+                var confContent = editor.getValue();
+                $.post('/api/save', {content:confContent,name:"config.sh"}, function (data) {
+                    alert(data);
+                    window.location.reload(true);
+                });
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
