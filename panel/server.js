@@ -18,6 +18,7 @@ var rootPath = path.resolve(__dirname, '..')
 var confFile = path.join(rootPath,'config/config.sh');
 // config.sh.sample 文件所在目录
 var sampleFile = path.join(rootPath,'sample/config.sh.sample');
+// crontab.list 文件所在目录
 var crontabFile = path.join(rootPath,'config/crontab.list');
 // config.sh 文件备份目录
 var confBakDir = path.join(rootPath,'config/bak/');;
@@ -237,6 +238,8 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 /**
