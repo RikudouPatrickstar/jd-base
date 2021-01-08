@@ -237,10 +237,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.json({limit: '10mb'}));
-app.use(bodyParser.urlencoded({limit: '10mb', extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 /**
