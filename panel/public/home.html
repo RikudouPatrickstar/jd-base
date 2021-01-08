@@ -62,8 +62,8 @@
                 mode: 'shell',
                 theme: 'dracula'
             });
-
-            $.get("/api/config/config", function (data) {
+            let timeStamp = (new Date()).getTime()
+            $.get("/api/config/config?t="+timeStamp, function (data) {
                 editor.setValue(data);
             });
 
@@ -86,7 +86,8 @@
 
             function checkLogin() {
                 var timeId = setInterval(() => {
-                    $.get('/cookie', function (data) {
+                    let timeStamp = (new Date()).getTime()
+                    $.get('/cookie?t='+timeStamp, function (data) {
                         if (data.err == 0) {
                             clearInterval(timeId)
                             $("#qrcontainer").addClass("hidden")
@@ -112,7 +113,8 @@
             }
 
             function get_code() {
-                $.get('/qrcode', function (data) {
+                let timeStamp = (new Date()).getTime()
+                $.get('/qrcode?t='+timeStamp, function (data) {
                     if (data.err == 0) {
                         $("#qrcontainer").removeClass("hidden")
                         $("#refresh_qrcode").addClass("hidden")
@@ -134,7 +136,8 @@
 
             $('#save').click(function () {
                 var confContent = editor.getValue();
-                $.post('/api/save', { content: confContent, name: "config.sh" }, function (data) {
+                let timeStamp = (new Date()).getTime()
+                $.post('/api/save?t='+timeStamp, { content: confContent, name: "config.sh" }, function (data) {
                     let icon = (data.err == 0) ? "success" : "error"
                     Swal.fire({
                         title:data.title,

@@ -23,9 +23,10 @@
 
 	<script>
 		$("#login").click(function () {
+			let timeStamp = (new Date()).getTime()
 			$user = $(".username").val();
 			$password = $(".password").val();
-			$.post('/auth', { username: $user, password: $password }, function (data) {
+			$.post('/auth?t='+timeStamp, { username: $user, password: $password }, function (data) {
 				if (data.err == 0) {
 					window.location.href = "/home";
 				} else {

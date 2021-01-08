@@ -47,14 +47,15 @@
                 mode: 'shell',
                 theme: 'dracula'
             });
-
-            $.get("/api/config/crontab", function (data) {
+            let timeStamp = (new Date()).getTime()
+            $.get("/api/config/crontab?t="+timeStamp, function (data) {
                 editor.setValue(data);
             });
 
             $('#save').click(function () {
                 var confContent = editor.getValue();
-                $.post('/api/save', { content: confContent, name: "crontab.list" }, function (data) {
+                let timeStamp = (new Date()).getTime()
+                $.post('/api/save?t='+timeStamp, { content: confContent, name: "crontab.list" }, function (data) {
                     let icon = (data.err == 0) ? "success" : "error"
                     Swal.fire({
                         title:data.title,
