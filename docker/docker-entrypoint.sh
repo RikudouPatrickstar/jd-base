@@ -17,6 +17,7 @@ echo -e "更新shell脚本，原地址：${ShellURL}\n"
 cd ${JD_DIR}
 git fetch --all
 git reset --hard origin/v3
+echo
 
 if [ -d ${JD_DIR}/scripts/.git ]; then
   echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
@@ -57,6 +58,7 @@ then
   if [ ! -s ${JD_DIR}/config/auth.json ]; then
     echo -e "检测到config配置目录下不存在auth.json，从示例文件复制一份用于始化...\n"
     cp -fv ${JD_DIR}/sample/auth.json ${JD_DIR}/config/auth.json
+    echo
   fi
 
 else
@@ -65,12 +67,18 @@ else
 fi
 
 echo -e "========================3. 启动挂机程序========================\n"
-bash jd hangup >/dev/null 2>&1
-echo -e "挂机程序启动成功...\n"
+. ${JD_DIR}/config/config.sh
+if [ -n "${Cookie1}" ]; then
+  bash jd hangup >/dev/null 2>&1
+  echo -e "挂机程序启动成功...\n"
+else
+  echo -e "config.sh中还未填入有效的Cookie，可能是首次部署容器，因此不启动挂机程序...\n"
+fi
 
 echo -e "========================4. 启动控制面板========================\n"
-pm2 start ${JD_DIR}/panel/server.js
-echo -e "控制面板启动成功..."
+cd ${JD_DIR}/panel
+pm2 start server.js
+echo -e "控制面板启动成功...\n"
 echo -e "如未修改用户名密码，则初始用户名为：admin，初始密码为：adminadmin\n"
 echo -e "请访问 http://<ip>:5678 登陆并修改配置...\n"
 

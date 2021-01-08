@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-07
-## Version： v3.6.2
+## Version： v3.6.3
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -22,7 +22,6 @@ fi
 
 ScriptsDir=${ShellDir}/scripts
 ConfigDir=${ShellDir}/config
-PanelDir=${ShellDir}/panel
 FileConf=${ConfigDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
@@ -210,11 +209,6 @@ function Reset_Pwd {
   echo -e "控制面板重置成功，用户名：admin，密码：adminadmin\n"
 }
 
-## 京东 APP 扫码获取 Cookie
-function Run_JDCookie {
-  node ${PanelDir}/jd_cookie.js
-}
-
 ## 运行京东脚本
 function Run_Normal {
   Import_Conf && Detect_Cron && Set_Env
@@ -263,8 +257,6 @@ case $# in
       Run_HangUp
     elif [[ $1 == resetpwd ]]; then
       Reset_Pwd
-    elif [[ $1 == cookie ]]; then
-      Run_JDCookie
     else
       Run_Normal $1
     fi

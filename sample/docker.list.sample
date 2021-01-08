@@ -12,17 +12,20 @@
 
 # 运行lxk0301大佬的js脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务。
 # 请保留任务名称中的前缀"jd_"，去掉后缀".js"，如果有些任务你不想运行，注释掉就好了，不要删除。
+# 请在最后保留一个空行。
 5 9 * * * bash jd jd_bean_change
 28 5 * * * bash jd jd_bean_home
 4 0,9 * * * bash jd jd_bean_sign
 0,30 0 * * * bash jd jd_blueCoin
-0 0 * * * bash jd jd_car
+7 37 * * * bash jd jd_car
+0 0 * * * bash jd jd_car_exchange
 2 0 * * * bash jd jd_club_lottery
 43 13 * * * bash jd jd_crazy_joy
 #36 9 * * * bash jd jd_ds  #限学生认证用户，如果你是，请自己解除注释
 54 2-23/3 * * * bash jd jd_daily_egg
 20 * * * * bash jd jd_dreamFactory
 29 7,12,18 * * * bash jd jd_fruit
+49 6 * * * bash jd jd_get_share_code
 36 * * * * bash jd jd_jdfactory
 14 11 * * * bash jd jd_jdzz
 6 0,8,9,13,18,22 * * * bash jd jd_joy
