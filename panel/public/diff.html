@@ -9,6 +9,7 @@
     <script type="text/javascript" src="./js/codemirror.min.js"></script>
     <script type="text/javascript" src="./js/shell.js"></script>
     <script type="text/javascript" src="./js/mergely.js"></script>
+    <script type="text/javascript" src="./js/sweetalert2.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/codemirror.min.css">
     <link rel="stylesheet" type="text/css" href="./css/mergely.css">
     <link rel="stylesheet" type="text/css" href="./css/twilight.css">
@@ -104,8 +105,14 @@
         $('#save').click(function () {
             var confContent = comp.mergely('get', 'lhs');
             $.post('/api/save', { content: confContent, name: "config.sh" }, function (data) {
-                alert(data);
-                window.location.reload(true);
+                let icon = (data.err == 0) ? "success" : "error"
+                    Swal.fire({
+                        title:data.title,
+                        text: data.msg,
+                        icon: icon
+                    }).then((result) => {
+                        window.location.reload(true);
+                    })
             });
         });
     </script>
