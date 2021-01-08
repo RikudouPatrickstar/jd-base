@@ -2,7 +2,7 @@ body,
 html {
     margin: 0;
     padding: 0;
-    
+
 }
 
 h1,
@@ -11,9 +11,11 @@ ul {
     font-size: 1.5rem;
     padding-right: 1rem;
 }
-h4{
+
+h4 {
     margin-top: 0.5em;
 }
+
 nav ul {
     margin: 0;
     padding: 0;
@@ -136,6 +138,70 @@ nav .active a {
     color: #ffffff;
 }
 
+#qrcontainer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, .8);
+    text-align: center;
+    transition: all 0.3s;
+}
+#qrcontainer.hidden{
+    opacity: 0;
+    visibility: hidden;
+}
+
+#qrcontainer .qframe {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: #6D8A88 1px solid;
+    -webkit-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+#qrcontainer .qframe #refresh_qrcode{
+    width: 256px;
+    height: 256px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    left: 1rem;
+    top: 1rem;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#qrcontainer .qframe #refresh_qrcode.hidden{
+    opacity: 0;
+    visibility: hidden;
+}
+#qrcontainer .qframe #refresh_qrcode h3{
+    font-weight: normal;
+}
+#qrcontainer .qframe #refresh_qrcode .refresh{
+    display: block;
+    background: #e4393c;
+    width: 80px;
+    height: 30px;
+    margin: 0 auto;
+    line-height: 30px;
+    opacity: 1;
+    z-index: 19;
+    color: #fbfbfb;
+    text-decoration: none;
+    cursor: pointer;
+}
+#qrcontainer .qframe .info {
+    padding: 1rem 0 0 0;
+}
+
 @media screen and (max-width: 480px) {
 
     nav ul li a:link,
@@ -146,6 +212,7 @@ nav .active a {
         margin: 0;
 
     }
+
     .container p {
         font-size: 0.75rem;
         margin: 0;
