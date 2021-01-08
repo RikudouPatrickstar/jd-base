@@ -22,6 +22,7 @@ var sampleFile = path.join(rootPath,'sample/config.sh.sample');
 var crontabFile = path.join(rootPath,'config/crontab.list');
 // config.sh 文件备份目录
 var confBakDir = path.join(rootPath,'config/bak/');;
+// auth.json 文件目录
 var authConfigFile = path.join(rootPath,'config/auth.json');
 
 var authError = "错误的用户名密码，请重试";
