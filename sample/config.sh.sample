@@ -1,6 +1,6 @@
-## Version: v3.8.0
-## Date: 2020-12-30
-## Update Content: 增加企业微信应用消息推送QYWX_AM的变量。
+## Version: v3.9.0
+## Date: 2021-01-08
+## Update Content: 增加疯狂的JOY自动购买什么等级的JOY的变量（BUY_JOY_LEVEL）；其他更新：可从直接控制面板扫码登陆获取有效三个月的Cookie（By FanchangWang & jerrykuku），Docker版增加挂机程序和控制面板的控制开关。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/EvineDeng/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -21,7 +21,8 @@
 
 ################################## 定义Cookie（必填） ##################################
 ## 请依次填入每个用户的Cookie，Cookie的具体形式（只有pt_key字段和pt_pin字段，没有其他字段）：pt_key=xxxxxxxxxx;pt_pin=xxxx;
-## 获取Cookie的具体教程：https://github.com/lxk0301/jd_scripts/wiki/GetCookies
+## 1. 如果是通过控制面板编辑本文件，点击页面上方“扫码获取Cookie”即可获取，此方式获取的Cookie有效期为3个月
+## 2. 还可以通过浏览器开发工具获取，此方式获得的Cookie只有1个月有效期，教程：https://github.com/lxk0301/jd_scripts/wiki/GetCookies
 ## 必须按数字顺序1、2、3、4...依次编号下去，例子只有6个，超出6个你继续往下编号即可
 ## 不允许有汉字，如果ID有汉字，请在PC浏览器上获取Cookie，会自动将汉字转换为URL编码
 Cookie1=""
@@ -67,38 +68,38 @@ RandomDelay="300"
 
 ################################## 定义通知TOKEN（选填） ##################################
 ## 想通过什么渠道收取通知，就填入对应渠道的值
-## ServerChan，教程：http://sc.ftqq.com/3.version
+## 1. ServerChan，教程：http://sc.ftqq.com/3.version
 export PUSH_KEY=""
 
-## 1. BARK，教程（看BARK_PUSH和BARK_SOUND的说明）：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
+## 2. BARK，教程（看BARK_PUSH和BARK_SOUND的说明）：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
 export BARK_PUSH=""
 export BARK_SOUND=""
 
-## 2. Telegram，如需使用，TG_BOT_TOKEN和TG_USER_ID必须同时赋值，教程：https://github.com/lxk0301/jd_scripts/blob/master/backUp/TG_PUSH.md
+## 3. Telegram，如需使用，TG_BOT_TOKEN和TG_USER_ID必须同时赋值，教程：https://github.com/lxk0301/jd_scripts/blob/master/backUp/TG_PUSH.md
 export TG_BOT_TOKEN=""
 export TG_USER_ID=""
 
-## 3. 钉钉，教程（看DD_BOT_TOKEN和DD_BOT_SECRET部分）：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
+## 4. 钉钉，教程（看DD_BOT_TOKEN和DD_BOT_SECRET部分）：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
 export DD_BOT_TOKEN=""
 export DD_BOT_SECRET=""
 
-## 4. iGot聚合推送，支持多方式推送，填写iGot的推送key。教程：https://wahao.github.io/Bark-MP-helper/#/
+## 5. iGot聚合推送，支持多方式推送，填写iGot的推送key。教程：https://wahao.github.io/Bark-MP-helper/#/
 export IGOT_PUSH_KEY=""
 
-## 5. 酷推(Cool Push)，向QQ发送推送消息，参考文档：https://cp.xuthus.cc ，其中QQ_MODE的可选项有：send(默认值),group,wx
+## 6. 酷推(Cool Push)，向QQ发送推送消息，参考文档：https://cp.xuthus.cc ，其中QQ_MODE的可选项有：send(默认值),group,wx
 export QQ_SKEY=""
 export QQ_MODE=""
 
-## 6. Push Plus，微信扫码登录后一对一推送或一对多推送，参考文档：http://pushplus.hxtrip.com/
+## 7. Push Plus，微信扫码登录后一对一推送或一对多推送，参考文档：http://pushplus.hxtrip.com/
 ## 其中PUSH_PLUS_USER是一对多推送的“群组编码”（一对多推送下面->您的群组(如无则新建)->群组编码）注:(1、需订阅者扫描二维码 2、如果您是创建群组所属人，也需点击“查看二维码”扫描绑定，否则不能接受群组消息推送)，只填PUSH_PLUS_TOKEN默认为一对一推送
 export PUSH_PLUS_TOKEN=""
 export PUSH_PLUS_USER=""
 
-## 7. 企业微信机器人消息推送 webhook 后面的 key，文档：https://work.weixin.qq.com/api/doc/90000/90136/91770
+## 8. 企业微信机器人消息推送 webhook 后面的 key，文档：https://work.weixin.qq.com/api/doc/90000/90136/91770
 export QYWX_KEY=""
 
-## 8. 企业微信应用消息推送的值，文档：https://work.weixin.qq.com/api/doc/90000/90135/90236 
-## 依次填上corpid的值,corpsecret的值,touser的值,agentid的值，注意用,号隔开，例如："wwcff56746d9adwers,B-791548lnzXBE6_BWfxdf3kSTMJr9vFEPKAbh6WERQ,mingcheng,1000001"
+## 9. 企业微信应用消息推送的值，见https://github.com/lxk0301/jd_scripts/issues/519，文档：https://work.weixin.qq.com/api/doc/90000/90135/90236 
+## 依次填上corpid的值,corpsecret的值,touser的值,agentid,media_id的值，注意用,号隔开，例如："wwcff56746d9adwers,B-791548lnzXBE6_BWfxdf3kSTMJr9vFEPKAbh6WERQ,mingcheng,1000001,2COXgjH2UIfERF2zxrtUOKgQ9XklUqMdGSWLBoW_lSDAdafat"
 export QYWX_AM=""
 
 
@@ -468,6 +469,9 @@ export JDJOY_HELPSELF=""
 ## 疯狂的JOY京豆兑换，目前最小值为500/1000京豆，默认为 "0" 不开启京豆兑换
 export JDJOY_APPLYJDBEAN=""
 
+## 疯狂的JOY自动购买什么等级的JOY，如需要使用请自行解释注释
+# export BUY_JOY_LEVEL=""
+
 
 ################################## Telegram 代理（选填） ##################################
 ## Telegram 代理的 IP，代理类型为 http，比如你代理是 http://127.0.0.1:1080，则填写 "127.0.0.1"
@@ -480,7 +484,7 @@ export JDJOY_APPLYJDBEAN=""
 
 
 ################################## 是否添加DIY脚本（选填） ##################################
-## 如果你自己会写脚本，并且希望在每次git_pull运行完成以后，额外运行你的DIY脚本，请赋值为 "true"
+## 如果你自己会写shell脚本，并且希望在每次git_pull.sh这个脚本运行时，额外运行你的DIY脚本，请赋值为 "true"
 ## 同时，请务必将你的脚本命名为 diy.sh (只能叫这个文件名)，放在 config 目录下
 ## 我已定义好的变量，你如果想直接使用，可以参考本仓库下 git_pull.sh 文件
 EnableExtraShell=""
