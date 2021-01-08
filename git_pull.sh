@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-05
-## Version： v3.3.15
+## Modified： 2021-01-07
+## Version： v3.4.2
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -39,28 +39,16 @@ ContentVersion=${ShellDir}/version
 ContentNewTask=${ShellDir}/new_task
 ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
-isGithub=$(grep "github" "${ShellDir}/.git/config")
-isGitee=$(grep "gitee" "${ShellDir}/.git/config")
 isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
+WhichDep=$(grep "/jd-base" "${ShellDir}/.git/config")
 
-if [ -n "${isGithub}" ]; then
+if [[ ${WhichDep} == *github* ]]; then
   ScriptsURL=https://github.com/lxk0301/jd_scripts
   ShellURL=https://github.com/EvineDeng/jd-base
-elif [ -n "${isGitee}" ]; then
+else
   ScriptsURL=https://gitee.com/lxk0301/jd_scripts
   ShellURL=https://gitee.com/evine/jd-base
 fi
-
-## 导入config.sh
-function Import_Conf {
-  if [ -f ${FileConf} ]
-  then
-    . ${FileConf}
-  else
-    echo "配置文件 ${FileConf} 不存在，请先按教程配置好该文件..."
-    exit 1
-  fi
-}
 
 ## 更新shell脚本
 function Git_PullShell {
@@ -137,9 +125,14 @@ function Change_InviteCode {
 
 ## 修改lxk0301大佬js文件的函数汇总
 function Change_ALL {
-  Count_UserSum
-  Change_JoyRunPins
-  Change_InviteCode
+  if [ -f ${FileConf} ]; then
+    . ${FileConf}
+    if [ -n "${Cookie1}" ]; then
+      Count_UserSum
+      Change_JoyRunPins
+      Change_InviteCode
+    fi
+  fi
 }
 
 ## 检测定时任务是否有变化，此函数会在Log文件夹下生成四个文件，分别为：
@@ -182,7 +175,7 @@ function Notify_Version {
   [ -f "${SendCount}" ] && [[ $(cat ${SendCount}) != ${VerConfSample} ]] && rm -f ${SendCount}
   UpdateDate=$(grep " Date: " ${FileConfSample} | awk -F ": " '{print $2}')
   UpdateContent=$(grep " Update Content: " ${FileConfSample} | awk -F ": " '{print $2}')
-  if [[ "${VerConf}" != "${VerConfSample}" ]] && [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
+  if [ -f ${FileConf} ] && [[ "${VerConf}" != "${VerConfSample}" ]] && [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
   then
     if [ ! -f ${SendCount} ]; then
       echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n当前版本: ${VerConf}\n新的版本: ${VerConfSample}\n更新内容: ${UpdateContent}\n\n如需使用新功能按该文件前几行注释操作，否则请无视本消息。\n" | tee ${ContentVersion}
@@ -219,7 +212,7 @@ function Npm_Install {
   cd ${ScriptsDir}
   if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
     echo -e "运行 npm install...\n"
-    NpmInstallSub
+    Npm_InstallSub
     if [ $? -ne 0 ]; then
       echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules 后再次尝试一遍..."
       rm -rf ${ScriptsDir}/node_modules
@@ -229,7 +222,7 @@ function Npm_Install {
 
   if [ ! -d ${ScriptsDir}/node_modules ]; then
     echo -e "运行 npm install...\n"
-    NpmInstallSub
+    Npm_InstallSub
     if [ $? -ne 0 ]; then
       echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n"
       echo -e "请进入 ${ScriptsDir} 目录后按照wiki教程手动运行 npm install...\n"
@@ -326,6 +319,12 @@ function Add_Cron {
   fi
 }
 
+## 修复小bug
+function Update_Cron {
+  perl -i -pe "s|>dev/null|>/dev/null|g" ${ListCron}
+  crontab ${ListCron}
+}
+
 ## 在日志中记录时间与路径
 echo -e "\n--------------------------------------------------------------\n"
 echo -n "系统时间："
@@ -340,9 +339,9 @@ echo -e "JS脚本目录：${ScriptsDir}\n"
 echo -e "--------------------------------------------------------------\n"
 
 ## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
-Import_Conf && Git_PullShell
+Git_PullShell && Update_Cron
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+[ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 if [ ${ExitStatusShell} -eq 0 ]
 then
   echo -e "\nshell脚本更新完成...\n"
@@ -358,12 +357,10 @@ fi
 if [ ${ExitStatusShell} -eq 0 ]; then
   echo -e "--------------------------------------------------------------\n"
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
-  if [ ! -d ${ScriptsDir} ]; then
-    Git_CloneScripts
-  elif [ -d ${ScriptsDir} ] && [[ $(cd ${ScriptsDir}; ls) == "" ]]; then
-    Git_CloneScripts
-  else
+  if [ -d ${ScriptsDir}/.git ]; then
     Git_PullScripts
+  else
+    Git_CloneScripts
   fi
 fi
 

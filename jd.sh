@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-05
-## Version： v3.6.1
+## Modified： 2021-01-07
+## Version： v3.6.3
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -33,8 +33,12 @@ function Import_Conf {
   if [ -f ${FileConf} ]
   then
     . ${FileConf}
+    if [ -z "${Cookie1}" ]; then
+      echo -e "请先在config.sh中配置好Cookie...\n"
+      exit 1
+    fi
   else
-    echo "配置文件 ${FileConf} 不存在，请先按教程配置好该文件..."
+    echo -e "配置文件 ${FileConf} 不存在，请先按教程配置好该文件...\n"
     exit 1
   fi
 }
@@ -155,10 +159,12 @@ function Help {
     echo -e "1. bash jd xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
     echo -e "2. bash jd xxx now  # 无论是否设置了随机延迟，均立即运行\n"
     echo -e "3. bash jd hangup   # 重启挂机程序\n"
+    echo -e "4. bash jd resetpwd # 重置控制面板用户名和密码\n"
   else
     echo -e "1. bash jd.sh xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
     echo -e "2. bash jd.sh xxx now  # 无论是否设置了随机延迟，均立即运行\n"
     echo -e "3. bash jd.sh hangup   # 重启挂机程序\n"
+    echo -e "4. bash jd.sh resetpwd # 重置控制面板用户名和密码\n"
   fi
   echo -e "针对用法1、用法2中的\"xxx\"，无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略...\n"
   echo -e "当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本，但不含自定义脚本）：\n"
@@ -195,6 +201,12 @@ function Run_HangUp {
     LogFile="${LogDir}/${js}/${LogTime}.log"
     Run_Nohup >/dev/null 2>&1
   done
+}
+
+## 重置密码
+function Reset_Pwd {
+  cp -f ${ShellDir}/sample/auth.json ${ConfigDir}/auth.json
+  echo -e "控制面板重置成功，用户名：admin，密码：adminadmin\n"
 }
 
 ## 运行京东脚本
@@ -243,6 +255,8 @@ case $# in
   1)
     if [[ $1 == hangup ]]; then
       Run_HangUp
+    elif [[ $1 == resetpwd ]]; then
+      Reset_Pwd
     else
       Run_Normal $1
     fi

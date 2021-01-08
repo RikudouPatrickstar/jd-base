@@ -26,6 +26,8 @@
 
 > 只记录大的更新，小修小改不记录。
 
+2021-01-06，Docker用户增加在线编辑`config.sh`和`crontab.list`功能，启动容器时直接启动，详见最新WIKI。
+
 2021-01-04，Docker启动时即自动启动挂机程序。
 
 2020-12-30，增加`config.sh`和`config.sh.sample`文件差异智能比对的脚本，使用方法详见WIKI。
