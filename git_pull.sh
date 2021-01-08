@@ -343,7 +343,6 @@ VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3
 if [ ${ExitStatusShell} -eq 0 ]
 then
   echo -e "\nshell脚本更新完成...\n"
-  [ -d ${ScriptsDir}/node_modules ] && Notify_Version
   if [ -n "${isDocker}" ] && [ -d ${ConfigDir} ]; then
     cp -f ${FileConfSample} ${ConfigDir}/config.sh.sample
   fi
@@ -367,6 +366,7 @@ if [ ${ExitStatusScripts} -eq 0 ]
 then
   echo -e "js脚本更新完成...\n"
   Change_ALL
+  [ -d ${ScriptsDir}/node_modules ] && Notify_Version
   Diff_Cron
   Npm_Install
   Output_ListJsAdd
