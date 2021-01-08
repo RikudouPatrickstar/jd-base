@@ -40,7 +40,7 @@ ContentNewTask=${ShellDir}/new_task
 ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
 isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
-WhichDep=$(grep "/jd-base" "${JD_DIR}/.git/config")
+WhichDep=$(grep "/jd-base" "${ShellDir}/.git/config")
 
 if [[ ${WhichDep} == *github* ]]; then
   ScriptsURL=https://github.com/lxk0301/jd_scripts
