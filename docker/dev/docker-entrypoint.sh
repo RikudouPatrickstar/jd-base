@@ -16,7 +16,7 @@ fi
 echo -e "更新shell脚本，原地址：${ShellURL}\n"
 cd ${JD_DIR}
 git fetch --all
-git reset --hard origin/v3
+git reset --hard origin/dev
 echo
 
 if [ -d ${JD_DIR}/scripts/.git ]; then
