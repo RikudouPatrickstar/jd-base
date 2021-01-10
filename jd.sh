@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-07
-## Version： v3.6.3
+## Modified： 2021-01-10
+## Version： v3.6.4
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -25,7 +25,7 @@ ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
-ListScripts=$(ls ${ScriptsDir} | grep -E "j[dr]_\w+\.js" | perl -pe "s|\.js||")
+ListScripts=$(ls ${ScriptsDir} | grep -E "j[drx]_\w+\.js" | perl -pe "s|\.js||")
 ListCron=${ConfigDir}/crontab.list
 
 ## 导入config.sh
