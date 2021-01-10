@@ -1,6 +1,6 @@
-## Version: v3.9.0
-## Date: 2021-01-08
-## Update Content: 增加疯狂的JOY自动购买什么等级的JOY的变量（BUY_JOY_LEVEL）；其他更新：可从直接控制面板扫码登陆获取有效三个月的Cookie（By FanchangWang & jerrykuku），Docker版增加挂机程序和控制面板的控制开关。
+## Version: v3.10.0
+## Date: 2021-01-10
+## Update Content: 增加京喜农场TOKEN（种植app种子必填）、京喜农场互助码的变量。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/EvineDeng/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -86,7 +86,7 @@ export DD_BOT_SECRET=""
 ## 5. iGot聚合推送，支持多方式推送，填写iGot的推送key。教程：https://wahao.github.io/Bark-MP-helper/#/
 export IGOT_PUSH_KEY=""
 
-## 6. 酷推(Cool Push)，向QQ发送推送消息，参考文档：https://cp.xuthus.cc ，其中QQ_MODE的可选项有：send(默认值),group,wx
+## 6. 酷推(Cool Push)，向QQ发送推送消息，参考文档：https://cp.xuthus.cc ，其中QQ_MODE的可选项有（默认send）：send[私聊]、group[群聊]、wx[个微]、ww[企微]、email[邮件]
 export QQ_SKEY=""
 export QQ_MODE=""
 
@@ -317,6 +317,48 @@ ForOtherJoy3=""
 ForOtherJoy4=""
 ForOtherJoy5=""
 ForOtherJoy6=""
+
+
+################################## 定义京喜农场每个人自己的互助码（选填） ##################################
+## 京喜农场每个Cookie自己的互助码，可以在运行一次京喜农场脚本（jd_jxnc）后从日志中查看
+## 约定：MyJxnc后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyJxnc1、MyJxnc2
+## 约定：MyJxnc后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyJxncA、MyJxncB
+## 这里的码只是为了下面“定义京东赚赚要为哪些人助力”服务的
+MyJxnc1=""
+MyJxnc2=""
+MyJxnc3=""
+MyJxnc4=""
+MyJxnc5=""
+MyJxnc6=""
+MyJxncA=""
+MyJxncB=""
+
+
+################################## 定义京喜农场要为哪些人助力（选填） ##################################
+## 1.每个Cookie要为谁助力，填入对应MyJxnc系列变量名即可，用 @ 分隔每个变量名
+## 2.举例：ForOtherJxnc1="${MyJxnc3}@${MyJxnc4}@${MyJxncA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
+## 3.Cookie定义了多少个，ForOtherJxnc系列变量就多少有效（从编号1开始计）
+## 4.可以不赋值，这种情况下，将自动随机给他人助力
+## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
+ForOtherJxnc1=""
+ForOtherJxnc2=""
+ForOtherJxnc3=""
+ForOtherJxnc4=""
+ForOtherJxnc5=""
+ForOtherJxnc6=""
+
+
+################################## 定义京喜农场TOKEN（选填） ##################################
+## 如果某个Cookie的账号种植的是app种子，则必须填入有效的TOKEN；而种植非app种子则不需要TOKEN
+## TOKEN的形式：{"farm_jstoken":"749a90f871adsfads8ffda7bf3b1576760","timestamp":"1610165423873","phoneid":"42c7e3dadfadsfdsaac-18f0e4f4a0cf"}
+## 因TOKEN中带有双引号，因此，变量值两侧必须由一对单引号引起来
+## TOKEN如何获取请阅读以下文件的注释：https://github.com/lxk0301/jd_scripts/blob/master/jd_jxnc.js
+TokenJxnc1=''
+TokenJxnc2=''
+TokenJxnc3=''
+TokenJxnc4=''
+TokenJxnc5=''
+TokenJxnc6=''
 
 
 ################################## 定义东东超市蓝币兑换数量（选填） ##################################

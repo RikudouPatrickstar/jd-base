@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-10
-## Version： v3.6.4
+## Version： v3.6.5
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -95,7 +95,7 @@ function Combin_Sub {
   echo ${CombinAll} | perl -pe "{s|^&||; s|^@+||; s|&@|&|g; s|@+|@|g}"
 }
 
-## 组合Cookie与互助码
+## 组合Cookie、Token与互助码
 function Combin_All {
   export JD_COOKIE=$(Combin_Sub Cookie)
   export FRUITSHARECODES=$(Combin_Sub ForOtherFruit "e6e04602d5e343258873af1651b603ec@52801b06ce2a462f95e1d59d7e856ef4@5bc73a365ff74a559bdee785ea97fcc5@6d402dcfae1043fba7b519e0d6579a6f@5efc7fdbb8e0436f8694c4c393359576" "e2fd1311229146cc9507528d0b054da8@6dc9461f662d490991a31b798f624128@30f29addd75d44e88fb452bbfe9f2110@1d02fc9e0e574b4fa928e84cb1c5e70b")
@@ -105,6 +105,8 @@ function Combin_All {
   export DDFACTORY_SHARECODES=$(Combin_Sub ForOtherJdFactory)
   export JDZZ_SHARECODES=$(Combin_Sub ForOtherJdzz)
   export JDJOY_SHARECODES=$(Combin_Sub ForOtherJoy)
+  export JXNCSHARECODES=$(Combin_Sub ForOtherJxnc)
+  export JXNCTOKENS=$(Combin_Sub TokenJxnc)
 }
 
 ## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
