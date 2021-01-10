@@ -32,6 +32,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 28 5 * * * bash /home/myid/jd/jd.sh jd_bean_home
 4 0,9 * * * bash /home/myid/jd/jd.sh jd_bean_sign
 0,30 0 * * * bash /home/myid/jd/jd.sh jd_blueCoin
+19 8,12,18 * * * bash /home/myid/jd/jd.sh jd_bookshop
 17 9 * * * bash /home/myid/jd/jd.sh jd_car
 0 0 * * * bash /home/myid/jd/jd.sh jd_car_exchange
 2 0 * * * bash /home/myid/jd/jd.sh jd_club_lottery
@@ -48,6 +49,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 0 0,8,12,16 * * * bash /home/myid/jd/jd.sh jd_joy_reward
 18 11,14 * * * bash /home/myid/jd/jd.sh jd_joy_run
 0 0,6 * * * bash /home/myid/jd/jd.sh jd_joy_steal
+0 9,12,18 * * * bash /home/myid/jd/jd.sh jd_jxnc
 32 7 * * * bash /home/myid/jd/jd.sh jd_kd
 13-23/5 13 * * * bash /home/myid/jd/jd.sh jd_live
 15 1 * * * bash /home/myid/jd/jd.sh jd_lotteryMachine
