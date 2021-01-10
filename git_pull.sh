@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-07
-## Version： v3.4.0
+## Modified： 2021-01-10
+## Version： v3.4.5
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -39,28 +39,16 @@ ContentVersion=${ShellDir}/version
 ContentNewTask=${ShellDir}/new_task
 ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
-isGithub=$(grep "github" "${ShellDir}/.git/config")
-isGitee=$(grep "gitee" "${ShellDir}/.git/config")
 isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
+WhichDep=$(grep "/jd-base" "${ShellDir}/.git/config")
 
-if [ -n "${isGithub}" ]; then
+if [[ ${WhichDep} == *github* ]]; then
   ScriptsURL=https://github.com/lxk0301/jd_scripts
   ShellURL=https://github.com/EvineDeng/jd-base
-elif [ -n "${isGitee}" ]; then
+else
   ScriptsURL=https://gitee.com/lxk0301/jd_scripts
   ShellURL=https://gitee.com/evine/jd-base
 fi
-
-## 导入config.sh
-function Import_Conf {
-  if [ -f ${FileConf} ]
-  then
-    . ${FileConf}
-  else
-    echo "配置文件 ${FileConf} 不存在，请先按教程配置好该文件..."
-    exit 1
-  fi
-}
 
 ## 更新shell脚本
 function Git_PullShell {
@@ -125,21 +113,26 @@ function Change_JoyRunPins {
   perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|}" ${ScriptsDir}/jd_joy_run.js
 }
 
-## 将我的invitecode加到脚本中
+## 将我的invitecode追加到脚本中，不会删除原作者的邀请码
 function Change_InviteCode {
-  CodeHealth="'T007y7sqHksCjVUnoaW5kRrbA\@T032a0zZlJapLMZw9pdDQnOoo2clfysC8H5aCjVUnoaW5kRrbA\@T011y7sqHksZ9VMCjVUnoaW5kRrbA', 'T0225KkcRkhIoFaGdhr8lvADfACjVUnoaW5kRrbA\@T0225KkcRhgdoAeEI0jznP4OcQCjVUnoaW5kRrbA\@T015vPp0RRoR_VHRT0cCjVUnoaW5kRrbA', 'T0225KkcRkpK8QLWdU7ykvMIdwCjVUnoaW5kRrbA\@T024aG_llbW3LM1L9qFNQWOgo2QwCjVUnoaW5kRrbA'"
   CodeZz="  'Sy7sqHks\@Sa0zZlJapLMZw9pdDQnOoo2clfysC8H5a\@S5KkcRhgdoAeEI0jznP4OcQ\@SvPp0RRoR_VHRT0c\@S5KkcRkhIoFaGdhr8lvADfA',\n  'S5KkcRkpK8QLWdU7ykvMIdw\@SaG_llbW3LM1L9qFNQWOgo2Qw\@SaXzwlYqOIvhb-KpFTXua\@Sy7sqHksZ9VM',"
   CodeJoy=",\n  'i7J-rBjC1cY=\@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=\@TZaj4q_GSarkd-u40-hYJg==\@aEYNdH9WkHKZzdje-aDvWqt9zd5YaBeE\@7ZiMxCUnP2Orfc3eWGgXhA==',\n  'ZKfuxUZxKdGbDxTmAHnqkqt9zd5YaBeE\@xWXlN8vLwpFOy71e_SEYsg==\@ym8TOcaoUTQnJZKpDzKWd6t9zd5YaBeE\@9_dxd9S1-R7nohQ1FGiupUGIzB-QNOGN'"
-  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" ${ScriptsDir}/jd_health.js
-  perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+\n\])|\1${CodeZz}\n\2|" ${ScriptsDir}/jd_jdzz.js
-  perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+)(\n\];?)|\1\2${CodeJoy}\3|" ${ScriptsDir}/jd_crazy_joy.js
+  CodeBookShop=",\n  'aea9a9e0bc9e4f49b0515020e7bbaa90\@4e012467d3da47268df4ef821a9f0662\@8c3cefd0dcbb4b83a32f4dffde72fa26'"
+  perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+\n\])|\1${CodeZz}\n\2|" ${ScriptsDir}/jd_jdzz.js >/dev/null 2>&1
+  perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+)(\n\];?)|\1\2${CodeJoy}\3|" ${ScriptsDir}/jd_crazy_joy.js >/dev/null 2>&1
+  perl -0777 -i -pe "s|(let inviteCodes = \[\n)(.+\n.+)(\n\];?)|\1\2${CodeBookShop}\3|" ${ScriptsDir}/jd_bookshop.js >/dev/null 2>&1
 }
 
 ## 修改lxk0301大佬js文件的函数汇总
 function Change_ALL {
-  Count_UserSum
-  Change_JoyRunPins
-  Change_InviteCode
+  if [ -f ${FileConf} ]; then
+    . ${FileConf}
+    if [ -n "${Cookie1}" ]; then
+      Count_UserSum
+      Change_JoyRunPins
+      Change_InviteCode
+    fi
+  fi
 }
 
 ## 检测定时任务是否有变化，此函数会在Log文件夹下生成四个文件，分别为：
@@ -182,7 +175,7 @@ function Notify_Version {
   [ -f "${SendCount}" ] && [[ $(cat ${SendCount}) != ${VerConfSample} ]] && rm -f ${SendCount}
   UpdateDate=$(grep " Date: " ${FileConfSample} | awk -F ": " '{print $2}')
   UpdateContent=$(grep " Update Content: " ${FileConfSample} | awk -F ": " '{print $2}')
-  if [[ "${VerConf}" != "${VerConfSample}" ]] && [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
+  if [ -f ${FileConf} ] && [[ "${VerConf}" != "${VerConfSample}" ]] && [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
   then
     if [ ! -f ${SendCount} ]; then
       echo -e "检测到配置文件config.sh.sample有更新\n\n更新日期: ${UpdateDate}\n当前版本: ${VerConf}\n新的版本: ${VerConfSample}\n更新内容: ${UpdateContent}\n\n如需使用新功能按该文件前几行注释操作，否则请无视本消息。\n" | tee ${ContentVersion}
@@ -346,13 +339,12 @@ echo -e "JS脚本目录：${ScriptsDir}\n"
 echo -e "--------------------------------------------------------------\n"
 
 ## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
-Import_Conf && Git_PullShell && Update_Cron
+Git_PullShell && Update_Cron
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+[ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 if [ ${ExitStatusShell} -eq 0 ]
 then
   echo -e "\nshell脚本更新完成...\n"
-  [ -d ${ScriptsDir}/node_modules ] && Notify_Version
   if [ -n "${isDocker}" ] && [ -d ${ConfigDir} ]; then
     cp -f ${FileConfSample} ${ConfigDir}/config.sh.sample
   fi
@@ -364,12 +356,10 @@ fi
 if [ ${ExitStatusShell} -eq 0 ]; then
   echo -e "--------------------------------------------------------------\n"
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
-  if [ ! -d ${ScriptsDir} ]; then
-    Git_CloneScripts
-  elif [ -d ${ScriptsDir} ] && [[ $(cd ${ScriptsDir}; ls) == "" ]]; then
-    Git_CloneScripts
-  else
+  if [ -d ${ScriptsDir}/.git ]; then
     Git_PullScripts
+  else
+    Git_CloneScripts
   fi
 fi
 
@@ -378,6 +368,7 @@ if [ ${ExitStatusScripts} -eq 0 ]
 then
   echo -e "js脚本更新完成...\n"
   Change_ALL
+  [ -d ${ScriptsDir}/node_modules ] && Notify_Version
   Diff_Cron
   Npm_Install
   Output_ListJsAdd

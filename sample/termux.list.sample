@@ -15,17 +15,21 @@ PATH=/data/data/com.termux/files/usr/bin
 
 # 运行lxk0301大佬的js脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务。
 # 请保留任务名称中的前缀"jd_"，去掉后缀".js"，如果有些任务你不想运行，注释掉就好了，不要删除。
+# 请在最后保留一个空行。
 5 9 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_bean_change
 28 5 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_bean_home
 4 0,9 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_bean_sign
 0,30 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_blueCoin
-0 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car
+18 8,12,18 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_bookshop
+19 8 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car
+0 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car_exchange
 2 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_club_lottery
 27 13 * * * bash bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_crazy_joy
 #36 9 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_ds  #限学生认证用户，如果你是，请自己解除注释
 54 2-23/3 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_daily_egg
 20 * * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_dreamFactory
 29 7,12,18 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_fruit
+7 7 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_get_share_code
 36 * * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_jdfactory
 14 11 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_jdzz
 6 0,8,9,13,18,22 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_joy
@@ -33,6 +37,7 @@ PATH=/data/data/com.termux/files/usr/bin
 0 0,8,12,16 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_joy_reward
 18 11,14 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_joy_run
 0 0,6 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_joy_steal
+0 9,12,18 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_jxnc
 32 7 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_kd
 13-23/5 13 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_live
 15 1 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_lotteryMachine
