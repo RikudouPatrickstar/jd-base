@@ -12,7 +12,7 @@
 
 # 运行lxk0301大佬的js脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务。
 # 请保留任务名称中的前缀"jd_"，去掉后缀".js"，如果有些任务你不想运行，注释掉就好了，不要删除。
-# 请在最后保留一个空行。
+# 非lxk0301/jd_scripts仓库中的脚本不能以“jd_”、“jr_”、“jx_”开头。请在最后保留一个空行。
 5 9 * * * bash jd jd_bean_change
 28 5 * * * bash jd jd_bean_home
 4 0,9 * * * bash jd jd_bean_sign
