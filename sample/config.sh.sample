@@ -1,6 +1,6 @@
-## Version: v3.10.0
-## Date: 2021-01-10
-## Update Content: 增加京喜农场TOKEN（种植app种子必填）、京喜农场互助码的变量。
+## Version: v3.11.0
+## Date: 2021-01-11
+## Update Content: 增加口袋书店互助码的变量填写区域。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/EvineDeng/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -359,6 +359,35 @@ TokenJxnc3=''
 TokenJxnc4=''
 TokenJxnc5=''
 TokenJxnc6=''
+
+
+################################## 定义口袋书店每个人自己的互助码（选填） ##################################
+## 口袋书店每个Cookie自己的互助码，可以在运行一次口袋书店脚本（jd_bookshop）后从日志中查看
+## 约定：MyBookShop后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyBookShop1、MyBookShop2
+## 约定：MyBookShop后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyBookShopA、MyBookShopB
+## 这里的码只是为了下面“定义京东赚赚要为哪些人助力”服务的
+MyBookShop1=""
+MyBookShop2=""
+MyBookShop3=""
+MyBookShop4=""
+MyBookShop5=""
+MyBookShop6=""
+MyBookShopA=""
+MyBookShopB=""
+
+
+################################## 定义口袋书店要为哪些人助力（选填） ##################################
+## 1.每个Cookie要为谁助力，填入对应MyBookShop系列变量名即可，用 @ 分隔每个变量名
+## 2.举例：ForOtherBookShop1="${MyBookShop3}@${MyBookShop4}@${MyBookShopA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
+## 3.Cookie定义了多少个，ForOtherBookShop系列变量就多少有效（从编号1开始计）
+## 4.可以不赋值，这种情况下，将自动随机给他人助力
+## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
+ForOtherBookShop1=""
+ForOtherBookShop2=""
+ForOtherBookShop3=""
+ForOtherBookShop4=""
+ForOtherBookShop5=""
+ForOtherBookShop6=""
 
 
 ################################## 定义东东超市蓝币兑换数量（选填） ##################################
