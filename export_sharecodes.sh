@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-11
-## Version： v3.2.0
+## Version： v3.3.0
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -32,7 +32,7 @@ else
   Opt="E"
 fi
 
-## 获取互助码
+## 获取互助码子程序
 function Cat_Scodes {
   cd ${LogDir}/jd_$1
   for log in $(ls -r)
@@ -40,7 +40,18 @@ function Cat_Scodes {
     codes=$(grep -${Opt} $2 ${log} | perl -pe "s| ||")
     [ -n "${codes}" ] && break
   done
-  echo $codes
+  echo ${codes}
+}
+
+## 获取口袋书店互助码
+function Cat_ScodesBookShop {
+  cd ${LogDir}/jd_bookshop
+  for log in $(ls -r)
+  do
+    codes=$(perl -pe "s|信息获取成功\n||g" ${log} | grep -${Opt} "您的好友助力码为" | perl -pe "{s|您的好友助力码为||g; s|用户||g}")
+    [ -n "${codes}" ] && break
+  done
+  echo ${codes}
 }
 
 ## 汇总
@@ -62,6 +73,8 @@ function Cat_All {
   Cat_Scodes jdzz "的京东赚赚好友互助码" | perl -pe "s|的京东赚赚好友互助码||g"
   echo -e "\n京喜农场："
   Cat_Scodes jxnc "的京喜农场好友互助码" | perl -pe "s|的京喜农场好友互助码||g"
+  echo -e "\n口袋书店："
+  Cat_ScodesBookShop
 }
 
 ## 执行并写入日志
