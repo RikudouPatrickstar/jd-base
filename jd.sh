@@ -105,7 +105,7 @@ function Combin_All {
   export DDFACTORY_SHARECODES=$(Combin_Sub ForOtherJdFactory)
   export JDZZ_SHARECODES=$(Combin_Sub ForOtherJdzz)
   export JDJOY_SHARECODES=$(Combin_Sub ForOtherJoy)
-  export JXNCSHARECODES=$(Combin_Sub ForOtherJxnc "e8dd4ed6a87055a2b37982066d8910da@7d645f46ad80cddf7d6d91b4fc39f572")
+  export JXNC_SHARECODES=$(Combin_Sub ForOtherJxnc "e8dd4ed6a87055a2b37982066d8910da@7d645f46ad80cddf7d6d91b4fc39f572")
   export JXNCTOKENS=$(Combin_Sub TokenJxnc)
 }
 
