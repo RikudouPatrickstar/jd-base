@@ -25,7 +25,6 @@ PATH=/data/data/com.termux/files/usr/bin
 0 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car_exchange
 2 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_club_lottery
 27 13 * * * bash bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_crazy_joy
-#36 9 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_ds  #限学生认证用户，如果你是，请自己解除注释
 54 2-23/3 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_daily_egg
 20 * * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_dreamFactory
 29 7,12,18 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_fruit

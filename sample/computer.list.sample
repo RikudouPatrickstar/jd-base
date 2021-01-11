@@ -37,7 +37,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 0 0 * * * bash /home/myid/jd/jd.sh jd_car_exchange
 2 0 * * * bash /home/myid/jd/jd.sh jd_club_lottery
 32 14 * * * bash /home/myid/jd/jd.sh jd_crazy_joy
-#36 9 * * * bash /home/myid/jd/jd.sh jd_ds  #限学生认证用户，如果你是，请自己解除注释
 54 2-23/3 * * * bash /home/myid/jd/jd.sh jd_daily_egg
 20 * * * * bash /home/myid/jd/jd.sh jd_dreamFactory
 29 7,12,18 * * * bash /home/myid/jd/jd.sh jd_fruit

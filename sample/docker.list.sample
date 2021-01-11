@@ -22,7 +22,6 @@
 0 0 * * * bash jd jd_car_exchange
 2 0 * * * bash jd jd_club_lottery
 43 13 * * * bash jd jd_crazy_joy
-#36 9 * * * bash jd jd_ds  #限学生认证用户，如果你是，请自己解除注释
 54 2-23/3 * * * bash jd jd_daily_egg
 20 * * * * bash jd jd_dreamFactory
 29 7,12,18 * * * bash jd jd_fruit
