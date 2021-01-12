@@ -13,16 +13,17 @@ var got = require('got');
 var path = require('path');
 var fs = require('fs');
 
-
 var rootPath = path.resolve(__dirname, '..')
 // config.sh 文件所在目录
-var confFile = path.join(rootPath, 'config/config.sh');
+var confFile = path.join(rootPath,'config/config.sh');
 // config.sh.sample 文件所在目录
-var sampleFile = path.join(rootPath, 'sample/config.sh.sample');
-var crontabFile = path.join(rootPath, 'config/crontab.list');
+var sampleFile = path.join(rootPath,'sample/config.sh.sample');
+// crontab.list 文件所在目录
+var crontabFile = path.join(rootPath,'config/crontab.list');
 // config.sh 文件备份目录
-var confBakDir = path.join(rootPath, 'config/bak/');;
-var authConfigFile = path.join(rootPath, 'config/auth.json');
+var confBakDir = path.join(rootPath,'config/bak/');;
+// auth.json 文件目录
+var authConfigFile = path.join(rootPath,'config/auth.json');
 
 var authError = "错误的用户名密码，请重试";
 var loginFaild = "请先登录!";
@@ -195,20 +196,8 @@ function bakConfFile(file) {
     mkdirConfigBakDir();
     let date = new Date();
     let bakConfFile = confBakDir + file + '_' + date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + '-' + date.getHours() + '-' + date.getMinutes() + '-' + date.getMilliseconds();
-    let oldConfContent = "";
-    switch (file) {
-        case "config.sh":
-            oldConfContent = getFileContentByName(confFile);
-            fs.writeFileSync(bakConfFile, oldConfContent);
-            break;
-        case "crontab.list":
-            oldConfContent = getFileContentByName(crontabFile);
-            fs.writeFileSync(bakConfFile, oldConfContent);
-            break;
-        default:
-            break;
-    }
-    
+    let oldConfContent = getFileContentByName(confFile);
+    fs.writeFileSync(bakConfFile, oldConfContent);
 }
 
 /**
@@ -248,11 +237,18 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
-arser.json());
-dirname + '/public/auth.html'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+/**
+ * 登录页面
+ */
+app.get('/', function (request, response) {
+    if (request.session.loggedin) {
+        response.redirect('/home');
+    } else {
+        response.sendFile(path.join(__dirname + '/public/auth.html'));
     }
 });
 
