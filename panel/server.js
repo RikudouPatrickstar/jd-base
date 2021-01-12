@@ -13,12 +13,12 @@ var got = require('got');
 var path = require('path');
 var fs = require('fs');
 
-var rootPath = path.resolve(__dirname, '..')
+
+var rootPath =var rootPath = path.resolve(__dirname, '..')
 // config.sh 文件所在目录
 var confFile = path.join(rootPath,'config/config.sh');
 // config.sh.sample 文件所在目录
-var sampleFile = path.join(rootPath,'sample/config.sh.sample');
-// crontab.list 文件所在目录
+var sampleFile = path.join(rootPath,'sample/confi// crontab.list 文件所在目录
 var crontabFile = path.join(rootPath,'config/crontab.list');
 // config.sh 文件备份目录
 var confBakDir = path.join(rootPath,'config/bak/');;
@@ -196,8 +196,20 @@ function bakConfFile(file) {
     mkdirConfigBakDir();
     let date = new Date();
     let bakConfFile = confBakDir + file + '_' + date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + '-' + date.getHours() + '-' + date.getMinutes() + '-' + date.getMilliseconds();
-    let oldConfContent = getFileContentByName(confFile);
-    fs.writeFileSync(bakConfFile, oldConfContent);
+    let oldConfContent = "";
+    switch (file) {
+        case "config.sh":
+            oldConfContent = getFileContentByName(confFile);
+            fs.writeFileSync(bakConfFile, oldConfContent);
+            break;
+        case "crontab.list":
+            oldConfContent = getFileContentByName(crontabFile);
+            fs.writeFileSync(bakConfFile, oldConfContent);
+            break;
+        default:
+            break;
+    }
+    
 }
 
 /**
@@ -239,16 +251,8 @@ app.use(session({
 }));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
-/**
- * 登录页面
- */
-app.get('/', function (request, response) {
-    if (request.session.loggedin) {
-        response.redirect('/home');
-    } else {
-        response.sendFile(path.join(__dirname + '/public/auth.html'));
+arser.json());
+dirname + '/public/auth.html'));
     }
 });
 
