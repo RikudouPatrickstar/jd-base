@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-11
-## Version： v3.6.7
+## Modified： 2021-01-12
+## Version： v3.6.8
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -108,6 +108,7 @@ function Combin_All {
   export JXNC_SHARECODES=$(Combin_Sub ForOtherJxnc "e8dd4ed6a87055a2b37982066d8910da@7d645f46ad80cddf7d6d91b4fc39f572")
   export JXNCTOKENS=$(Combin_Sub TokenJxnc)
   export BOOKSHOP_SHARECODES=$(Combin_Sub ForOtherBookShop "aea9a9e0bc9e4f49b0515020e7bbaa90@4e012467d3da47268df4ef821a9f0662@8c3cefd0dcbb4b83a32f4dffde72fa26")
+  export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash "Vl1uMrk@9qqduGQCv26BJ-NiHfexAcc_08V6HjOh@eU9Yauq2M6918jzSw3oX0w@IRwwaei6bvkgnjM" "Vl1uMrmyZvs@eU9YarrjM_53p27dyXQa3g@9Jq0uXglsVCqKd5kEv-D@9YmhuUccv2W6J9VsHue5AQqJ@eU9YarjhYqonpDrTzXcR1Q")
 }
 
 ## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
