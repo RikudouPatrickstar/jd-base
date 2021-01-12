@@ -19,7 +19,7 @@
 0,30 0 * * * bash jd jd_blueCoin
 12 8,12,18 * * * bash jd jd_bookshop
 37 7 * * * bash jd jd_car
-13 8 * * * bash jd jd_cash
+13 8,22 * * * bash jd jd_cash
 0 0 * * * bash jd jd_car_exchange
 2 0 * * * bash jd jd_club_lottery
 43 13 * * * bash jd jd_crazy_joy

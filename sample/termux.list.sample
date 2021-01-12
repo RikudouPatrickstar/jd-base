@@ -22,7 +22,7 @@ PATH=/data/data/com.termux/files/usr/bin
 0,30 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_blueCoin
 18 8,12,18 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_bookshop
 19 8 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car
-17 9 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_cash
+17 9,22 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_cash
 0 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_car_exchange
 2 0 * * * bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_club_lottery
 27 13 * * * bash bash /data/data/com.termux/files/home/storage/shared/jd/jd.sh jd_crazy_joy

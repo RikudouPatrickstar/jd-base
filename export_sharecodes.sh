@@ -32,7 +32,7 @@ else
   Opt="E"
 fi
 
-## 获取互助码子程序
+## 导出互助码子程序
 function Cat_Scodes {
   cd ${LogDir}/jd_$1
   for log in $(ls -r)
@@ -43,12 +43,23 @@ function Cat_Scodes {
   echo ${codes}
 }
 
-## 获取口袋书店互助码
+## 导出口袋书店互助码
 function Cat_ScodesBookShop {
   cd ${LogDir}/jd_bookshop
   for log in $(ls -r)
   do
     codes=$(perl -pe "s|信息获取成功\n||g" ${log} | grep -${Opt} "您的好友助力码为" | perl -pe "{s|您的好友助力码为||g; s|用户||g}")
+    [ -n "${codes}" ] && break
+  done
+  echo ${codes}
+}
+
+## 导出签到领现金互助码
+function Cat_ScodesCash {
+  cd ${LogDir}/jd_cash
+  for log in $(ls -r)
+  do
+    codes=$(perl -0777 -pe "s|\*+\n+||g" ${log} | grep -${Opt} "您的助力码为" | perl -pe "{s|\*+开始||g; s|您的助力码为|：|g}")
     [ -n "${codes}" ] && break
   done
   echo ${codes}
@@ -75,6 +86,8 @@ function Cat_All {
   Cat_Scodes jxnc "的京喜农场好友互助码" | perl -pe "s|的京喜农场好友互助码||g"
   echo -e "\n口袋书店："
   Cat_ScodesBookShop
+  echo -e "\n签到领现金："
+  Cat_ScodesCash
 }
 
 ## 执行并写入日志
