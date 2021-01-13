@@ -209,7 +209,7 @@ function Npm_InstallSub {
 function Npm_Install {
   cd ${ScriptsDir}
   if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
-    echo -e "运行 npm install...\n"
+    echo -e "检测到package.json有变化，运行 npm install...\n"
     Npm_InstallSub
     if [ $? -ne 0 ]; then
       echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules 后再次尝试一遍..."
