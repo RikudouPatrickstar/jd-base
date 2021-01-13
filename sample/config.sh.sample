@@ -1,6 +1,6 @@
-## Version: v3.13.0
-## Date: 2021-01-12
-## Update Content: 增加签到领现金的互助码填写区域；补充AutoDelCron和AutoAddCron的注释。
+## Version: v3.14.0
+## Date: 2021-01-13
+## Update Content: 增加口袋书店和东东小窝是否自动加购物车的环境变量PURCHASE_SHOPS；将互助码的注释链接到WIKI。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/EvineDeng/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -117,11 +117,8 @@ NotifyBeanSign=""
 export JD_BEAN_STOP=""
 
 
-################################## 定义东东农场每个人自己的互助码（选填） ##################################
-## 东东农场每个Cookie自己的互助码，可以在运行一次东东农场脚本（jd_fruit）后从日志中查看
-## 约定：MyFruit后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyFruit1、MyFruit2
-## 约定：MyFruit后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyFruitA、MyFruitB
-## 这里的码只是为了下面“定义东东农场要为哪些人助力”服务的
+################################## 定义东东农场互助（选填） ##################################
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
 MyFruit1=""
 MyFruit2=""
 MyFruit3=""
@@ -131,13 +128,6 @@ MyFruit6=""
 MyFruitA=""
 MyFruitB=""
 
-
-################################## 定义东东农场要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyFruit系列变量名即可，用 @ 分隔每个变量名
-## 2.比如：ForOtherFruit1="${MyFruit2}@${MyFruit3}@${MyFruit5}@${MyFruitA}"，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie5的账户以及没有提供Cookie只提供了助力码的A用户提供助力
-## 3.Cookie定义了多少个，ForOtherFruit系列变量就多少个有效（从编号1开始计）
-## 4.可以不赋值，这种情况下，将自动随机给他人助力
-## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherFruit1=""
 ForOtherFruit2=""
 ForOtherFruit3=""
@@ -146,11 +136,8 @@ ForOtherFruit5=""
 ForOtherFruit6=""
 
 
-################################## 定义东东萌宠每个人自己的互助码（选填） ##################################
-## 东东萌宠每个Cookie自己的互助码，可以在运行一次东东萌宠脚本（jd_pet）后从日志中查看
-## 约定：MyPet后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyPet1、MyPet2
-## 约定：MyPet后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyPetA、MyPetB
-## 这里的码只是为了下面“定义东东萌宠要为哪些人助力”服务的
+################################## 定义东东萌宠互助（选填） ##################################
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
 MyPet1=""
 MyPet2=""
 MyPet3=""
@@ -160,13 +147,6 @@ MyPet6=""
 MyPetA=""
 MyPetB=""
 
-
-################################## 定义东东萌宠要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyPet系列变量名即可，用 @ 分隔每个变量名
-## 2.比如：ForOtherPet1="${MyPet2}@${MyPet3}@${MyPetA}"，含义是Cookie1的账户将为Cookie2、Cookie3的账户以及没有提供Cookie只提供了互助码的A用户提供助力
-## 3.Cookie定义了多少个，ForOtherPet系列变量就多少个有效（从编号1开始计）
-## 4.可以不赋值，这种情况下，将自动随机给他人助力
-## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherPet1=""
 ForOtherPet2=""
 ForOtherPet3=""
@@ -175,11 +155,8 @@ ForOtherPet5=""
 ForOtherPet6=""
 
 
-################################## 定义种豆得豆每个人自己的互助码（选填） ##################################
-## 种豆得豆每个Cookie自己的互助码，可以在运行一次种豆得豆脚本（jd_plantBean）后从日志中查看
-## 约定：MyBean后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyBean1、MyBean2
-## 约定：MyBean后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyBeanA、MyBeanB
-## 这里的码只是为了下面“定义种豆得豆要为哪些人助力”服务的
+################################## 定义种豆得豆互助（选填） ##################################
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
 MyBean1=""
 MyBean2=""
 MyBean3=""
@@ -189,13 +166,6 @@ MyBean6=""
 MyBeanA=""
 MyBeanB=""
 
-
-################################## 定义种豆得豆要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyBean系列变量名即可，用 @ 分隔每个变量名
-## 2.比如：ForOtherBean1="${MyBean2}@${MyBean6}@${MyBeanB}"，含义是Cookie1的账户将为Cookie2、Cookie6的账户以及没有提供Cookie只提供了互助码的B用户提供助力
-## 3.Cookie定义了多少个，ForOtherBean系列变量就多少个有效（从编号1开始计）
-## 4.可以不赋值，这种情况下，将自动随机给他人助力
-## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherBean1=""
 ForOtherBean2=""
 ForOtherBean3=""
@@ -205,10 +175,7 @@ ForOtherBean6=""
 
 
 ################################## 定义京喜工厂每个人自己的互助码（选填） ##################################
-## 京喜工厂每个Cookie自己的互助码，可以在运行一次京喜工厂脚本（jd_dreamFactory）后从日志中查看
-## 约定：MyDreamFactory后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyDreamFactory1、MyDreamFactory2
-## 约定：MyDreamFactory后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyDreamFactoryA、MyDreamFactoryB
-## 这里的码只是为了下面“定义京喜工厂要为哪些人助力”服务的
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
 MyDreamFactory1=""
 MyDreamFactory2=""
 MyDreamFactory3=""
@@ -218,13 +185,6 @@ MyDreamFactory6=""
 MyDreamFactoryA=""
 MyDreamFactoryB=""
 
-
-################################## 定义京喜工厂要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyDreamFactory系列变量名即可，用 @ 分隔每个变量名
-## 2.举例：ForOtherDreamFactory1="${MyDreamFactory3}@${MyDreamFactory5}@${MyDreamFactoryA}"，含义是Cookie1的账户将为Cookie3、Cookie5的账户以及没有提供Cookie只提供了互助码的A用户提供助力
-## 3.Cookie定义了多少个，ForOtherDreamFactory系列变量就多少有效（从编号1开始计）
-## 4.可以不赋值，这种情况下，将自动随机给他人助力
-## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherDreamFactory1=""
 ForOtherDreamFactory2=""
 ForOtherDreamFactory3=""
@@ -233,11 +193,8 @@ ForOtherDreamFactory5=""
 ForOtherDreamFactory6=""
 
 
-################################## 定义东东工厂每个人自己的互助码（选填） ##################################
-## 东东工厂每个Cookie自己的互助码，可以在运行一次东东工厂脚本（jd_jdFactory）后从日志中查看
-## 约定：MyJdFactory后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyJdFactory1、MyJdFactory2
-## 约定：MyJdFactory后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyJdFactoryA、MyJdFactoryB
-## 这里的码只是为了下面“定义东东工厂要为哪些人助力”服务的
+################################## 定义东东工厂互助（选填） ##################################
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
 MyJdFactory1=""
 MyJdFactory2=""
 MyJdFactory3=""
@@ -247,13 +204,6 @@ MyJdFactory6=""
 MyJdFactoryA=""
 MyJdFactoryB=""
 
-
-################################## 定义东东工厂要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyJdFactory系列变量名即可，用 @ 分隔每个变量名
-## 2.举例：ForOtherJdFactory1="${MyJdFactory3}@${MyJdFactory4}@${MyJdFactoryA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
-## 3.Cookie定义了多少个，ForOtherJdFactory系列变量就多少有效（从编号1开始计）
-## 4.可以不赋值，这种情况下，将自动随机给他人助力
-## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherJdFactory1=""
 ForOtherJdFactory2=""
 ForOtherJdFactory3=""
@@ -262,11 +212,8 @@ ForOtherJdFactory5=""
 ForOtherJdFactory6=""
 
 
-################################## 定义京东赚赚每个人自己的互助码（选填） ##################################
-## 京东赚赚每个Cookie自己的互助码，可以在运行一次京东赚赚脚本（jd_jdzz）后从日志中查看
-## 约定：MyJdzz后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyJdzz1、MyJdzz2
-## 约定：MyJdzz后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyJdzzA、MyJdzzB
-## 这里的码只是为了下面“定义京东赚赚要为哪些人助力”服务的
+################################## 定义京东赚赚互助（选填） ##################################
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
 MyJdzz1=""
 MyJdzz2=""
 MyJdzz3=""
@@ -276,13 +223,6 @@ MyJdzz6=""
 MyJdzzA=""
 MyJdzzB=""
 
-
-################################## 定义京东赚赚要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyJdzz系列变量名即可，用 @ 分隔每个变量名
-## 2.举例：ForOtherJdzz1="${MyJdzz3}@${MyJdzz4}@${MyJdzzA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
-## 3.Cookie定义了多少个，ForOtherJdzz系列变量就多少有效（从编号1开始计）
-## 4.可以不赋值，这种情况下，将自动随机给他人助力
-## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherJdzz1=""
 ForOtherJdzz2=""
 ForOtherJdzz3=""
@@ -291,11 +231,8 @@ ForOtherJdzz5=""
 ForOtherJdzz6=""
 
 
-################################## 定义疯狂的JOY每个人自己的互助码（选填） ##################################
-## 疯狂的JOY每个Cookie自己的互助码，可以在运行一次疯狂的JOY脚本（jd_crazy_joy）后从日志中查看
-## 约定：MyJoy后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyJoy1、MyJoy2
-## 约定：MyJoy后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyJoyA、MyJoyB
-## 这里的码只是为了下面“定义京东赚赚要为哪些人助力”服务的
+################################## 定义疯狂的JOY互助（选填） ##################################
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
 MyJoy1=""
 MyJoy2=""
 MyJoy3=""
@@ -305,13 +242,6 @@ MyJoy6=""
 MyJoyA=""
 MyJoyB=""
 
-
-################################## 定义疯狂的JOY要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyJoy系列变量名即可，用 @ 分隔每个变量名
-## 2.举例：ForOtherJoy1="${MyJoy3}@${MyJoy4}@${MyJoyA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
-## 3.Cookie定义了多少个，ForOtherJoy系列变量就多少有效（从编号1开始计）
-## 4.可以不赋值，这种情况下，将自动随机给他人助力
-## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherJoy1=""
 ForOtherJoy2=""
 ForOtherJoy3=""
@@ -320,11 +250,8 @@ ForOtherJoy5=""
 ForOtherJoy6=""
 
 
-################################## 定义京喜农场每个人自己的互助码（选填） ##################################
-## 京喜农场每个Cookie自己的互助码，可以在运行一次京喜农场脚本（jd_jxnc）后从日志中查看
-## 约定：MyJxnc后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyJxnc1、MyJxnc2
-## 约定：MyJxnc后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyJxncA、MyJxncB
-## 这里的码只是为了下面“定义京喜农场要为哪些人助力”服务的
+################################## 定义京喜农场互助（选填） ##################################
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
 MyJxnc1=""
 MyJxnc2=""
 MyJxnc3=""
@@ -334,13 +261,6 @@ MyJxnc6=""
 MyJxncA=""
 MyJxncB=""
 
-
-################################## 定义京喜农场要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyJxnc系列变量名即可，用 @ 分隔每个变量名
-## 2.举例：ForOtherJxnc1="${MyJxnc3}@${MyJxnc4}@${MyJxncA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
-## 3.Cookie定义了多少个，ForOtherJxnc系列变量就多少有效（从编号1开始计）
-## 4.可以不赋值，这种情况下，将自动随机给他人助力
-## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherJxnc1=""
 ForOtherJxnc2=""
 ForOtherJxnc3=""
@@ -363,10 +283,7 @@ TokenJxnc6=''
 
 
 ################################## 定义口袋书店每个人自己的互助码（选填） ##################################
-## 口袋书店每个Cookie自己的互助码，可以在运行一次口袋书店脚本（jd_bookshop）后从日志中查看
-## 约定：MyBookShop后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyBookShop1、MyBookShop2
-## 约定：MyBookShop后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyBookShopA、MyBookShopB
-## 这里的码只是为了下面“定义口袋书店要为哪些人助力”服务的
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
 MyBookShop1=""
 MyBookShop2=""
 MyBookShop3=""
@@ -376,13 +293,6 @@ MyBookShop6=""
 MyBookShopA=""
 MyBookShopB=""
 
-
-################################## 定义口袋书店要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyBookShop系列变量名即可，用 @ 分隔每个变量名
-## 2.举例：ForOtherBookShop1="${MyBookShop3}@${MyBookShop4}@${MyBookShopA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
-## 3.Cookie定义了多少个，ForOtherBookShop系列变量就多少有效（从编号1开始计）
-## 4.可以不赋值，这种情况下，将自动随机给他人助力
-## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherBookShop1=""
 ForOtherBookShop2=""
 ForOtherBookShop3=""
@@ -391,11 +301,8 @@ ForOtherBookShop5=""
 ForOtherBookShop6=""
 
 
-################################## 定义签到领现金每个人自己的互助码（选填） ##################################
-## 签到领现金每个Cookie自己的互助码，可以在运行一次签到领现金脚本（jd_cash）后从日志中查看
-## 约定：MyCash后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyCash1、MyCash2
-## 约定：MyCash后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（比如你和其他人交换助力时或者多容器之间相互助力时），如MyCashA、MyCashB
-## 这里的码只是为了下面“定义签到领现金要为哪些人助力”服务的
+################################## 定义签到领现金互助（选填） ##################################
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
 MyCash1=""
 MyCash2=""
 MyCash3=""
@@ -405,13 +312,6 @@ MyCash6=""
 MyCashA=""
 MyCashB=""
 
-
-################################## 定义签到领现金要为哪些人助力（选填） ##################################
-## 1.每个Cookie要为谁助力，填入对应MyCash系列变量名即可，用 @ 分隔每个变量名
-## 2.举例：ForOtherCash1="${MyCash3}@${MyCash4}@${MyCashA}"，含义是Cookie1的账户将为Cookie3、Cookie4的账户以及没有提供Cookie只提供了互助码的A用户提供助力
-## 3.Cookie定义了多少个，ForOtherCash系列变量就多少有效（从编号1开始计）
-## 4.可以不赋值，这种情况下，将自动随机给他人助力
-## 5.具体填法示例图：https://github.com/EvineDeng/jd-base/wiki/Picture/Sharecodes.png
 ForOtherCash1=""
 ForOtherCash2=""
 ForOtherCash3=""
@@ -577,6 +477,11 @@ export JDJOY_APPLYJDBEAN=""
 
 ## 疯狂的JOY自动购买什么等级的JOY，如需要使用请自行解释注释
 # export BUY_JOY_LEVEL=""
+
+
+################################## 定义是否自动加购物车（选填） ##################################
+## 口袋书店和东东小窝有些任务需要将商品加进购物车才能完成，默认 "false" 不做这些任务，如想做，请设置为 "true"
+PURCHASE_SHOPS=""
 
 
 ################################## Telegram 代理（选填） ##################################

@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-11
-## Version： v3.4.7
+## Modified： 2021-01-13
+## Version： v3.4.8
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -317,9 +317,9 @@ function Add_Cron {
   fi
 }
 
-## 修复小bug
+## 更新crontab.list
 function Update_Cron {
-  perl -i -pe "s|>dev/null|>/dev/null|g" ${ListCron}
+  perl -i -pe "{s|>dev/null|>/dev/null|g; s|18 10,14(.+jd_joy_run.*)|18 11,14\1|; s|10 10,11(.+jd_joy_run.*)|18 11,14\1|}" ${ListCron}
   crontab ${ListCron}
 }
 
