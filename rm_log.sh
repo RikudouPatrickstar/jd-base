@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-03
-## Version： v3.2.1
+## Modified： 2021-01-13
+## Version： v3.2.2
 
 ## 判断环境
 if [ -f /proc/1/cgroup ]
@@ -47,7 +47,8 @@ function Rm_GitPullLog {
   then
     DateDelLog=$(date -v-${RmLogDaysAgo}d "+%Y-%m-%d")
   else
-    DateDelLog=$(date "+%Y-%m-%d" -d "${RmLogDaysAgo} days ago")
+    Stmp=$(($(date "+%s") - 86400 * ${RmLogDaysAgo}))
+    DateDelLog=$(date -d "@${Stmp}" "+%Y-%m-%d")
   fi
   LineEndGitPull=$[$(cat ${LogDir}/git_pull.log | grep -n "${DateDelLog} " | head -1 | awk -F ":" '{print $1}') - 3]
   [ ${LineEndGitPull} -gt 0 ] && perl -i -ne "{print unless 1 .. ${LineEndGitPull} }" ${LogDir}/git_pull.log
