@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-13
-## Version： v3.4.8
+## Modified： 2021-01-14
+## Version： v3.5.0
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -317,9 +317,12 @@ function Add_Cron {
   fi
 }
 
-## 更新crontab.list
+## 每天定时任务中git_pull.sh只执行一次，每次运行git_pull.sh时随机生成下一天执行git_pull.sh的任务时间，生成的时间范围：7:00-11:59
+## 不影响手动执行，手动执行会刷新下一天git_pull.sh的执行时间
 function Update_Cron {
-  perl -i -pe "{s|>dev/null|>/dev/null|g; s|18 10,14(.+jd_joy_run.*)|18 11,14\1|; s|10 10,11(.+jd_joy_run.*)|18 11,14\1|}" ${ListCron}
+  RanSec=$((${RANDOM} % 60))
+  RanHour=$((${RANDOM} % 5 + 7))
+  perl -i -pe "{s|18 10,14(.+jd_joy_run.*)|18 11,14\1|; s|10 10,11(.+jd_joy_run.*)|18 11,14\1|; s|.+(bash.+git_pull.*)|${RanSec} ${RanHour} * * * \1|}" ${ListCron}
   crontab ${ListCron}
 }
 
