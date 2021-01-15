@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-12
-## Version： v3.6.9
+## Modified： 2021-01-15
+## Version： v3.6.10
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -188,16 +188,13 @@ function Help {
   echo -e "${ListScripts}\n"
 }
 
-## nohup
-function Run_Nohup {
+## nohup sub
+function Run_NohupSub {
   nohup node ${js}.js > ${LogFile} &
 }
 
-## 运行挂机脚本
-function Run_HangUp {
-  Import_Conf && Detect_Cron && Set_Env
-  HangUpJs="jd_crazy_joy_coin"
-  
+## nohup
+function Run_Nohup {
   for js in ${HangUpJs}
   do
     if [[ $(ps -ef | grep "${js}" | grep -v "grep") != "" ]]; then
@@ -212,12 +209,32 @@ function Run_HangUp {
 
   for js in ${HangUpJs}
   do
-    cd ${ScriptsDir}
     [ ! -d ${LogDir}/${js} ] && mkdir -p ${LogDir}/${js}
-    LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
-    LogFile="${LogDir}/${js}/${LogTime}.log"
-    Run_Nohup >/dev/null 2>&1
+    Run_NohupSub >/dev/null 2>&1
   done
+}
+
+## pm2
+function Run_Pm2 {
+  for js in ${HangUpJs}
+  do
+    pm2 restart ${js}.js || pm2 start ${js}.js
+  done
+}
+
+## 运行挂机脚本
+function Run_HangUp {
+  Import_Conf && Detect_Cron && Set_Env
+  HangUpJs="jd_crazy_joy_coin"
+  LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
+  LogFile="${LogDir}/${js}/${LogTime}.log"
+
+  cd ${ScriptsDir}
+  if type pm2 >/dev/null 2>&1; then
+    Run_Pm2
+  else
+    Run_Nohup
+  fi
 }
 
 ## 重置密码
