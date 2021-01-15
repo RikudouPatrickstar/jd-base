@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-14
-## Version： v3.5.0
+## Modified： 2021-01-15
+## Version： v3.5.1
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -317,12 +317,18 @@ function Add_Cron {
   fi
 }
 
-## 每天定时任务中git_pull.sh只执行一次，每次运行git_pull.sh时随机生成下一天执行git_pull.sh的任务时间，生成的时间范围：7:00-11:59
-## 不影响手动执行，手动执行会刷新下一天git_pull.sh的执行时间
+## 每天定时任务中git_pull.sh只执行2次
+## 每天12:00前运行git_pull.sh时随机生成当天下午执行git_pull.sh的任务时间，生成的时间范围：13:00-20:59
+## 每天12:00后运行git_pull.sh时随机生成第二天上行执行git_pull.sh的任务时间，生成的时间范围：7:00-11:59
+## 不影响手动执行，手动执行会刷新下一次git_pull.sh的执行时间
 function Update_Cron {
-  RanSec=$((${RANDOM} % 60))
-  RanHour=$((${RANDOM} % 5 + 7))
-  perl -i -pe "{s|18 10,14(.+jd_joy_run.*)|18 11,14\1|; s|10 10,11(.+jd_joy_run.*)|18 11,14\1|; s|.+(bash.+git_pull.*)|${RanSec} ${RanHour} * * * \1|}" ${ListCron}
+  RanMin=$((${RANDOM} % 60))
+  if [ $(date "+%H") -ge 12 ]; then
+    RanHour=$((${RANDOM} % 5 + 7))
+  else
+    RanHour=$((${RANDOM} % 8 + 13))
+  fi
+  perl -i -pe "{s|18 10,14(.+jd_joy_run.*)|18 11,14\1|; s|10 10,11(.+jd_joy_run.*)|18 11,14\1|; s|.+(bash.+git_pull.*)|${RanMin} ${RanHour} * * * \1|}" ${ListCron}
   crontab ${ListCron}
 }
 
