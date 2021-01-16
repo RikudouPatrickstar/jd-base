@@ -2,7 +2,7 @@ name: "JD Docker Image Buildx Stable Github"
 on:
   push:
     branches:
-      - build2
+      - build
 jobs:
   build:
     runs-on: ubuntu-latest

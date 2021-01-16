@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-15
-## Version： v3.5.1
+## Modified： 2021-01-16
+## Version： v3.5.2
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -43,7 +43,7 @@ isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
 WhichDep=$(grep "/jd-base" "${ShellDir}/.git/config")
 
 if [[ ${WhichDep} == *github* ]]; then
-  ScriptsURL=https://github.com/lxk0301/jd_scripts
+  ScriptsURL=https://github.com/LXK9301/jd_scripts
   ShellURL=https://github.com/EvineDeng/jd-base
 else
   ScriptsURL=https://gitee.com/lxk0301/jd_scripts
