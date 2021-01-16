@@ -6,7 +6,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ## 依次输入which node、which npm、which git、which perl，检查node、npm、git、perl的路径，如路径不在刚刚修改的PATH中，则将路径添加在PATH最前面，并以冒号分隔
 
 ############ 第3步 ############
-## 命令行中输入 crontab -l ，将输出内容添加在本行之下：
+## 命令行中输入 crontab -l ，将输出内容添加在本行之下（如反馈没有定时任务则可以跳过本步）：
 
 
 
