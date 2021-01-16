@@ -63,7 +63,7 @@ RandomDelay="300"
 
 ################################## 定义User-Agent（选填） ##################################
 ## 自定义lxk0301大佬仓库里京东系列js脚本的User-Agent，不懂不知不会User-Agent的请不要随意填写内容，随意填写了出错概不负责
-## 相关讨论详见https://github.com/LXK9301/jd_scripts/issues/127，如需使用，请自行解除下一行注释
+## 如需使用，请自行解除下一行注释
 # export JD_USER_AGENT=""
 
 
@@ -99,7 +99,7 @@ export PUSH_PLUS_USER=""
 ## 8. 企业微信机器人消息推送 webhook 后面的 key，文档：https://work.weixin.qq.com/api/doc/90000/90136/91770
 export QYWX_KEY=""
 
-## 9. 企业微信应用消息推送的值，见https://github.com/LXK9301/jd_scripts/issues/519，文档：https://work.weixin.qq.com/api/doc/90000/90135/90236 
+## 9. 企业微信应用消息推送的值，文档：https://work.weixin.qq.com/api/doc/90000/90135/90236 
 ## 依次填上corpid的值,corpsecret的值,touser的值,agentid,media_id的值，注意用,号隔开，例如："wwcff56746d9adwers,B-791548lnzXBE6_BWfxdf3kSTMJr9vFEPKAbh6WERQ,mingcheng,1000001,2COXgjH2UIfERF2zxrtUOKgQ9XklUqMdGSWLBoW_lSDAdafat"
 export QYWX_AM=""
 
