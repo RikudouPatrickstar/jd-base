@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-16
-## Version： v3.5.2
+## Version： v3.5.3
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
 if [ -f /proc/1/cgroup ]
@@ -196,7 +196,7 @@ function Npm_InstallSub {
   if [ -n "${isTermux}" ]
   then
     npm install --no-bin-links || npm install --no-bin-links --registry=https://registry.npm.taobao.org
-  elif ! type yarn
+  elif ! type yarn >/dev/null 2>&1
   then
     npm install || npm install --registry=https://registry.npm.taobao.org
   else
