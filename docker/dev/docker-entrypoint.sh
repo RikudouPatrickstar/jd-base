@@ -22,11 +22,17 @@ echo
 if [ -d ${JD_DIR}/scripts/.git ]; then
   echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
   cd ${JD_DIR}/scripts
+  PackageListOld=$(cat package.json)
   git fetch --all
   git reset --hard origin/master
+  if [[ ${PackageListOld} != $(cat package.json) ]]; then
+    npm install --registry=https://registry.npm.taobao.org
+  fi
 else
   echo -e "克隆JS脚本，原地址：${ScriptsURL}\n"
   git clone -b master ${ScriptsURL} ${JD_DIR}/scripts
+  cd ${JD_DIR}/scripts
+  npm install --registry=https://registry.npm.taobao.org
 fi
 echo
 [ ! -d ${JD_DIR}/log ] && mkdir -p ${JD_DIR}/log
