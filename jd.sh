@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-16
-## Version： v3.6.11
+## Modified： 2021-01-18
+## Version： v3.6.12
 
 ## 路径
 if [ -f /proc/1/cgroup ]
@@ -108,7 +108,7 @@ function Combin_Sub {
   echo ${CombinAll} | perl -pe "{s|^&||; s|^@+||; s|&@|&|g; s|@+|@|g}"
 }
 
-## 组合Cookie、Token与互助码
+## 组合Cookie、Token与互助码，用户自己的放在前面，我的放在后面
 function Combin_All {
   export JD_COOKIE=$(Combin_Sub Cookie)
   export FRUITSHARECODES=$(Combin_Sub ForOtherFruit "e6e04602d5e343258873af1651b603ec@52801b06ce2a462f95e1d59d7e856ef4@5bc73a365ff74a559bdee785ea97fcc5" "6d402dcfae1043fba7b519e0d6579a6f@5efc7fdbb8e0436f8694c4c393359576@6dc9461f662d490991a31b798f624128" "e2fd1311229146cc9507528d0b054da8@30f29addd75d44e88fb452bbfe9f2110@1d02fc9e0e574b4fa928e84cb1c5e70b")
@@ -122,6 +122,7 @@ function Combin_All {
   export JXNCTOKENS=$(Combin_Sub TokenJxnc)
   export BOOKSHOP_SHARECODES=$(Combin_Sub ForOtherBookShop "aea9a9e0bc9e4f49b0515020e7bbaa90@4e012467d3da47268df4ef821a9f0662@8c3cefd0dcbb4b83a32f4dffde72fa26")
   export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash "Vl1uMrk@9qqduGQCv26BJ-NiHfexAcc_08V6HjOh@eU9Yauq2M6918jzSw3oX0w@IRwwaei6bvkgnjM" "Vl1uMrmyZvs@eU9YarrjM_53p27dyXQa3g@9Jq0uXglsVCqKd5kEv-D@9YmhuUccv2W6J9VsHue5AQqJ" "eU9YarjhYqonpDrTzXcR1Q@eU9Ya77gZK5z-TqHn3UWhQ@eU9Yaui2ZP4gpG-Gz3EThA@eU9YaeizbvQnpG_SznIS0w")
+  export JDNIAN_SHARECODES=$(Combin_Sub ForOtherNian "cgxZWifbeu-Wpm2AD0bol5Cu@cgxZ-tAo8DJqM5xu3ogeOY7OXkOQ2Lw_ympGPITqNcceAad8Y1ph2UOXS-LOq3PUCqmgYjpt-td3CYw18qw@cgxZdTXtIrzev12aC1eu5yr9cCz6N7HkgPrFkYPPzBDaaWjtjA3fokuFPMA@cgxZLWaFIb7S4gvPZ1jlo3Ru3_zhiy3nnTsS4mQaaZc" "cgxZWifbeu_a6gmFRGbg6Lh1SmQdF0DUmQ@cgxZdTXtIu6J7ljIXVGv6VoOs61gdyYXgT0ctAtCCykLsWw5accav11_0dI@cgxZ-fMU8RF0M5dV3r4QOsLKNQRnjyuoh9haQkLPPMH6fJjgVIkoZy5ww_K-I2JJ@cgxZ-OAB8S5NPaJF0LUYNl1oYE9tdRYPs2e2kWz3RrqEMgqutLWhZlw" "cgxZdTXtIuyLvwyYXgWh7YMhXtAVbaE0Ozjf2OUdEJZsvB1JgZ-5v5F_bDc@cgxZdTXtI-iI6FycAFH7u-1dMgurAZjyJ58rjmucS1-MNDQLuuFxg0MP4nk@cgxZdTXtIr7e6AzPXQT666v1QrNvBgZa6pzohEggDpwCCoJqAmI3w2yaU_s@cgxZdTXtIb7b4gbIXQSu6lqwwvtQXfo34CxB9K3ndzOzMDWK93LMQ85BnsQ")
 }
 
 ## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE

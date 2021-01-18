@@ -1,6 +1,6 @@
-## Version: v3.14.1
-## Date: 2021-01-16
-## Update Content: 更新引用的教程中的仓库链接为：https://github.com/LXK9301/jd_scripts
+## Version: v3.15.0
+## Date: 2021-01-18
+## Update Content: 增加全民炸年兽活动助力环境变量。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/EvineDeng/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -320,6 +320,26 @@ ForOtherCash5=""
 ForOtherCash6=""
 
 
+################################## 定义2020年炸年兽活动互助（选填） ##################################
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 仅2021年2月12日前有效
+MyNian1=""
+MyNian2=""
+MyNian3=""
+MyNian4=""
+MyNian5=""
+MyNian6=""
+MyNianA=""
+MyNianB=""
+
+ForOtherNian1=""
+ForOtherNian2=""
+ForOtherNian3=""
+ForOtherNian4=""
+ForOtherNian5=""
+ForOtherNian6=""
+
+
 ################################## 定义东东超市蓝币兑换数量（选填） ##################################
 ## 东东超市蓝币兑换，可用值包括：
 ## 一、0：表示不兑换京豆，这也是js脚本的默认值
@@ -475,7 +495,7 @@ export JDJOY_HELPSELF=""
 ## 疯狂的JOY京豆兑换，目前最小值为500/1000京豆，默认为 "0" 不开启京豆兑换
 export JDJOY_APPLYJDBEAN=""
 
-## 疯狂的JOY自动购买什么等级的JOY，如需要使用请自行解释注释
+## 疯狂的JOY自动购买什么等级的JOY，如需要使用请自行解除注释
 # export BUY_JOY_LEVEL=""
 
 
