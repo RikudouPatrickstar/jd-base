@@ -3,17 +3,10 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-18
-## Version： v3.5.4
+## Version： v3.5.5
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
-if [ -f /proc/1/cgroup ]
-then
-  isDocker=$(cat /proc/1/cgroup | grep docker)
-else
-  isDocker=""
-fi
-
-if [ -z "${isDocker}" ]
+if [ -z "${JD_DIR}" ]
 then
   ShellDir=$(cd $(dirname $0); pwd)
   ShellJd=${ShellDir}/jd.sh
@@ -142,7 +135,7 @@ function Change_ALL {
 ## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
   if [ -f ${ListCron} ]; then
-    if [ -n "${isDocker}" ]
+    if [ -n "${JD_DIR}" ]
     then
       grep -E " j[drx]_\w+" ${ListCron} | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | uniq | sort > ${ListTask}
     else
@@ -356,7 +349,7 @@ VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3
 if [ ${ExitStatusShell} -eq 0 ]
 then
   echo -e "\nshell脚本更新完成...\n"
-  if [ -n "${isDocker}" ] && [ -d ${ConfigDir} ]; then
+  if [ -n "${JD_DIR}" ] && [ -d ${ConfigDir} ]; then
     cp -f ${FileConfSample} ${ConfigDir}/config.sh.sample
   fi
 else

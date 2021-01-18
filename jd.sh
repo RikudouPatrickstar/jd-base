@@ -3,17 +3,10 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-18
-## Version： v3.6.12
+## Version： v3.6.13
 
 ## 路径
-if [ -f /proc/1/cgroup ]
-then
-  isDocker=$(cat /proc/1/cgroup | grep docker)
-else
-  isDocker=""
-fi
-
-if [ -z "${isDocker}" ]
+if [ -z "${JD_DIR}" ]
 then
   ShellDir=$(cd $(dirname $0); pwd)
 else
@@ -172,7 +165,7 @@ function Random_Delay {
 ## 使用说明
 function Help {
   echo -e "本脚本的用法为：\n"
-  if [ -n "${isDocker}" ]
+  if [ -n "${JD_DIR}" ]
   then
     echo -e "1. bash jd xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
     echo -e "2. bash jd xxx now  # 无论是否设置了随机延迟，均立即运行\n"
@@ -199,7 +192,7 @@ function Run_Nohup {
   for js in ${HangUpJs}
   do
     if [[ $(ps -ef | grep "${js}" | grep -v "grep") != "" ]]; then
-      if [ -n "${isDocker}" ]
+      if [ -n "${JD_DIR}" ]
       then
         ps -ef | grep "${js}" | grep -v "grep" | awk '{print $1}' | xargs kill -9
       else

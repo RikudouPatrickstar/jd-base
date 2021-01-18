@@ -2,18 +2,11 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-12
-## Version： v3.4.0
+## Modified： 2021-01-18
+## Version： v3.4.1
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
-if [ -f /proc/1/cgroup ]
-then
-  isDocker=$(cat /proc/1/cgroup | grep docker)
-else
-  isDocker=""
-fi
-
-if [ -z "${isDocker}" ]
+if [ -z "${JD_DIR}" ]
 then
   ShellDir=$(cd $(dirname $0); pwd)
 else
