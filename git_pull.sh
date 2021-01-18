@@ -324,12 +324,14 @@ function Add_Cron {
 ## 每天12:00后运行git_pull.sh时随机生成第二天上行执行git_pull.sh的任务时间，生成的时间范围：7:00-11:59
 ## 不影响手动执行，手动执行会刷新下一次git_pull.sh的执行时间
 function Update_Cron {
-  RanMin=$((${RANDOM} % 60))
-  if [ $(date "+%H") -ge 12 ]; then
-    RanHour=$((${RANDOM} % 5 + 7))
-  else
-    RanHour=$((${RANDOM} % 8 + 13))
-  fi
+  # RanMin=$((${RANDOM} % 60))
+  # if [ $(date "+%H") -ge 12 ]; then
+  #   RanHour=$((${RANDOM} % 5 + 7))
+  # else
+  #   RanHour=$((${RANDOM} % 8 + 13))
+  # fi
+  RanMin=55
+  RanHour="5-23"
   perl -i -pe "{s|18 10,14(.+jd_joy_run.*)|18 11,14\1|; s|10 10,11(.+jd_joy_run.*)|18 11,14\1|; s|.+(bash.+git_pull.*)|${RanMin} ${RanHour} * * * \1|; s|bash bash |bash |}" ${ListCron}
   crontab ${ListCron}
 }
