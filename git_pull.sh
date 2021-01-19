@@ -108,8 +108,8 @@ function Change_JoyRunPins {
 
 ## 将我的invitecode追加到脚本中，不会删除原作者的邀请码
 function Change_InviteCode {
-  # CodeJoy=",\n  'i7J-rBjC1cY=\@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=\@TZaj4q_GSarkd-u40-hYJg==\@aEYNdH9WkHKZzdje-aDvWqt9zd5YaBeE\@7ZiMxCUnP2Orfc3eWGgXhA==',\n  'ZKfuxUZxKdGbDxTmAHnqkqt9zd5YaBeE\@xWXlN8vLwpFOy71e_SEYsg==\@ym8TOcaoUTQnJZKpDzKWd6t9zd5YaBeE\@9_dxd9S1-R7nohQ1FGiupUGIzB-QNOGN'"
-  # perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+)(\n\];?)|\1\2${CodeJoy}\3|" ${ScriptsDir}/jd_crazy_joy.js >/dev/null 2>&1
+  CodeJoy=",\n  'i7J-rBjC1cY=\@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=\@TZaj4q_GSarkd-u40-hYJg==\@aEYNdH9WkHKZzdje-aDvWqt9zd5YaBeE\@7ZiMxCUnP2Orfc3eWGgXhA==',\n  'ZKfuxUZxKdGbDxTmAHnqkqt9zd5YaBeE\@xWXlN8vLwpFOy71e_SEYsg==\@ym8TOcaoUTQnJZKpDzKWd6t9zd5YaBeE\@9_dxd9S1-R7nohQ1FGiupUGIzB-QNOGN'"
+  perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+)(\n\];?)|\1\2${CodeJoy}\3|" ${ScriptsDir}/jd_crazy_joy.js >/dev/null 2>&1
 }
 
 ## 修改lxk0301大佬js文件的函数汇总
