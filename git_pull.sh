@@ -319,9 +319,9 @@ function Update_Cron {
   # else
   #   RanHour=$((${RANDOM} % 8 + 13))
   # fi
-  RanMin=55
-  RanHour="5-23"
-  perl -i -pe "{s|18 10,14(.+jd_joy_run.*)|18 11,14\1|; s|10 10,11(.+jd_joy_run.*)|18 11,14\1|; s|.+(bash.+git_pull.*)|${RanMin} ${RanHour} * * * \1|; s|bash bash |bash |}" ${ListCron}
+  # RanMin=55
+  # RanHour="5-23"
+  # perl -i -pe "{s|18 10,14(.+jd_joy_run.*)|18 11,14\1|; s|10 10,11(.+jd_joy_run.*)|18 11,14\1|; s|bash bash |bash |}" ${ListCron}
   crontab ${ListCron}
 }
 
