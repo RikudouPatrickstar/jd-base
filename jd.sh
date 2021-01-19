@@ -2,15 +2,17 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-18
-## Version： v3.6.13
+## Modified： 2021-01-19
+## Version： v3.6.14
 
 ## 路径
 if [ -z "${JD_DIR}" ]
 then
   ShellDir=$(cd $(dirname $0); pwd)
+  HelpJd=jd.sh
 else
   ShellDir=${JD_DIR}
+  HelpJd=jd
 fi
 
 ScriptsDir=${ShellDir}/scripts
@@ -18,7 +20,7 @@ ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
-ListScripts=$(ls ${ScriptsDir} | grep -E "j[drx]_\w+\.js" | perl -pe "s|\.js||")
+ListScripts=$(ls ${ScriptsDir} | grep -Eo "j[drx]_\w+[^\.js]")
 ListCron=${ConfigDir}/crontab.list
 
 ## 导入config.sh
@@ -46,13 +48,13 @@ function Detect_Cron {
 ## 用户数量UserSum
 function Count_UserSum {
   i=1
-  while [ ${i} -le 1000 ]
+  while [ $i -le 1000 ]
   do
-    TmpCK=Cookie${i}
-    eval CookieTmp=$(echo \$${TmpCK})
+    Tmp=Cookie$i
+    CookieTmp=${!Tmp}
     if [ -n "${CookieTmp}" ]
     then
-      UserSum=${i}
+      UserSum=$i
     else
       break
     fi
@@ -67,7 +69,7 @@ function Combin_Sub {
   while [ $i -le ${UserSum} ]
   do
     Tmp1=$1$i
-    eval Tmp2=$(echo \$${Tmp1})
+    Tmp2=${!Tmp1}
     case $# in
       1)
         CombinAll="${CombinAll}&${Tmp2}"
@@ -165,21 +167,12 @@ function Random_Delay {
 ## 使用说明
 function Help {
   echo -e "本脚本的用法为：\n"
-  if [ -n "${JD_DIR}" ]
-  then
-    echo -e "1. bash jd xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
-    echo -e "2. bash jd xxx now  # 无论是否设置了随机延迟，均立即运行\n"
-    echo -e "3. bash jd hangup   # 重启挂机程序\n"
-    echo -e "4. bash jd resetpwd # 重置控制面板用户名和密码\n"
-  else
-    echo -e "1. bash jd.sh xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
-    echo -e "2. bash jd.sh xxx now  # 无论是否设置了随机延迟，均立即运行\n"
-    echo -e "3. bash jd.sh hangup   # 重启挂机程序\n"
-    echo -e "4. bash jd.sh resetpwd # 重置控制面板用户名和密码\n"
-  fi
+  echo -e "1. bash ${HelpJd} xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数\n"
+  echo -e "2. bash ${HelpJd} xxx now  # 无论是否设置了随机延迟，均立即运行\n"
+  echo -e "3. bash ${HelpJd} hangup   # 重启挂机程序\n"
+  echo -e "4. bash ${HelpJd} resetpwd # 重置控制面板用户名和密码\n"
   echo -e "针对用法1、用法2中的\"xxx\"，无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略...\n"
-  echo -e "当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本，但不含自定义脚本）：\n"
-  echo -e "${ListScripts}\n"
+  echo -e "当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本，但不含自定义脚本）：\n${ListScripts}\n"
 }
 
 ## nohup sub
@@ -192,12 +185,7 @@ function Run_Nohup {
   for js in ${HangUpJs}
   do
     if [[ $(ps -ef | grep "${js}" | grep -v "grep") != "" ]]; then
-      if [ -n "${JD_DIR}" ]
-      then
-        ps -ef | grep "${js}" | grep -v "grep" | awk '{print $1}' | xargs kill -9
-      else
-        ps -ef | grep "${js}" | grep -v "grep" | awk '{print $2}' | xargs kill -9
-      fi
+      ps -ef | grep "${js}" | grep -v "grep" | awk '{print $2}' | xargs kill -9
     fi
   done
 
