@@ -1,8 +1,7 @@
 name: "JD Docker Image Buildx Dev"
 on:
-  push:
-    branches:
-      - build2
+  workflow_dispatch:
+    
 jobs:
   build:
     runs-on: ubuntu-latest
