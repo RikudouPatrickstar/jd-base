@@ -209,7 +209,7 @@ function bakConfFile(file) {
         default:
             break;
     }
-    
+
 }
 
 /**
@@ -258,7 +258,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 app.get('/', function (request, response) {
     if (request.session.loggedin) {
-        response.redirect('/home');
+        response.redirect('./home');
     } else {
         response.sendFile(path.join(__dirname + '/public/auth.html'));
     }
@@ -271,7 +271,7 @@ app.get('/changepwd', function (request, response) {
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/public/pwd.html'));
     } else {
-        response.redirect('/');
+        response.redirect('./');
     }
 });
 
@@ -360,7 +360,7 @@ app.get('/home', function (request, response) {
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/public/home.html'));
     } else {
-        response.redirect('/');
+        response.redirect('./');
     }
 
 });
@@ -372,7 +372,7 @@ app.get('/diff', function (request, response) {
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/public/diff.html'));
     } else {
-        response.redirect('/');
+        response.redirect('./');
     }
 
 });
@@ -384,7 +384,7 @@ app.get('/crontab', function (request, response) {
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/public/crontab.html'));
     } else {
-        response.redirect('/');
+        response.redirect('./');
     }
 
 });
@@ -445,7 +445,7 @@ app.post('/changepass', function (request, response) {
  */
 app.get('/logout', function (request, response) {
     request.session.destroy()
-    response.redirect('/');
+    response.redirect('./');
 
 });
 
