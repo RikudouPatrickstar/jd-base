@@ -175,11 +175,6 @@ function Help {
   echo -e "当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本，但不含自定义脚本）：\n${ListScripts}\n"
 }
 
-## nohup sub
-function Run_NohupSub {
-  nohup node ${js}.js > ${LogFile} &
-}
-
 ## nohup
 function Run_Nohup {
   for js in ${HangUpJs}
@@ -194,7 +189,7 @@ function Run_Nohup {
     [ ! -d ${LogDir}/${js} ] && mkdir -p ${LogDir}/${js}
     LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
     LogFile="${LogDir}/${js}/${LogTime}.log"
-    Run_NohupSub >/dev/null 2>&1
+    nohup node ${js}.js > ${LogFile} &
   done
 }
 
@@ -214,7 +209,7 @@ function Run_HangUp {
   if type pm2 >/dev/null 2>&1; then
     Run_Pm2 2>/dev/null
   else
-    Run_Nohup
+    Run_Nohup >/dev/null 2>&1
   fi
 }
 
