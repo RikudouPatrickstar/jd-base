@@ -21,14 +21,17 @@ var sampleFile = path.join(rootPath,'sample/config.sh.sample');
 // crontab.list 文件所在目录
 var crontabFile = path.join(rootPath,'config/crontab.list');
 // config.sh 文件备份目录
-var confBakDir = path.join(rootPath,'config/bak/');;
+var confBakDir = path.join(rootPath,'config/bak/');
 // auth.json 文件目录
 var authConfigFile = path.join(rootPath,'config/auth.json');
+// Share Code 文件目录
+var shareCodeDir = path.join(rootPath,'log/jd_get_share_code/');
+var shareCodeFile = getLastModifyFilePath(shareCodeDir);
 
 var authError = "错误的用户名密码，请重试";
 var loginFaild = "请先登录!";
 
-var configString = "config sample crontab";
+var configString = "config sample crontab shareCode";
 
 var s_token, cookies, guid, lsid, lstoken, okl_token, token, userCookie = ""
 
@@ -242,6 +245,32 @@ function getFileContentByName(fileName) {
     return '';
 }
 
+/**
+ * 获取目录中最后修改的文件的路径
+ * @param dir 目录路径
+ * @returns {string} 最新文件路径
+ */
+function getLastModifyFilePath(dir) {
+    var filePath = '';
+
+    if (fs.existsSync(dir)) {
+        var lastmtime = 0;
+
+        var arr = fs.readdirSync(dir);
+
+	    arr.forEach(function(item) {
+		    var fullpath = path.join(dir,item);
+		    var stats = fs.statSync(fullpath);
+		    if (stats.isFile()) {
+                if (stats.mtimeMs >= lastmtime) {
+                    filePath = fullpath;
+                }
+            }
+        });
+    }
+    return filePath;
+}
+
 
 var app = express();
 app.use(session({
@@ -340,6 +369,9 @@ app.get('/api/config/:key', function (request, response) {
                 case 'crontab':
                     content = getFileContentByName(crontabFile);
                     break;
+                case 'shareCode':
+                    content = getFileContentByName(shareCodeFile);
+                    break;
                 default:
                     break;
             }
@@ -371,6 +403,18 @@ app.get('/home', function (request, response) {
 app.get('/diff', function (request, response) {
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/public/diff.html'));
+    } else {
+        response.redirect('./');
+    }
+
+});
+
+/**
+ * Share Code 页面
+ */
+app.get('/shareCode', function (request, response) {
+    if (request.session.loggedin) {
+        response.sendFile(path.join(__dirname + '/public/shareCode.html'));
     } else {
         response.redirect('./');
     }
