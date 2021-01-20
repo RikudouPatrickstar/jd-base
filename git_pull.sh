@@ -399,7 +399,7 @@ if [ ${ExitStatusShell} -eq 0 ]; then
 fi
 
 ## 执行各函数
-if [ ${ExitStatusScripts} -eq 0 ]
+if [[ ${ExitStatusScripts} -eq 0 ]]
 then
   echo -e "js脚本更新完成...\n"
   Change_ALL
