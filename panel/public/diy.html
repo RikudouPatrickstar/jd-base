@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Share Code</title>
+    <title>自定义脚本</title>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/codemirror.min.js"></script>
     <script type="text/javascript" src="./js/shell.js"></script>
@@ -23,22 +23,23 @@
                     <li><a href="./home">首页</a></li>
                     <li><a href="./crontab">定时设定</a></li>
                     <li><a href="./diff">对比工具</a></li>
-                    <li class="active"><a href="./shareCode">Share Code</a></li>
-                    <li><a href="./diy">自定义脚本</a></li>
+                    <li><a href="./shareCode">Share Code</a></li>
+                    <li class="active"><a href="./diy">自定义脚本</a></li>
                     <li><a href="./changepwd">修改密码</a></li>
                     <li><a href="./logout">退出</a></li>
                 </ul>
             </nav>
             <header>
-                <h1>jd_get_share_code输出日志</h1>
+                <h1>自定义脚本</h1>
+                <button id="save" title="保存">保存 diy.sh</button>
                 <br/>
-                <p>此处显示的互助码来源于 log/jd_get_share_code 目录中的输出日志</p>
+                <p>启用自定义脚本需要在 config.sh 中将参数 EnableExtraShell 设置为 true</p>
                 <br/>
-                <p>如果没有显示内容，请等待定时脚本的执行，或手动执行 export_sharecodes.sh 脚本生成</p>
+                <p>此处编辑的内容将保存在 config/diy.sh </p>
             </header>
-            <h4>Share Code</h4>
+            <h4>diy.sh</h4>
             <div class="wrapper">
-                <textarea id="code" name="code" readonly="readonly"></textarea>
+                <textarea id="code" name="code"></textarea>
             </div>
         </div>
     </div>
@@ -49,13 +50,27 @@
                 lineWrapping: true,
                 styleActiveLine: true,
                 matchBrackets: true,
-                readOnly: true,
-                mode: 'text',
+                mode: 'shell',
                 theme: 'dracula'
             });
             let timeStamp = (new Date()).getTime()
-            $.get("./api/config/shareCode?t="+timeStamp, function (data) {
+            $.get("./api/config/diy?t="+timeStamp, function (data) {
                 editor.setValue(data);
+            });
+
+            $('#save').click(function () {
+                var confContent = editor.getValue();
+                let timeStamp = (new Date()).getTime()
+                $.post('./api/save?t='+timeStamp, { content: confContent, name: "diy.sh" }, function (data) {
+                    let icon = (data.err == 0) ? "success" : "error"
+                    Swal.fire({
+                        title:data.title,
+                        text: data.msg,
+                        icon: icon
+                    }).then((result) => {
+                        window.location.reload(true);
+                    })
+                });
             });
         });
 
