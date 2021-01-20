@@ -26,12 +26,13 @@ var confBakDir = path.join(rootPath,'config/bak/');
 var authConfigFile = path.join(rootPath,'config/auth.json');
 // Share Code 文件目录
 var shareCodeDir = path.join(rootPath,'log/jd_get_share_code/');
-var shareCodeFile = getLastModifyFilePath(shareCodeDir);
+// diy.sh 文件目录
+var diyFile = path.join(rootPath,'config/diy.sh');
 
 var authError = "错误的用户名密码，请重试";
 var loginFaild = "请先登录!";
 
-var configString = "config sample crontab shareCode";
+var configString = "config sample crontab shareCode diy";
 
 var s_token, cookies, guid, lsid, lstoken, okl_token, token, userCookie = ""
 
@@ -209,6 +210,10 @@ function bakConfFile(file) {
             oldConfContent = getFileContentByName(crontabFile);
             fs.writeFileSync(bakConfFile, oldConfContent);
             break;
+        case "diy.sh":
+            oldConfContent = getFileContentByName(diyFile);
+            fs.writeFileSync(bakConfFile, oldConfContent);
+            break;
         default:
             break;
     }
@@ -227,6 +232,9 @@ function saveNewConf(file, content) {
             break;
         case "crontab.list":
             fs.writeFileSync(crontabFile, content);
+            break;
+        case "diy.sh":
+            fs.writeFileSync(diyFile, content);
             break;
         default:
             break;
@@ -370,7 +378,11 @@ app.get('/api/config/:key', function (request, response) {
                     content = getFileContentByName(crontabFile);
                     break;
                 case 'shareCode':
+                    let shareCodeFile = getLastModifyFilePath(shareCodeDir);
                     content = getFileContentByName(shareCodeFile);
+                    break;
+                case 'diy':
+                    content = getFileContentByName(diyFile);
                     break;
                 default:
                     break;
@@ -427,6 +439,18 @@ app.get('/shareCode', function (request, response) {
 app.get('/crontab', function (request, response) {
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/public/crontab.html'));
+    } else {
+        response.redirect('./');
+    }
+
+});
+
+/**
+ * 自定义脚本 页面
+ */
+app.get('/diy', function (request, response) {
+    if (request.session.loggedin) {
+        response.sendFile(path.join(__dirname + '/public/diy.html'));
     } else {
         response.redirect('./');
     }
