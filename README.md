@@ -4,7 +4,13 @@
 
 ## 如有二次使用，请注明来源
 
-本脚本是 [https://github.com/LXK9301/jd_scripts](https://github.com/LXK9301/jd_scripts) 和 [https://github.com/shylocks/Loon](https://github.com/shylocks/Loon) 的shell套壳工具，适用于以下系统：
+本脚本是 [https://github.com/LXK9301/jd_scripts](https://github.com/LXK9301/jd_scripts) 和 [https://github.com/shylocks/Loon](https://github.com/shylocks/Loon) 的shell套壳工具。
+
+[LXK9301/jd_scripts](https://github.com/LXK9301/jd_scripts)：主要是长期任务。
+
+[shylocks/Loon](https://github.com/shylocks/Loon)：主要是短期任务、一次性任务，正因为是短期的和一次性的，所以经常会有报错，报错就报错了，不要催我也不要去催[shylocks](https://github.com/shylocks)大佬。
+
+## 适用于以下系统
 
 - ArmBian/Debian/Ubuntu/OpenMediaVault/CentOS/Fedora/RHEL等Linux系统
 
