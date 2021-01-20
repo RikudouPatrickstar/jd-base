@@ -1,10 +1,10 @@
-## 请仔细阅读[WIKI](https://github.com/EvineDeng/jd-base/wiki)和各文件注释，90%的问题都能找到答案
+## 请仔细阅读 [WIKI](https://github.com/EvineDeng/jd-base/wiki) 和各文件注释，95%的问题都能找到答案
 
 ## 如有帮助到你，请点亮Star
 
 ## 如有二次使用，请注明来源
 
-本脚本是[https://github.com/LXK9301/jd_scripts](https://github.com/LXK9301/jd_scripts)的shell套壳工具，适用于以下系统：
+本脚本是 [https://github.com/LXK9301/jd_scripts](https://github.com/LXK9301/jd_scripts) 和 [https://github.com/shylocks/Loon](https://github.com/shylocks/Loon) 的shell套壳工具，适用于以下系统：
 
 - ArmBian/Debian/Ubuntu/OpenMediaVault/CentOS/Fedora/RHEL等Linux系统
 
@@ -26,7 +26,9 @@
 
 > 只记录大的更新，小修小改不记录。
 
-2021-01-15，每天定时任务中git_pull.sh只执行2次；每天12:00前运行git_pull.sh时随机生成当天下午执行git_pull.sh的任务时间，生成的时间范围：13:00-20:59；每天12:00后运行git_pull.sh时随机生成第二天上行执行git_pull.sh的任务时间，生成的时间范围：7:00-11:59；不影响手动执行，手动执行会刷新下一次git_pull.sh的执行时间。如果本机上安装了pm2，则挂机程序以pm2启动，否则以nohup启动。
+2020-01-21，增加shylocks/Loon脚本。
+
+2021-01-15，如果本机上安装了pm2，则挂机程序以pm2启动，否则以nohup启动。
 
 ## Star趋势
 
