@@ -2,17 +2,11 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-18
-## Version： v3.2.3
+## Modified： 2021-01-21
+## Version： v3.2.4
 
 ## 判断环境
-if [ -z "${JD_DIR}" ]
-then
-  ShellDir=$(cd $(dirname $0); pwd)
-else
-  ShellDir=${JD_DIR}
-fi
-
+ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
 LogDir=${ShellDir}/log
 
 ## 导入配置文件
