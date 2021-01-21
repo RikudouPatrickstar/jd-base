@@ -196,6 +196,7 @@ function Run_Nohup {
 
 ## pm2
 function Run_Pm2 {
+  pm2 flush
   for js in ${HangUpJs}
   do
     pm2 restart ${js}.js || pm2 start ${js}.js
