@@ -1,6 +1,6 @@
-## Version: v3.17.0
-## Date: 2021-01-20
-## Update Content: 增加神仙书院互助码填写区域。
+## Version: v3.18.0
+## Date: 2021-01-21
+## Update Content: 增加京东炸年兽（jd_nian_wechat.js）小程序自定义UA变量，建议填写，防止黑号。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/EvineDeng/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -530,6 +530,12 @@ export PURCHASE_SHOPS=""
 ## 神仙书院（jd_immortal.js）这个脚本所需的，你所处的经纬度，用于做逛身边好店任务，如：export JD_IMMORTAL_LATLON='{"lat":33.1, "lng":118.1}'
 ## 可以使用手机自带的指南针获取所在经纬度，越精确越好，最长可保留小数点后9位数字
 export JD_IMMORTAL_LATLON=''
+
+
+################################## 京东炸年兽小程序自定义UA变量（选填） ##################################
+## 京东炸年兽（（jd_nian_wechat.js））这个脚本所需的，需要使用抓包工具自行抓包，建议填写，防止黑号。
+## 示例：export JD_WECHAT_USER_AGENT="Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15A148 MicroMessenger/7.0.20(0x17001320) NetType/WIFI Language/zh_CN"
+export JD_WECHAT_USER_AGENT=""
 
 
 ################################## Telegram 代理（选填） ##################################
