@@ -20,7 +20,7 @@ ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
-ListScripts=$(ls ${ScriptsDir} | grep -Eo "j[drx]_\w+[^\.js]")
+ListScripts=$(ls ${ScriptsDir} | grep -E "j[drx]_\w+\.js" | perl -pe "s|\.js||")
 ListCron=${ConfigDir}/crontab.list
 
 ## 导入config.sh
