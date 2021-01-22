@@ -3,14 +3,11 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-22
-## Version： v3.5.0
+## Version： v3.5.1
 
-## 文件路径、脚本网址、文件版本以及各种环境的判断
+## 路径、环境判断
 ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
 LogDir=${ShellDir}/log
-ScriptsDir=${ShellDir}/scripts
-FileConf=${ShellDir}/config/config.sh
-DateToday=$(date "+%Y-%m-%d")
 [[ ${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT} ]] && Opt="P" || Opt="E"
 
 ## 导出互助码的通用程序
