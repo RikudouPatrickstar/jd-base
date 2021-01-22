@@ -10,7 +10,7 @@ ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
 LogDir=${ShellDir}/log
 [[ ${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT} ]] && Opt="P" || Opt="E"
 
-## 所有有互助码的活动，只需要把脚本名称去掉前缀jd_后列在Name1中，将其中文名称列在Name2中即可，shylocks大佬的脚本需要在第25行中也列一次。
+## 所有有互助码的活动，只需要把脚本名称去掉前缀jd_后列在Name1中，将其中文名称列在Name2中即可。
 ## Name1和Name2中两个名称必须一一对应。
 Name1=(fruit pet plantBean dreamFactory jdfactory crazy_joy jdzz jxnc bookshop cash immortal nh nian)
 Name2=(东东农场 东东萌宠 京东种豆得豆 京喜工厂 东东工厂 crazyJoy任务 京东赚赚 京喜农场 口袋书店 签到领现金 神仙书院 年货节 炸年兽)
@@ -20,12 +20,11 @@ function Cat_Scodes {
   if [ -d ${LogDir}/jd_$1 ] && [[ $(ls ${LogDir}/jd_$1) != "" ]]; then
     cd ${LogDir}/jd_$1
     for log in $(ls -r); do
-      case $1 in
-        ## shylocks大佬的脚本需要在下一行中也列一次
-        bookshop | cash | immortal | nh | nian)
+      case $# in
+        1)
           codes=$(cat ${log} | grep -${Opt} "开始【京东账号|您的(好友)?助力码为" | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n(您的(好友)?助力码为)|：|g}")
           ;;
-        *)
+        2)
           codes=$(grep -${Opt} $2 ${log} | perl -pe "{s| ||g; s|$2||g}")
           ;;
       esac
@@ -40,9 +39,17 @@ function Cat_Scodes {
 ## 汇总
 function Cat_All {
   echo -e "本脚本从最后一个正常的日志中寻找互助码，某些账号缺失则代表在最后一个正常的日志中没有找到。\n"
-  for ((i=1; i<${#Name1[*]}; i++)); do
+
+  # 前8个的日志为第一种形式
+  for ((i=0; i<8; i++)); do
     echo -e "\n${Name2[i]}："
     Cat_Scodes "${Name1[i]}" "的${Name2[i]}好友互助码"
+  done
+  
+  # 从第9个任务开始，日志为第二种形式
+  for ((i=8; i<${#Name1[*]}; i++)); do
+    echo -e "\n${Name2[i]}："
+    Cat_Scodes "${Name1[i]}"
   done
 }
 
