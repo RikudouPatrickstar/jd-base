@@ -2,22 +2,14 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-20
-## Version： v3.6.0
+## Modified： 2021-01-22
+## Version： v3.6.1
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
-if [ -z "${JD_DIR}" ]
-then
-  ShellDir=$(cd $(dirname $0); pwd)
-  ShellJd=${ShellDir}/jd.sh
-else
-  ShellDir=${JD_DIR}
-  ShellJd=jd
-fi
-
+ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
+[[ ${JD_DIR} ]] && ShellJd=jd || ShellJd=${ShellDir}/jd.sh
 LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
-
 ScriptsDir=${ShellDir}/scripts
 Scripts2Dir=${ShellDir}/scripts2
 ConfigDir=${ShellDir}/config
@@ -94,44 +86,27 @@ function Git_PullScripts2 {
 
 ## 用户数量UserSum
 function Count_UserSum {
-  i=1
-  while [ $i -le 1000 ]
-  do
+  for ((i=1; i<=1000; i++)); do
     Tmp=Cookie$i
     CookieTmp=${!Tmp}
-    if [ -n "${CookieTmp}" ]
-    then
-      UserSum=$i
-    else
-      break
-    fi
-    let i++
+    [[ ${CookieTmp} ]] && UserSum=$i || break
   done
 }
 
 ## 把config.sh中提供的所有账户的PIN附加在jd_joy_run.js中，让各账户相互进行宠汪汪赛跑助力
 ## 你的账号将按Cookie顺序被优先助力，助力完成再助力我的账号和lxk0301大佬的账号
 function Change_JoyRunPins {
-  j=${UserSum}
   PinALL=""
-  while [ $j -ge 1 ]
-  do
+  for ((j=${UserSum}; j>=1; j--)); do
     Tmp=Cookie$j
     CookieTemp=${!Tmp}
     PinTemp=$(echo ${CookieTemp} | perl -pe "{s|.*pt_pin=(.+);|\1|; s|%|\\\x|g}")
     PinTempFormat=$(printf ${PinTemp})
     PinALL="${PinTempFormat},${PinALL}"
-    let j--
   done
   PinEvine="Evine,做一颗潇洒的蛋蛋,Evine007,jd_7bb2be8dbd65c,jd_6fae2af082798,jd_664ecc3b78945,277548856_m,米大眼老鼠,"
   PinALL="${PinALL}${PinEvine}"
   perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|}" ${ScriptsDir}/jd_joy_run.js
-}
-
-## 将我的invitecode追加到脚本中，不会删除原作者的邀请码
-function Change_InviteCode {
-  CodeJoy=",\n  'i7J-rBjC1cY=\@9Lz36oup9_3x1O3gdANrI0MGRhplILGlq33N3lhoF4Q=\@TZaj4q_GSarkd-u40-hYJg==\@aEYNdH9WkHKZzdje-aDvWqt9zd5YaBeE\@7ZiMxCUnP2Orfc3eWGgXhA==',\n  'ZKfuxUZxKdGbDxTmAHnqkqt9zd5YaBeE\@xWXlN8vLwpFOy71e_SEYsg==\@ym8TOcaoUTQnJZKpDzKWd6t9zd5YaBeE\@9_dxd9S1-R7nohQ1FGiupUGIzB-QNOGN'"
-  perl -0777 -i -pe "s|(const inviteCodes = \[\n)(.+\n.+)(\n\];?)|\1\2${CodeJoy}\3|" ${ScriptsDir}/jd_crazy_joy.js >/dev/null 2>&1
 }
 
 ## 修改lxk0301大佬js文件的函数汇总
@@ -141,7 +116,6 @@ function Change_ALL {
     if [ -n "${Cookie1}" ]; then
       Count_UserSum
       Change_JoyRunPins
-      # Change_InviteCode
     fi
   fi
 }
@@ -335,15 +309,6 @@ function Add_Cron {
 
 ## 更新crontab
 function Update_Cron {
-  # RanMin=$((${RANDOM} % 60))
-  # if [ $(date "+%H") -ge 12 ]; then
-  #   RanHour=$((${RANDOM} % 5 + 7))
-  # else
-  #   RanHour=$((${RANDOM} % 8 + 13))
-  # fi
-  # RanMin=55
-  # RanHour="5-23"
-  # perl -i -pe "{s|18 10,14(.+jd_joy_run.*)|18 11,14\1|; s|10 10,11(.+jd_joy_run.*)|18 11,14\1|; s|bash bash |bash |}" ${ListCron}
   crontab ${ListCron}
 }
 
@@ -378,24 +343,9 @@ fi
 if [ ${ExitStatusShell} -eq 0 ]; then
   echo -e "--------------------------------------------------------------\n"
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
-  if [ -d ${ScriptsDir}/.git ]; then
-    Git_PullScripts
-  else
-    Git_CloneScripts
-  fi
-
-#  if [[ ${EnableShylocksScripts} == true ]]; then
-    if [ -d ${Scripts2Dir}/.git ]; then
-      Git_PullScripts2
-    else
-      Git_CloneScripts2
-    fi
-    ShylocksList=$(cd ${Scripts2Dir}; ls jd_*.js)
-    for file in ${ShylocksList}
-    do
-      cp -f ${Scripts2Dir}/${file} ${ScriptsDir}
-    done
-#  fi
+  [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
+  [ -d ${Scripts2Dir}/.git ] && Git_PullScripts2 || Git_CloneScripts2
+  cp -f ${Scripts2Dir}/jd_*.js ${ScriptsDir}
 fi
 
 ## 执行各函数
