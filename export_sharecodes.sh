@@ -26,7 +26,7 @@ function Cat_Scodes {
           codes=$(cat ${log} | grep -${Opt} "开始【京东账号|您的(好友)?助力码为" | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n(您的(好友)?助力码为)|：|g}")
           ;;
         *)
-          codes=$(grep -${Opt} $2 ${log} | perl -pe "s| ||")
+          codes=$(grep -${Opt} $2 ${log} | perl -pe "{s| ||g; s|$2||g}")
           ;;
       esac
       [[ ${codes} ]] && break
@@ -42,7 +42,7 @@ function Cat_All {
   echo -e "本脚本从最后一个正常的日志中寻找互助码，某些账号缺失则代表在最后一个正常的日志中没有找到。\n"
   for ((i=1; i<${#Name1[*]}; i++)); do
     echo -e "\n${Name2[i]}："
-    Cat_Scodes "${Name1[i]}" "的${Name2[i]}好友互助码" | perl -pe "s|的${Name2[i]}好友互助码||g"
+    Cat_Scodes "${Name1[i]}" "的${Name2[i]}好友互助码"
   done
 }
 
