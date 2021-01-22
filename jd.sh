@@ -40,10 +40,12 @@ function Detect_Cron {
 
 ## 用户数量UserSum
 function Count_UserSum {
-  for ((i=0; i<=1000; i++)); do
+  i=1
+  while [ $i -le 1000 ]; do
     Tmp=Cookie$i
     CookieTmp=${!Tmp}
     [[ ${CookieTmp} ]] && UserSum=$i || break
+    let i++
   done
 }
 

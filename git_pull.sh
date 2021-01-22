@@ -86,23 +86,28 @@ function Git_PullScripts2 {
 
 ## 用户数量UserSum
 function Count_UserSum {
-  for ((i=1; i<=1000; i++)); do
+  i=1
+  while [ $i -le 1000 ]; do
     Tmp=Cookie$i
     CookieTmp=${!Tmp}
     [[ ${CookieTmp} ]] && UserSum=$i || break
+    let i++
   done
 }
 
 ## 把config.sh中提供的所有账户的PIN附加在jd_joy_run.js中，让各账户相互进行宠汪汪赛跑助力
 ## 你的账号将按Cookie顺序被优先助力，助力完成再助力我的账号和lxk0301大佬的账号
 function Change_JoyRunPins {
+  j=${UserSum}
   PinALL=""
-  for ((j=${UserSum}; j>=1; j--)); do
+  while [[ $j -ge 1 ]]
+  do
     Tmp=Cookie$j
     CookieTemp=${!Tmp}
     PinTemp=$(echo ${CookieTemp} | perl -pe "{s|.*pt_pin=(.+);|\1|; s|%|\\\x|g}")
     PinTempFormat=$(printf ${PinTemp})
     PinALL="${PinTempFormat},${PinALL}"
+    let j--
   done
   PinEvine="Evine,做一颗潇洒的蛋蛋,Evine007,jd_7bb2be8dbd65c,jd_6fae2af082798,jd_664ecc3b78945,277548856_m,米大眼老鼠,"
   PinALL="${PinALL}${PinEvine}"
