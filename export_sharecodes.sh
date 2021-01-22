@@ -16,7 +16,8 @@ DateToday=$(date "+%Y-%m-%d")
 ## 导出互助码的通用程序
 function Cat_Scodes {
   if [ -d ${LogDir}/jd_$1 ] && [[ $(ls ${LogDir}/jd_$1) != "" ]]; then
-    for log in $(ls ${LogDir}/jd_$1 -r); do
+    cd ${LogDir}/jd_$1
+    for log in $(ls -r); do
       codes=$(grep -${Opt} $2 ${log} | perl -pe "s| ||")
       [[ ${codes} ]] && break
     done
@@ -29,7 +30,8 @@ function Cat_Scodes {
 ## 导出口袋书店互助码，没法用通用程序
 function Cat_ScodesBookShop {
   if [ -d ${LogDir}/jd_bookshop ] && [[ $(ls ${LogDir}/jd_bookshop) != "" ]]; then
-    for log in $(ls ${LogDir}/jd_bookshop -r); do
+    cd ${LogDir}/jd_bookshop
+    for log in $(ls -r); do
       codes=$(perl -pe "s|信息获取成功\n||g" ${log} | grep -${Opt} "您的好友助力码为" | perl -pe "{s|您的好友助力码为||g; s|用户||g}")
       [[ ${codes} ]] && break
     done
@@ -42,7 +44,8 @@ function Cat_ScodesBookShop {
 ## 导出签到领现金互助码，没法用通用程序
 function Cat_ScodesCash {
   if [ -d ${LogDir}/jd_cash ] && [[ $(ls ${LogDir}/jd_cash) != "" ]]; then
-    for log in $(ls ${LogDir}/jd_cash -r); do
+    cd ${LogDir}/jd_cash
+    for log in $(ls -r); do
       codes=$(perl -0777 -pe "s|\*+\n+||g" ${log} | grep -${Opt} "您的助力码为" | perl -pe "{s|\*+开始||g; s|您的助力码为|：|g}")
       [[ ${codes} ]] && break
     done
@@ -69,4 +72,5 @@ LogFile="${LogDir}/export_sharecodes/${LogTime}.log"
 Name1=(fruit pet plantBean dreamFactory jdfactory crazy_joy jdzz jxnc)
 Name2=(东东农场 东东萌宠 京东种豆得豆 京喜工厂 东东工厂 crazyJoy任务 京东赚赚 京喜农场)
 [ ! -d "${LogDir}/export_sharecodes" ] && mkdir -p ${LogDir}/export_sharecodes
+touch ${LogFile}
 Cat_All | perl -pe "{s|京东种豆|种豆|; s|crazyJoy任务|疯狂的JOY|; s| |\n|g}" | tee ${LogFile}
