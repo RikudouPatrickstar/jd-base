@@ -1,6 +1,6 @@
-## Version: v3.19.0
+## Version: v3.20.0
 ## Date: 2021-01-22
-## Update Content: 增加三个环境变量：东东超市是否自动参加PK队伍JOIN_PK_TEAM、宠汪汪赛跑获胜后是否推送通知JOY_RUN_NOTIFY、京喜工厂控制哪个京东账号不运行此脚本DREAMFACTORY_FORBID_ACCOUNT；删除三个过期的环境变量：手机狂欢城是否发送上车提醒JD_818_SHAREID_NOTIFY、京东发现-看一看的视频抓包WATCH_ACCEPTBODY和WATCH_DOBODY。
+## Update Content: 京喜农场互助码格式变化，请使用 bash jd.sh jd_get_share_code now 获取新的助力码，并编辑京喜农场助力码配置。请特别注意：京喜农场 种植种子发生变化的时候，互助码也会变！！(由于本次有参数格式变化，所以版本号中第二位数字发生变化)
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/EvineDeng/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -254,14 +254,18 @@ ForOtherJoy6=""
 
 ################################## 定义京喜农场互助（选填） ##################################
 ## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
-MyJxnc1=""
-MyJxnc2=""
-MyJxnc3=""
-MyJxnc4=""
-MyJxnc5=""
-MyJxnc6=""
-MyJxncA=""
-MyJxncB=""
+## 京喜农场助力码为 JSON 格式因此使用单引号，json 格式如下
+## {"smp":"22bdadsfaadsfadse8a","active":"jdnc_1_btorange210113_2","joinnum":"1"}
+## 助力码获取可以通过 bash jd.sh jd_get_share_code now 命令获取
+## 注意：京喜农场 种植种子发生变化的时候，互助码也会变！！
+MyJxnc1=''
+MyJxnc2=''
+MyJxnc3=''
+MyJxnc4=''
+MyJxnc5=''
+MyJxnc6=''
+MyJxncA=''
+MyJxncB=''
 
 ForOtherJxnc1=""
 ForOtherJxnc2=""
