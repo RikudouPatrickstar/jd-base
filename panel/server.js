@@ -15,19 +15,21 @@ var fs = require('fs');
 
 var rootPath = path.resolve(__dirname, '..')
 // config.sh 文件所在目录
-var confFile = path.join(rootPath,'config/config.sh');
+var confFile = path.join(rootPath, 'config/config.sh');
 // config.sh.sample 文件所在目录
-var sampleFile = path.join(rootPath,'sample/config.sh.sample');
+var sampleFile = path.join(rootPath, 'sample/config.sh.sample');
 // crontab.list 文件所在目录
-var crontabFile = path.join(rootPath,'config/crontab.list');
+var crontabFile = path.join(rootPath, 'config/crontab.list');
 // config.sh 文件备份目录
-var confBakDir = path.join(rootPath,'config/bak/');
+var confBakDir = path.join(rootPath, 'config/bak/');
 // auth.json 文件目录
-var authConfigFile = path.join(rootPath,'config/auth.json');
+var authConfigFile = path.join(rootPath, 'config/auth.json');
 // Share Code 文件目录
-var shareCodeDir = path.join(rootPath,'log/jd_get_share_code/');
+var shareCodeDir = path.join(rootPath, 'log/jd_get_share_code/');
 // diy.sh 文件目录
-var diyFile = path.join(rootPath,'config/diy.sh');
+var diyFile = path.join(rootPath, 'config/diy.sh');
+// 日志目录
+var logPath = path.join(rootPath, 'log/');
 
 var authError = "错误的用户名密码，请重试";
 var loginFaild = "请先登录!";
@@ -266,10 +268,10 @@ function getLastModifyFilePath(dir) {
 
         var arr = fs.readdirSync(dir);
 
-	    arr.forEach(function(item) {
-		    var fullpath = path.join(dir,item);
-		    var stats = fs.statSync(fullpath);
-		    if (stats.isFile()) {
+        arr.forEach(function (item) {
+            var fullpath = path.join(dir, item);
+            var stats = fs.statSync(fullpath);
+            if (stats.isFile()) {
                 if (stats.mtimeMs >= lastmtime) {
                     filePath = fullpath;
                 }
@@ -286,8 +288,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 /**
@@ -526,9 +528,65 @@ app.post('/api/save', function (request, response) {
         let postContent = request.body.content;
         let postfile = request.body.name;
         saveNewConf(postfile, postContent);
-        response.send({ err: 0, title:"保存成功! ", msg: "将自动刷新页面查看修改后的 " + postfile + " 文件" });
+        response.send({ err: 0, title: "保存成功! ", msg: "将自动刷新页面查看修改后的 " + postfile + " 文件" });
     } else {
-        response.send({ err: 1, title:"保存失败! ",msg: loginFaild });
+        response.send({ err: 1, title: "保存失败! ", msg: loginFaild });
+    }
+
+});
+
+/**
+ * 日志查询 页面
+ */
+app.get('/log', function (request, response) {
+    if (request.session.loggedin) {
+        response.sendFile(path.join(__dirname + '/public/tasklog.html'));
+    } else {
+        response.redirect('./');
+    }
+});
+
+/**
+ * 日志列表
+ */
+app.get('/api/logs', function (request, response) {
+    if (request.session.loggedin) {
+        var fileList = fs.readdirSync(logPath, 'utf-8');
+        var dirs = [];
+        for (var i = 0; i < fileList.length; i++) {
+            var stat = fs.lstatSync(logPath + fileList[i]);
+            // 是目录，需要继续
+            if (stat.isDirectory()) {
+                var fileListTmp = fs.readdirSync(logPath + '/' + fileList[i], 'utf-8');
+                var dirMap = {
+                    "dirName": fileList[i],
+                    "files": fileListTmp
+                }
+                dirs.push(dirMap);
+            }
+        }
+        var result = {
+            "dirs": dirs,
+        };
+        response.send(result);
+
+    } else {
+        response.redirect('/');
+    }
+
+});
+
+/**
+ * 日志文件
+ */
+app.get('/api/logs/:dir/:file', function (request, response) {
+    if (request.session.loggedin) {
+        var filePath = logPath + request.params.dir + '/' + request.params.file;
+        var content = getFileContentByName(filePath);
+        response.setHeader("Content-Type", "text/plain");
+        response.send(content);
+    } else {
+        response.redirect('/');
     }
 
 });

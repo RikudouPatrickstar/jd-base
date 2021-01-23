@@ -219,3 +219,34 @@ nav .active a {
         line-height: 1.5em;
     }
 }
+
+
+@media (min-width: 992px) {
+    .elk-app {
+        height: 100%;
+    }
+    .elk-side {
+        width: 20rem;
+    }
+    .elk-container, .elk-main, .elk-side {
+        overflow-y: auto;
+    }
+}
+.elk-app, body > .ember-view {
+    margin-top: 10rem;
+}
+.bg-log {
+    background: #f5f2f0;
+}
+.bg-light {
+    background-color: #f8f9fa!important;
+}
+.text-dark {
+    color: #343a40!important;
+}
+.nav-link {
+    font-size: 18px;
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
