@@ -558,6 +558,7 @@ app.get('/api/logs', function (request, response) {
             // 是目录，需要继续
             if (stat.isDirectory()) {
                 var fileListTmp = fs.readdirSync(logPath + '/' + fileList[i], 'utf-8');
+                fileListTmp.reverse();
                 var dirMap = {
                     "dirName": fileList[i],
                     "files": fileListTmp
