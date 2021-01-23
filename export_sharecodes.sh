@@ -2,19 +2,19 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-22
-## Version： v3.5.3
+## Modified： 2021-01-23
+## Version： v3.5.4
 
 ## 路径、环境判断
 ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
 LogDir=${ShellDir}/log
 [[ ${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT} ]] && Opt="P" || Opt="E"
-Tip="从日志中未找到任何互助码..."
+Tips="从日志中未找到任何互助码..."
 
 ## 所有有互助码的活动，只需要把脚本名称去掉前缀jd_后列在Name1中，将其中文名称列在Name2中即可。
 ## Name1和Name2中两个名称必须一一对应。
-Name1=(fruit pet plantBean dreamFactory jdfactory crazy_joy jdzz jxnc bookshop cash immortal nh nian)
-Name2=(东东农场 东东萌宠 京东种豆得豆 京喜工厂 东东工厂 crazyJoy任务 京东赚赚 京喜农场 口袋书店 签到领现金 神仙书院 年货节 炸年兽)
+Name1=(fruit pet plantBean dreamFactory jdfactory crazy_joy jdzz jxnc bookshop cash immortal nh nian gyec xxl xxl_gh)
+Name2=(东东农场 东东萌宠 京东种豆得豆 京喜工厂 东东工厂 crazyJoy任务 京东赚赚 京喜农场 口袋书店 签到领现金 神仙书院 年货节 炸年兽 工业品爱消除 东东爱消除 个护爱消除)
 
 ## 导出互助码的通用程序
 function Cat_Scodes {
@@ -23,7 +23,7 @@ function Cat_Scodes {
     for log in $(ls -r); do
       case $# in
         1)
-          codes=$(cat ${log} | grep -${Opt} "开始【京东账号|您的(好友)?助力码为" | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n(您的(好友)?助力码为)|：|g}")
+          codes=$(cat ${log} | grep -${Opt} "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?|：|g}" | perl -ne '{print if /：/}')
           ;;
         2)
           codes=$(grep -${Opt} $2 ${log} | perl -pe "{s| ||g; s|$2||g}")
@@ -31,7 +31,7 @@ function Cat_Scodes {
       esac
       [[ ${codes} ]] && break
     done
-    [[ ${codes} ]] && echo ${codes} || echo ${Tip}
+    [[ ${codes} ]] && echo ${codes} || echo ${Tips}
   else
     echo "还没有产生日志..."
   fi
@@ -40,10 +40,9 @@ function Cat_Scodes {
 ## 汇总
 function Cat_All {
   echo -e "\n本脚本从最后一个正常的日志中寻找互助码，某些账号缺失则代表在最后一个正常的日志中没有找到。"
-
   for ((i=0; i<${#Name1[*]}; i++)); do
     echo -e "\n${Name2[i]}："
-    [[ $(Cat_Scodes "${Name1[i]}" "的${Name2[i]}好友互助码") == ${Tip} ]] && Cat_Scodes "${Name1[i]}" || Cat_Scodes "${Name1[i]}" "的${Name2[i]}好友互助码"
+    [[ $(Cat_Scodes "${Name1[i]}" "的${Name2[i]}好友互助码") == ${Tips} ]] && Cat_Scodes "${Name1[i]}" || Cat_Scodes "${Name1[i]}" "的${Name2[i]}好友互助码"
   done
 }
 
