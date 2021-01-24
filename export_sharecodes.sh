@@ -22,7 +22,7 @@ function Cat_Scodes {
     for log in $(ls -r); do
       case $# in
         1)
-          codes=$(cat ${log} | grep -${Opt} "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为[：:]?|：|g}" | perl -ne '{print if /：/}')
+          codes=$(cat ${log} | grep -${Opt} "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g}" | perl -ne '{print if /：/}')
           ;;
         2)
           codes=$(grep -${Opt} $2 ${log} | perl -pe "{s| ||g; s|$2||g}")
