@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-24
-## Version： v3.6.18
+## Version： v3.7.0
 
 ## 路径
 ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
@@ -13,7 +13,7 @@ ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
-ListScripts=$(ls ${ScriptsDir} | grep -E "j[drx]_\w+\.js")
+ListScripts=($(cd ${ScriptsDir}; ls *.js | grep -E "j[drx]_"))
 ListCron=${ConfigDir}/crontab.list
 
 ## 导入config.sh
@@ -163,7 +163,10 @@ function Help {
   echo -e "针对用法1、用法2中的\"xxx\"，无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略...\n"
   echo -e "当前有以下脚本可以运行（包括尚未被lxk0301大佬放进docker下crontab的脚本，但不含自定义脚本）：\n"
   cd ${ScriptsDir}
-  ls ${ListScripts}
+  for ((i=0; i<${#ListScripts[*]}; i++)); do
+    Name=$(grep "new Env" ${ListScripts[i]} | awk -F "'|\"" '{print $2}')
+    echo -e "$(($i + 1)).${Name}：${ListScripts[i]}"
+  done
 }
 
 ## nohup
