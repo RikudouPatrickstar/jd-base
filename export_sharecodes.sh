@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-23
-## Version： v3.5.4
+## Modified： 2021-01-24
+## Version： v3.5.5
 
 ## 路径、环境判断
 ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
@@ -11,10 +11,9 @@ LogDir=${ShellDir}/log
 [[ ${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT} ]] && Opt="P" || Opt="E"
 Tips="从日志中未找到任何互助码..."
 
-## 所有有互助码的活动，只需要把脚本名称去掉前缀jd_后列在Name1中，将其中文名称列在Name2中即可。
-## Name1和Name2中两个名称必须一一对应。
-Name1=(fruit pet plantBean dreamFactory jdfactory crazy_joy jdzz jxnc bookshop cash immortal nh nian gyec xxl xxl_gh)
-Name2=(东东农场 东东萌宠 京东种豆得豆 京喜工厂 东东工厂 crazyJoy任务 京东赚赚 京喜农场 口袋书店 签到领现金 神仙书院 年货节 炸年兽 工业品爱消除 东东爱消除 个护爱消除)
+## 所有有互助码的活动，只需要把脚本名称去掉前缀jd_后列在Name1中，将其中文名称列在Name2中即可。Name1和Name2中两个名称必须一一对应。
+Name1=(fruit pet plantBean dreamFactory jdfactory crazy_joy jdzz jxnc bookshop cash immortal nh nian sgmh gyec xxl xxl_gh)
+Name2=(东东农场 东东萌宠 京东种豆得豆 京喜工厂 东东工厂 crazyJoy任务 京东赚赚 京喜农场 口袋书店 签到领现金 神仙书院 年货节 炸年兽 闪购盲盒 工业品爱消除 东东爱消除 个护爱消除)
 
 ## 导出互助码的通用程序
 function Cat_Scodes {
@@ -31,7 +30,7 @@ function Cat_Scodes {
       esac
       [[ ${codes} ]] && break
     done
-    [[ ${codes} ]] && echo ${codes} || echo ${Tips}
+    [[ ${codes} ]] && echo "${codes}" || echo ${Tips}
   else
     echo "还没有产生日志..."
   fi
@@ -50,4 +49,4 @@ function Cat_All {
 LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
 LogFile="${LogDir}/export_sharecodes/${LogTime}.log"
 [ ! -d "${LogDir}/export_sharecodes" ] && mkdir -p ${LogDir}/export_sharecodes
-Cat_All | perl -pe "{s|京东种豆|种豆|; s|crazyJoy任务|疯狂的JOY|; s| |\n|g}" | tee ${LogFile}
+Cat_All | perl -pe "{s|京东种豆|种豆|; s|crazyJoy任务|疯狂的JOY|}" | tee ${LogFile}
