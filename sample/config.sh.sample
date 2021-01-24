@@ -1,6 +1,6 @@
-## Version: v3.20.0
-## Date: 2021-01-22
-## Update Content: 京喜农场互助码格式变化，请使用 bash jd.sh jd_get_share_code now 获取新的助力码，并编辑京喜农场助力码配置。请特别注意：京喜农场 种植种子发生变化的时候，互助码也会变！！(由于本次有参数格式变化，所以版本号中第二位数字发生变化)
+## Version: v3.21.0
+## Date: 2021-01-24
+## Update Content: 增加闪购盲盒（jd_sgmh.js）互助码填写区域。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/EvineDeng/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -324,6 +324,25 @@ ForOtherCash3=""
 ForOtherCash4=""
 ForOtherCash5=""
 ForOtherCash6=""
+
+
+################################## 定义闪购盲盒互助（选填） ##################################
+## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+MySgmh1=""
+MySgmh2=""
+MySgmh3=""
+MySgmh4=""
+MySgmh5=""
+MySgmh6=""
+MySgmhA=""
+MySgmhB=""
+
+ForOtherSgmh1=""
+ForOtherSgmh2=""
+ForOtherSgmh3=""
+ForOtherSgmh4=""
+ForOtherSgmh5=""
+ForOtherSgmh6=""
 
 
 ################################## 定义2020年炸年兽活动互助（选填） ##################################
