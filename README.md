@@ -1,10 +1,8 @@
 ## 请仔细阅读 [WIKI](https://github.com/EvineDeng/jd-base/wiki) 和各文件注释，95%的问题都能找到答案
 
-## 如有帮助到你，请点亮Star
-
 ## 如有二次使用，请注明来源
 
-本脚本是 [https://github.com/LXK9301/jd_scripts](https://github.com/LXK9301/jd_scripts) 和 [https://github.com/shylocks/Loon](https://github.com/shylocks/Loon) 的shell套壳工具。
+本脚本是以下两个仓库的shell套壳工具：
 
 [LXK9301/jd_scripts](https://github.com/LXK9301/jd_scripts)：主要是长期任务。
 
@@ -28,6 +26,10 @@
 
 2. 将部分临时活动修改为了我的邀请码，已取得lxk0301大佬的同意。
 
+## 如有帮助你薅到羊毛，请不吝赏作者一杯茶水费
+
+![thanks](https://github.com/EvineDeng/jd-base/wiki/Picture/thanks.png)
+
 ## 更新日志
 
 > 只记录大的更新，小修小改不记录。
@@ -37,7 +39,3 @@
 2020-01-21，增加shylocks/Loon脚本。
 
 2021-01-15，如果本机上安装了pm2，则挂机程序以pm2启动，否则以nohup启动。
-
-## 如有帮助你薅到羊毛，请不吝赏作者一杯茶水费
-
-![thanks](https://github.com/EvineDeng/jd-base/wiki/Picture/thanks.png)
