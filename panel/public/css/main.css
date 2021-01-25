@@ -220,7 +220,12 @@ nav .active a {
     }
 }
 
-
+.log-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0 .5em;
+}
 @media (min-width: 992px) {
     .elk-app {
         height: 100%;
@@ -233,7 +238,7 @@ nav .active a {
     }
 }
 .elk-app, body > .ember-view {
-    margin-top: 10rem;
+    margin-top: 8rem;
 }
 .bg-log {
     background: #f5f2f0;
