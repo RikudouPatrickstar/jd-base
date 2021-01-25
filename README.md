@@ -38,6 +38,6 @@
 
 2021-01-15，如果本机上安装了pm2，则挂机程序以pm2启动，否则以nohup启动。
 
-## Star趋势
+## 如有帮助你薅到羊毛，请不吝赏作者一杯茶水费
 
-[![Stargazers over time](https://starchart.cc/EvineDeng/jd-base.svg)](https://starchart.cc/EvineDeng/jd-base)
+![thanks](https://github.com/EvineDeng/jd-base/wiki/Picture/thanks.png)
