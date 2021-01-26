@@ -1,11 +1,11 @@
-name: "JD Docker Image Buildx Stable Gitee"
+name: "构建Gitee镜像"
 on:
   workflow_dispatch:
   
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build JD Docker Image Stable Gitee
+    name: 构建Gitee镜像
     steps:
       - name: Checkout master
         uses: actions/checkout@master
