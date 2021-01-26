@@ -48,6 +48,14 @@ function Git_PullShell {
   git reset --hard origin/v3
 }
 
+## 更新crontab
+function Update_Cron {
+  if [ -f ${ListCron} ]; then
+    perl -i -pe "s|0 8,9,10(.+jd_nian\W*.*)|30 8-20/4\1|" ${ListCron} # 修改默认错误的cron
+    crontab ${ListCron}
+  fi
+}
+
 ## 克隆scripts
 function Git_CloneScripts {
   echo -e "克隆LXK9301脚本，原地址：${ScriptsURL}\n"
@@ -310,12 +318,6 @@ function Add_Cron {
       fi
     fi
   fi
-}
-
-## 更新crontab
-function Update_Cron {
-  perl -i -pe "s|0 8,9,10(.+jd_nian\W*.*)|30 8-20/4\1|" ${ListCron} # 修改默认错误的cron
-  crontab ${ListCron}
 }
 
 ## 在日志中记录时间与路径
