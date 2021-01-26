@@ -1,13 +1,14 @@
 #!/bin/bash
 set -e
 
-echo -e "\n========================1. 更新源代码========================\n"
-[ ! -d ${JD_DIR}/log ] && mkdir -p ${JD_DIR}/log
-crond
 if [ ! -d ${JD_DIR}/config ]; then
   echo -e "没有映射config配置目录给本容器，请先按教程映射config配置目录...\n"
   exit 1
 fi
+
+echo -e "\n========================1. 更新源代码========================\n"
+[ ! -d ${JD_DIR}/log ] && mkdir -p ${JD_DIR}/log
+crond
 bash git_pull
 echo
 
