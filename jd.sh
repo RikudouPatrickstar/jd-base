@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2021-01-27
-## Version： v3.7.1
+## Version： v3.8.0
 
 ## 路径
 ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
@@ -40,21 +40,22 @@ function Detect_Cron {
 
 ## 用户数量UserSum
 function Count_UserSum {
-  i=1
-  while [ $i -le 1000 ]; do
+  for ((i=1; i<=1000; i++)); do
     Tmp=Cookie$i
     CookieTmp=${!Tmp}
     [[ ${CookieTmp} ]] && UserSum=$i || break
-    let i++
   done
 }
 
 ## 组合Cookie和互助码子程序
 function Combin_Sub {
   CombinAll=""
-  i=1
-  while [ $i -le ${UserSum} ]
-  do
+  for ((i=1; i<=${UserSum}; i++)); do
+    for num in ${TempBlockCookie}; do
+      if [[ $i -eq $num ]]; then
+        continue 2
+      fi
+    done
     Tmp1=$1$i
     Tmp2=${!Tmp1}
     case $# in
@@ -85,7 +86,6 @@ function Combin_Sub {
         esac
         ;;
     esac
-    let i++
   done
   echo ${CombinAll} | perl -pe "{s|^&||; s|^@+||; s|&@|&|g; s|@+|@|g}"
 }
@@ -250,6 +250,7 @@ function Run_Normal {
     LogFile="${LogDir}/${FileName}/${LogTime}.log"
     [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
     cd ${WhichDir}
+    env
     node ${FileName}.js | tee ${LogFile}
   else
     echo -e "\n在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在，请确认...\n"
