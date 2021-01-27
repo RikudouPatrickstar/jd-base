@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2021-01-25
-## Version： v3.5.6
+## Modified： 2021-01-27
+## Version： v3.5.7
 
 ## 路径、环境判断
 ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
@@ -12,8 +12,8 @@ LogDir=${ShellDir}/log
 Tips="从日志中未找到任何互助码..."
 
 ## 所有有互助码的活动，只需要把脚本名称去掉前缀jd_后列在Name1中，将其中文名称列在Name2中即可。Name1和Name2中两个名称必须一一对应。
-Name1=(fruit pet plantBean dreamFactory jdfactory crazy_joy jdzz jxnc bookshop cash immortal nh sgmh gyec xxl xxl_gh nian)
-Name2=(东东农场 东东萌宠 京东种豆得豆 京喜工厂 东东工厂 crazyJoy任务 京东赚赚 京喜农场 口袋书店 签到领现金 神仙书院 年货节 闪购盲盒 工业品爱消除 东东爱消除 个护爱消除 炸年兽)
+Name1=(fruit pet plantBean dreamFactory jdfactory crazy_joy jdzz jxnc bookshop cash festival immortal nh sgmh gyec xxl xxl_gh nian)
+Name2=(东东农场 东东萌宠 京东种豆得豆 京喜工厂 东东工厂 crazyJoy任务 京东赚赚 京喜农场 口袋书店 签到领现金 手机年终奖 神仙书院 年货节 闪购盲盒 工业品爱消除 东东爱消除 个护爱消除 炸年兽)
 ## 下面是组队PK的互助码
 NameA=(nian)
 NameB=(炸年兽组队PK)
@@ -25,7 +25,7 @@ function Cat_Scodes {
     for log in $(ls -r); do
       case $# in
         1)
-          codes=$(cat ${log} | grep -${Opt} "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g}" | perl -ne '{print if /：/}')
+          codes=$(cat ${log} | grep -${Opt} "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g; s|，.+||g}" | perl -ne '{print if /：/}')
           ;;
         2)
           codes=$(grep -${Opt} $2 ${log} | perl -pe "{s| ||g; s|$2||g}")
@@ -35,7 +35,7 @@ function Cat_Scodes {
     done
     [[ ${codes} ]] && echo "${codes}" || echo ${Tips}
   else
-    echo "还没有产生日志..."
+    echo "还没有运行过 jd_$1 脚本，没有产生日志..."
   fi
 }
 
@@ -48,7 +48,7 @@ function Cat_Tcodes {
     done
     [[ ${codes} ]] && echo "${codes}" || echo ${Tips}
   else
-    echo "还没有产生日志..."
+    echo "还没有运行过 jd_$1 脚本，没有产生日志..."
   fi
 }
 
