@@ -51,7 +51,13 @@ function Git_PullShell {
 ## 更新crontab
 function Update_Cron {
   if [ -f ${ListCron} ]; then
-    perl -i -pe "s|30 8-20/4(.+jd_nian\W*.*)|28 8-20/4,21\1|" ${ListCron} # 修改默认错误的cron
+    RanMin=$((${RANDOM} % 60))
+    if [ $(date "+%H") -ge 12 ]; then
+      RanHour=$((${RANDOM} % 5 + 6))
+    else
+      RanHour=$((${RANDOM} % 7 + 13))
+    fi
+    perl -i -pe "{s|30 8-20/4(.+jd_nian\W*.*)|28 8-20/4,21\1|; s|.+(bash git_pull.+)|${RanMin} ${RanHour} \* \* \* \1|}" ${ListCron} # 修改默认错误的cron
     crontab ${ListCron}
   fi
 }
@@ -68,6 +74,7 @@ function Git_CloneScripts {
 function Git_PullScripts {
   echo -e "更新LXK9301脚本，原地址：${ScriptsURL}\n"
   cd ${ScriptsDir}
+  perl -i -pe "s|https://github\.com/LXK9301/jd_scripts|https://gitee\.com/lxk0301/jd_scripts|" .git/config
   git fetch --all
   ExitStatusScripts=$?
   git reset --hard origin/master
@@ -147,7 +154,7 @@ function Diff_Cron {
     else
       grep "${ShellDir}/" ${ListCron} | grep -E " j[drx]_\w+" | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | sort -u > ${ListTask}
     fi
-    cat ${ListCronLxk} ${ListCronShylocks} | grep -E "j[drx]_\w+\.js" | perl -pe "s|.+(j[drx]_\w+)\.js.+|\1|" | sort -u > ${ListJs}
+    cat ${ListCronLxk} | grep -E "j[drx]_\w+\.js" | perl -pe "s|.+(j[drx]_\w+)\.js.+|\1|" | sort -u > ${ListJs}
     grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
     grep -vwf ${ListJs} ${ListTask} > ${ListJsDrop}
   else
@@ -334,27 +341,27 @@ echo -e "JS脚本目录：${ScriptsDir}\n"
 echo -e "--------------------------------------------------------------\n"
 
 ## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
-# Git_PullShell && Update_Cron
-# VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-# [ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-# if [ ${ExitStatusShell} -eq 0 ]
-# then
-#   echo -e "\nshell脚本更新完成...\n"
-#   if [ -n "${JD_DIR}" ] && [ -d ${ConfigDir} ]; then
-#     cp -f ${FileConfSample} ${ConfigDir}/config.sh.sample
-#   fi
-# else
-#   echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
-# fi
+Git_PullShell && Update_Cron
+VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+[ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+if [ ${ExitStatusShell} -eq 0 ]
+then
+  echo -e "\nshell脚本更新完成...\n"
+  if [ -n "${JD_DIR}" ] && [ -d ${ConfigDir} ]; then
+    cp -f ${FileConfSample} ${ConfigDir}/config.sh.sample
+  fi
+else
+  echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+fi
 
 ## 克隆或更新js脚本
-# if [ ${ExitStatusShell} -eq 0 ]; then
-  # echo -e "--------------------------------------------------------------\n"
+if [ ${ExitStatusShell} -eq 0 ]; then
+  echo -e "--------------------------------------------------------------\n"
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
   [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
   # [ -d ${Scripts2Dir}/.git ] && Git_PullScripts2 || Git_CloneScripts2
   # cp -f ${Scripts2Dir}/jd_*.js ${ScriptsDir}
-# fi
+fi
 
 ## 执行各函数
 if [[ ${ExitStatusScripts} -eq 0 ]]
