@@ -332,8 +332,6 @@ fi
 echo -e "\nSHELL脚本目录：${ShellDir}\n"
 echo -e "JS脚本目录：${ScriptsDir}\n"
 echo -e "--------------------------------------------------------------\n"
-apk add openssh-client
-ssh -T git@github.com
 
 ## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
 # Git_PullShell && Update_Cron
