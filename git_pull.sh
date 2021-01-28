@@ -74,7 +74,6 @@ function Git_CloneScripts {
 function Git_PullScripts {
   echo -e "更新LXK9301脚本，原地址：${ScriptsURL}\n"
   cd ${ScriptsDir}
-  perl -i -pe "s|https://github\.com/LXK9301/jd_scripts|https://gitee\.com/lxk0301/jd_scripts|" .git/config
   git fetch --all
   ExitStatusScripts=$?
   git reset --hard origin/master
