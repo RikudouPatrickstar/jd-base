@@ -46,16 +46,14 @@ function Git_PullShell {
   git reset --hard origin/v3
 }
 
-## 更新crontab
+## 更新crontab，随机生成下一次git_pull的时间
 function Update_Cron {
   if [ -f ${ListCron} ]; then
-    RanMin=$((${RANDOM} % 60))
-    if [ $(date "+%H") -ge 12 ]; then
-      RanHour=$((${RANDOM} % 5 + 6))
-    else
-      RanHour=$((${RANDOM} % 7 + 13))
-    fi
-    perl -i -pe "{s|30 8-20/4(.+jd_nian\W*.*)|28 8-20/4,21\1|; s|.+(bash git_pull.+)|${RanMin} ${RanHour} \* \* \* \1|}" ${ListCron} # 修改默认错误的cron
+    CurMin=$(date "+%M")
+    [ ${CurMin} -gt 0 ] && RanMin=$((${RANDOM} % ${CurMin} + 1)) || RanMin=$((${RANDOM} % 60 + 1))
+    RanHour=$((${RANDOM} % 3 + 1))
+    RanSleep=$((${RANDOM} % 55 + 1))
+    perl -i -pe "s|.+(bash git_pull.+)|${RanMin} \*/${RanHour} \* \* \* sleep ${RanSleep} && \1|" ${ListCron}
     crontab ${ListCron}
   fi
 }
