@@ -50,7 +50,7 @@ function Git_PullShell {
 function Update_Cron {
   if [ -f ${ListCron} ]; then
     CurMin=$(date "+%M")
-    [ ${CurMin} -gt 0 ] && RanMin=$((${RANDOM} % ${CurMin} + 1)) || RanMin=$((${RANDOM} % 60 + 1))
+    RanMin=$((${RANDOM} % 60 + 1))
     RanHour=$((${RANDOM} % 3 + 1))
     RanSleep=$((${RANDOM} % 55 + 1))
     perl -i -pe "s|.+(bash git_pull.+)|${RanMin} \*/${RanHour} \* \* \* sleep ${RanSleep} && \1|" ${ListCron}
