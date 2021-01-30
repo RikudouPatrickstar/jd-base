@@ -46,7 +46,7 @@ function Git_PullShell {
   git reset --hard origin/v3
 }
 
-## 更新crontab，随机生成下一次git_pull的时间
+## 更新crontab，gitee服务器同一时间限制5个链接，因此每个人更新代码必须错开时间，每次执行git_pull随机生成下一次git_pull的时间
 function Update_Cron {
   if [ -f ${ListCron} ]; then
     CurMin=$(date "+%M")
