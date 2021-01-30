@@ -49,9 +49,9 @@ function Git_PullShell {
 ## 更新crontab，gitee服务器同一时间限制5个链接，因此每个人更新代码必须错开时间，每次执行git_pull随机生成下一次git_pull的时间
 function Update_Cron {
   if [ -f ${ListCron} ]; then
-    RanMin=$((${RANDOM} % 60 + 1))
+    RanMin=$((${RANDOM} % 60))
     RanHour=$((${RANDOM} % 3 + 1))
-    RanSleep=$((${RANDOM} % 55 + 1))
+    RanSleep=$((${RANDOM} % 56))
     perl -i -pe "s|.+(bash git_pull.+)|${RanMin} \*/${RanHour} \* \* \* sleep ${RanSleep} && \1|" ${ListCron}
     crontab ${ListCron}
   fi
