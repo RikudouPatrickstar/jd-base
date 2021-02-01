@@ -1,6 +1,6 @@
-## Version: v3.24.0
-## Date: 2021-01-27
-## Update Content: 增加临时屏蔽某个或某些Cookie的功能（TempBlockCookie）；增加东东工厂控制哪个京东账号不运行此脚本的环境变量（JDFACTORY_FORBID_ACCOUNT）。
+## Version: v3.25.0
+## Date: 2021-02-01
+## Update Content: 增加京东压岁钱活动互助填写区域；将互助码填写示例放在config.sh.sample文件最后。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/EvineDeng/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -128,7 +128,7 @@ export JD_BEAN_STOP=""
 
 
 ################################## 定义东东农场互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 MyFruit1=""
 MyFruit2=""
 MyFruit3=""
@@ -147,7 +147,7 @@ ForOtherFruit6=""
 
 
 ################################## 定义东东萌宠互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 MyPet1=""
 MyPet2=""
 MyPet3=""
@@ -166,7 +166,7 @@ ForOtherPet6=""
 
 
 ################################## 定义种豆得豆互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 MyBean1=""
 MyBean2=""
 MyBean3=""
@@ -185,7 +185,7 @@ ForOtherBean6=""
 
 
 ################################## 定义京喜工厂互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 MyDreamFactory1=""
 MyDreamFactory2=""
 MyDreamFactory3=""
@@ -204,7 +204,7 @@ ForOtherDreamFactory6=""
 
 
 ################################## 定义东东工厂互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 MyJdFactory1=""
 MyJdFactory2=""
 MyJdFactory3=""
@@ -223,7 +223,7 @@ ForOtherJdFactory6=""
 
 
 ################################## 定义京东赚赚互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 MyJdzz1=""
 MyJdzz2=""
 MyJdzz3=""
@@ -242,7 +242,7 @@ ForOtherJdzz6=""
 
 
 ################################## 定义疯狂的JOY互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 MyJoy1=""
 MyJoy2=""
 MyJoy3=""
@@ -261,7 +261,7 @@ ForOtherJoy6=""
 
 
 ################################## 定义京喜农场互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 ## 京喜农场助力码为 JSON 格式因此使用单引号，json 格式如下
 ## {"smp":"22bdadsfaadsfadse8a","active":"jdnc_1_btorange210113_2","joinnum":"1"}
 ## 助力码获取可以通过 bash jd.sh jd_get_share_code now 命令获取
@@ -297,7 +297,7 @@ TokenJxnc6=''
 
 
 ################################## 定义口袋书店互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 MyBookShop1=""
 MyBookShop2=""
 MyBookShop3=""
@@ -316,7 +316,7 @@ ForOtherBookShop6=""
 
 
 ################################## 定义签到领现金互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 MyCash1=""
 MyCash2=""
 MyCash3=""
@@ -335,7 +335,7 @@ ForOtherCash6=""
 
 
 ################################## 定义闪购盲盒互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 MySgmh1=""
 MySgmh2=""
 MySgmh3=""
@@ -354,7 +354,7 @@ ForOtherSgmh6=""
 
 
 ################################## 定义2020年炸年兽活动互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 ## 仅2021年2月12日前有效
 MyNian1=""
 MyNian2=""
@@ -374,7 +374,7 @@ ForOtherNian6=""
 
 
 ################################## 定义2020年炸年兽组队PK互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 ## 仅2021年2月12日前有效
 MyNianPk1=""
 MyNianPk2=""
@@ -394,7 +394,7 @@ ForOtherNianPk6=""
 
 
 ################################## 定义神仙书院活动互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 ## 仅2021年2月5日前有效
 MyImmortal1=""
 MyImmortal2=""
@@ -414,7 +414,7 @@ ForOtherImmortal6=""
 
 
 ################################## 定义京东手机年终奖活动互助（选填） ##################################
-## 具体填法及要求详见：https://github.com/EvineDeng/jd-base/wiki/FAQ
+## 具体填法及要求详见本文件最下方“互助码填法示例”
 ## 仅2021年2月8日(含)前有效
 MyJdMobileFestival1=""
 MyJdMobileFestival2=""
@@ -431,6 +431,26 @@ ForOtherJdMobileFestival3=""
 ForOtherJdMobileFestival4=""
 ForOtherJdMobileFestival5=""
 ForOtherJdMobileFestival6=""
+
+
+################################## 定义京东压岁钱活动互助（选填） ##################################
+## 具体填法及要求详见本文件最下方“互助码填法示例”
+## 仅2021年2月11日(含)前有效
+MyNY1=""
+MyNY2=""
+MyNY3=""
+MyNY4=""
+MyNY5=""
+MyNY6=""
+MyNYA=""
+MyNYB=""
+
+ForOtherNY1=""
+ForOtherNY2=""
+ForOtherNY3=""
+ForOtherNY4=""
+ForOtherNY5=""
+ForOtherNY6=""
 
 
 ################################## 定义东东超市蓝币兑换数量（选填） ##################################
@@ -631,6 +651,29 @@ export JD_WECHAT_USER_AGENT=""
 ## 同时，请务必将你的脚本命名为 diy.sh (只能叫这个文件名)，放在 config 目录下
 ## 我已定义好的变量，你如果想直接使用，可以参考本仓库下 git_pull.sh 文件
 EnableExtraShell=""
+
+
+################################## 互助码填法示例 ##################################
+## **互助码是填在My系列变量中的，ForOther系统变量中只要填入My系列的变量名即可，按注释中的例子拼接，以东东农场为例，如下所示。**
+## **实际上东东农场一个账号只能给别人助力3次，我多写的话，只有前几个会被助力。但如果前面的账号获得的助力次数已经达到上限了，那么还是会尝试继续给余下的账号助力，所以多填也是有意义的。**
+## **ForOther系列变量必须从1开始编号，依次编下去。**
+
+# MyFruit1="e6e04602d5e343258873af1651b603ec"  # 这是Cookie1这个账号的互助码
+# MyFruit2="52801b06ce2a462f95e1d59d7e856ef4"  # 这是Cookie2这个账号的互助码
+# MyFruit3="e2fd1311229146cc9507528d0b054da8"  # 这是Cookie3这个账号的互助码
+# MyFruit4="6dc9461f662d490991a31b798f624128"  # 这是Cookie4这个账号的互助码
+# MyFruit5="30f29addd75d44e88fb452bbfe9f2110"  # 这是Cookie5这个账号的互助码
+# MyFruit6="1d02fc9e0e574b4fa928e84cb1c5e70b"  # 这是Cookie6这个账号的互助码
+# MyFruitA="5bc73a365ff74a559bdee785ea97fcc5"  # 这是我和别人交换互助，另外一个用户A的互助码
+# MyFruitB="6d402dcfae1043fba7b519e0d6579a6f"  # 这是我和别人交换互助，另外一个用户B的互助码
+# MyFruitC="5efc7fdbb8e0436f8694c4c393359576"  # 这是我和别人交换互助，另外一个用户C的互助码
+
+# ForOtherFruit1="${MyFruit2}@${MyFruitB}@${MyFruit4}"   # Cookie1这个账号助力Cookie2的账号的账号、Cookie4的账号以及用户B
+# ForOtherFruit2="${MyFruit1}@${MyFruitA}@${MyFruit4}"   # Cookie2这个账号助力Cookie1的账号的账号、Cookie4的账号以及用户A
+# ForOtherFruit3="${MyFruit1}@${MyFruit2}@${MyFruitC}@${MyFruit4}@${MyFruitA}@${MyFruit6}"  # 解释同上，东东农场实际上只能助力3次
+# ForOtherFruit4="${MyFruit1}@${MyFruit2}@${MyFruit3}@${MyFruitC}@${MyFruit6}@${MyFruitA}"  # 解释同上，东东农场实际上只能助力3次
+# ForOtherFruit5="${MyFruit1}@${MyFruit2}@${MyFruit3}@${MyFruitB}@${MyFruit4}@${MyFruit6}@${MyFruitC}@${MyFruitA}"
+# ForOtherFruit6="${MyFruit1}@${MyFruit2}@${MyFruit3}@${MyFruitA}@${MyFruit4}@${MyFruit5}@${MyFruitC}"
 
 
 ################################## 额外的环境变量（选填） ##################################
