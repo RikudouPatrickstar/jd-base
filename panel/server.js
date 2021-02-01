@@ -12,6 +12,7 @@ var bodyParser = require('body-parser');
 var got = require('got');
 var path = require('path');
 var fs = require('fs');
+var { execSync } = require('child_process');
 
 var rootPath = path.resolve(__dirname, '..')
 // config.sh 文件所在目录
@@ -234,6 +235,7 @@ function saveNewConf(file, content) {
             break;
         case "crontab.list":
             fs.writeFileSync(crontabFile, content);
+            execSync('crontab ' + crontabFile);
             break;
         case "diy.sh":
             fs.writeFileSync(diyFile, content);
