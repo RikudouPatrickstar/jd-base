@@ -50,19 +50,19 @@
                 mode: 'shell',
                 theme: 'dracula'
             });
-            let timeStamp = (new Date()).getTime()
+            let timeStamp = Date.now();
             $.get("./api/config/crontab?t="+timeStamp, function (data) {
                 editor.setValue(data);
             });
 
             $('#save').click(function () {
                 var confContent = editor.getValue();
-                let timeStamp = (new Date()).getTime()
+                let timeStamp = Date.now();
                 $.post('./api/save?t='+timeStamp, { content: confContent, name: "crontab.list" }, function (data) {
                     let icon = (data.err == 0) ? "success" : "error"
                     Swal.fire({
                         title:data.title,
-                        text: data.msg,
+                        html: data.msg + '<br>❤️🧡定时任务已同步更新🧡❤️',
                         icon: icon
                     }).then((result) => {
                         window.location.reload(true);
