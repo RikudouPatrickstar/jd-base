@@ -56,11 +56,7 @@ function Update_Cron {
     for ((i=1; i<14; i++)); do
       j=$(($i - 1))
       tmp=$((${RANDOM} % 3 + ${RanHourArray[j]} + 2))
-      if [[ ${tmp} -lt 24 ]]; then
-        RanHourArray[i]=${tmp}
-      else
-        break
-      fi
+      [[ ${tmp} -lt 24 ]] && RanHourArray[i]=${tmp} || break
     done
     RanHour=${RanHourArray[0]}
     for ((i=1; i<${#RanHourArray[*]}; i++)); do
