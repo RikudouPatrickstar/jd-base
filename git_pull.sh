@@ -349,7 +349,8 @@ echo -e "JS脚本目录：${ScriptsDir}\n"
 echo -e "--------------------------------------------------------------\n"
 
 ## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
-Git_PullShell && Update_Cron
+Git_PullShell
+[[ $(date "+%-H") -le 2 ]] && Update_Cron
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 [ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 if [ ${ExitStatusShell} -eq 0 ]
