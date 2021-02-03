@@ -46,13 +46,27 @@ function Git_PullShell {
   git reset --hard origin/v3
 }
 
-## 更新crontab，gitee服务器同一时间限制5个链接，因此每个人更新代码必须错开时间，每次执行git_pull随机生成下一次git_pull的时间
+## 更新crontab，gitee服务器同一时间限制5个链接，因此每个人更新代码必须错开时间，每次执行git_pull随机生成。
+## 每天次数随机，更新时间随机，更新秒数随机，至少6次，至多12次，大部分为8-10次，符合正态分布。
 function Update_Cron {
   if [ -f ${ListCron} ]; then
     RanMin=$((${RANDOM} % 60))
-    RanHour=$((${RANDOM} % 3 + 1))
     RanSleep=$((${RANDOM} % 56))
-    perl -i -pe "s|.+(bash git_pull.+)|${RanMin} \*/${RanHour} \* \* \* sleep ${RanSleep} && \1|" ${ListCron}
+    RanHourArray[0]=$((${RANDOM} % 3))
+    for ((i=1; i<14; i++)); do
+      j=$(($i - 1))
+      tmp=$((${RANDOM} % 3 + ${RanHourArray[j]} + 2))
+      if [[ ${tmp} -lt 24 ]]; then
+        RanHourArray[i]=${tmp}
+      else
+        break
+      fi
+    done
+    RanHour=${RanHourArray[0]}
+    for ((i=1; i<${#RanHourArray[*]}; i++)); do
+      RanHour="${RanHour},${RanHourArray[i]}"
+    done
+    perl -i -pe "s|.+(bash git_pull.+)|${RanMin} ${RanHour} \* \* \* sleep ${RanSleep} && \1|" ${ListCron}
     crontab ${ListCron}
   fi
 }
