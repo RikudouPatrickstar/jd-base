@@ -1,6 +1,6 @@
-## Version: v3.25.0
-## Date: 2021-02-01
-## Update Content: 增加京东压岁钱活动互助填写区域；将互助码填写示例放在config.sh.sample文件最后。
+## Version: v3.25.1
+## Date: 2021-02-03
+## Update Content: 增加如何利用 TempBlockCookie 这个参数来实现控制某些账号不玩某些游戏的说明，如需使用此功能者得自己参考示例进行修改。
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/EvineDeng/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -38,6 +38,18 @@ Cookie6=""
 ## 多个Cookie编号以半角的空格分隔，两侧一对半角双引号，使用此功能后，在运行js脚本时账户编号将发生变化
 ## 举例1：TempBlockCookie="2"    临时屏蔽掉Cookie2
 ## 举例2：TempBlockCookie="2 4"  临时屏蔽掉Cookie2和Cookie4
+## 如果只是想要屏蔽某个账号不玩某些小游戏，可以参考下面 case 这个命令的例子来控制，脚本名称请去掉后缀 “.js”
+## case $1 in
+##   jd_fruit)
+##     TempBlockCookie="5"      # 账号5不玩东东农场
+##     ;;
+##   jd_dreamFactory | jd_jdfactory)
+##     TempBlockCookie="2"      # 账号2不玩京喜工厂和东东工厂
+##     ;;
+##   jd_jdzz | jd_joy)
+##     TempBlockCookie="3 6"    # 账号3、账号6不玩京东赚赚和宠汪汪
+##     ;;
+##  esac
 TempBlockCookie=""
 
 
