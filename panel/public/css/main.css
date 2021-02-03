@@ -22,7 +22,7 @@ nav ul {
 }
 
 nav ul li {
-    display: inline;
+    display: inline-block;
 }
 
 nav ul li a:link,
@@ -47,6 +47,7 @@ nav .active a {
 }
 
 .container {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -246,6 +247,10 @@ nav .active a {
 }
 .bg-light {
     background-color: #f8f9fa!important;
+}
+.left-list {
+    overflow: auto;
+    z-index: 100;
 }
 .text-dark {
     color: #343a40!important;

@@ -9,61 +9,65 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/metismenu/dist/metisMenu.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/elektron/dist/elektron.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/onoffcanvas/dist/onoffcanvas.min.css">
     <link rel="stylesheet" type="text/css" href="./css/codemirror.min.css">
     <link rel="stylesheet" type="text/css" href="./css/twilight.css">
     <link rel="stylesheet" type="text/css" href="./css/dracula.css">
     <link rel="stylesheet" type="text/css" href="./css/main.css">
-
-    <script type="text/javascript" src="./js/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/metismenu"></script>
-    <script type="text/javascript" src="./js/codemirror.min.js"></script>
-
 </head>
 
 <body>
-    <div class="log-container">
-        <div class="diffs">
-            <nav>
-                <ul>
-                    <li><a href="./home">首页</a></li>
-                    <li><a href="./crontab">定时设定</a></li>
-                    <li><a href="./diff">对比工具</a></li>
-                    <li><a href="./shareCode">Share Code</a></li>
-                    <li><a href="./diy">自定义脚本</a></li>
-                    <li class="active"><a href="./log">日志查询</a></li>
-                    <li><a href="./changepwd">修改密码</a></li>
-                    <li><a href="./logout">退出</a></li>
-                </ul>
-            </nav>
-            <header>
-                <h1>日志查询</h1>
-                <button id="wrap" title="切换换行" style="margin-left: 205px;">切换换行</button>
-            </header>
+<div class="container">
+    <div class="elk-app">
+        <div class="elk-wrap diffs">
+            <div class="elk-header">
+                <nav>
+                    <ul>
+                        <li><a href="./home">首页</a></li>
+                        <li><a href="./crontab">定时设定</a></li>
+                        <li><a href="./diff">对比工具</a></li>
+                        <li><a href="./shareCode">Share Code</a></li>
+                        <li><a href="./diy">自定义脚本</a></li>
+                        <li class="active"><a href="./log">日志查询</a></li>
+                        <li><a href="./changepwd">修改密码</a></li>
+                        <li><a href="./logout">退出</a></li>
+                    </ul>
+                </nav>
+                <header>
+                    <a id="toggleIcon" class="onoffcanvas-toggler is-animated" href="#elk-side" data-toggle="onoffcanvas"></a>
+                    <h1>日志查询</h1>
+                    <button id="wrap" title="切换换行">切换换行</button>
+                </header>
+            </div>
 
             <div class="elk-container">
-                <div class="elk-container flex-column flex-md-row">
-                    <aside class="elk-side is-open bg-light border-right position-relative" id="elk-side">
-                        <div class="elk-side-content ">
-                            <div class="elk-side-nav">
-                                <ul class="nav flex-column" id="menu1">
+                <aside class="elk-side bg-light left-list" id="elk-side">
+                    <div class="elk-side-content ">
+                        <div class="elk-side-nav">
+                            <ul class="nav flex-column" id="menu1">
 
-                                </ul>
+                            </ul>
 
-                            </div>
                         </div>
+                    </div>
 
-                    </aside>
-                    <div class="elk-main bg-log2">
-                        <div class="wrapper">
-                            <textarea id="code" name="code">  你还没有选择日志文件！</textarea>
-                        </div>
+                </aside>
+                <div class="elk-main">
+                    <div class="wrapper">
+                        <textarea id="code" name="code">  你还没有选择日志文件！</textarea>
                     </div>
                 </div>
             </div>
         </div>
-      </div>
-    
+    </div>
+</div>
+
+    <script src="./js/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/onoffcanvas"></script>
+    <script src="https://cdn.jsdelivr.net/npm/elektron"></script>
+    <script src="https://cdn.jsdelivr.net/npm/metismenu"></script>
+    <script src="./js/codemirror.min.js"></script>
     <script>
         var qrcode, userCookie;
         $(document).ready(function () {
@@ -100,6 +104,10 @@
             });
 
             window.logDetail = function logDetail(dir, file) {
+                if (window.innerWidth < 993) {
+                    dispatch(document.getElementById('toggleIcon'), 'click');
+                }
+
                 $.get("./api/logs/" + dir + "/" + file, function (data) {
                     editor.setValue(data);
                 });
@@ -109,6 +117,22 @@
                 var lineWrapping = editor.getOption('lineWrapping');
                 editor.setOption('lineWrapping', !lineWrapping);
             });
+
+
+            //自动触发事件
+            function dispatch(ele, type){
+                try{
+                    if(ele.dispatchEvent){  //标准浏览器
+
+                        var evt = document.createEvent('Event');
+                            evt.initEvent(type,true,true);
+                            ele.dispatchEvent(evt);
+                    }else{
+                        ele.fireEvent('on' + type);
+                    }
+                }catch(e){};
+                    
+            }
         });
     </script>
 
