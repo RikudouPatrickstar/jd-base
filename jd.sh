@@ -211,7 +211,7 @@ function Reset_Pwd {
 
 ## 运行京东脚本
 function Run_Normal {
-  Import_Conf && Detect_Cron && Set_Env
+  Import_Conf $1 && Detect_Cron && Set_Env
   
   FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
   FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
