@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-## Modified： 2021-01-21
-## Version： v3.2.4
-
 ## 判断环境
 ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
 LogDir=${ShellDir}/log

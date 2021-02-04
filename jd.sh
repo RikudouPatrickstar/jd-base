@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-## Modified： 2021-02-01
-## Version： v3.8.2
-
 ## 路径
 ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
 [ ${JD_DIR} ] && HelpJd=jd || HelpJd=jd.sh
@@ -56,39 +53,12 @@ function Combin_Sub {
     done
     Tmp1=$1$i
     Tmp2=${!Tmp1}
-    case $# in
-      1)
-        CombinAll="${CombinAll}&${Tmp2}"
-        ;;
-      2)
-        CombinAll="${CombinAll}&${Tmp2}@$2"
-        ;;
-      3)
-        if [ $(($i % 2)) -eq 1 ]; then
-          CombinAll="${CombinAll}&${Tmp2}@$2"
-        else
-          CombinAll="${CombinAll}&${Tmp2}@$3"
-        fi
-        ;;
-      4)
-        case $(($i % 3)) in
-          1)
-            CombinAll="${CombinAll}&${Tmp2}@$2"
-            ;;
-          2)
-            CombinAll="${CombinAll}&${Tmp2}@$3"
-            ;;
-          0)
-            CombinAll="${CombinAll}&${Tmp2}@$4"
-            ;;
-        esac
-        ;;
-    esac
+    CombinAll="${CombinAll}&${Tmp2}"
   done
   echo ${CombinAll} | perl -pe "{s|^&||; s|^@+||; s|&@|&|g; s|@+|@|g}"
 }
 
-## 组合Cookie、Token与互助码，用户自己的放在前面，我的放在后面
+## 组合Cookie、Token与互助码
 function Combin_All {
   export JD_COOKIE=$(Combin_Sub Cookie)
   export FRUITSHARECODES=$(Combin_Sub ForOtherFruit)
@@ -101,14 +71,14 @@ function Combin_All {
   export JXNC_SHARECODES=$(Combin_Sub ForOtherJxnc)
   export JXNCTOKENS=$(Combin_Sub TokenJxnc)
   export BOOKSHOP_SHARECODES=$(Combin_Sub ForOtherBookShop)
-  export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash "Vl1uMrk@9qqduGQCv26BJ-NiHfexAcc_08V6HjOh@eU9Yauq2M6918jzSw3oX0w@IRwwaei6bvkgnjM" "Vl1uMrmyZvs@eU9YarrjM_53p27dyXQa3g@9Jq0uXglsVCqKd5kEv-D@9YmhuUccv2W6J9VsHue5AQqJ" "eU9YarjhYqonpDrTzXcR1Q@eU9Ya77gZK5z-TqHn3UWhQ@eU9Yaui2ZP4gpG-Gz3EThA@eU9YaeizbvQnpG_SznIS0w")
+  export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash)
   export JDNIAN_SHARECODES=$(Combin_Sub ForOtherNian)
   export JDNIANPK_SHARECODES=$(Combin_Sub ForOtherNianPk)
-  export JDSXSY_SHARECODES=$(Combin_Sub ForOtherImmortal "23xIs4YwE5Z7HdgnUcxRT-XlSoXoJLmBE@56xIs4YwE5Z7G8-z3rXfTNliqVYXz9M6JRXG-yH8Vx4dLQzrizP4dLTPyH1_nW4EszjVqzvYCF7YE6CoNmvdjLBMjQ_@43xIs4YwE5Z7DsWOzDSP_d8Rjea5vaaX61gfhVs6SfEGnwcZB9wEJX2m2nHKOaC6Zjyw" "34xIs4YwE5Z7HhWvhuV0OSNsWxu4l5KyQo6VAKcMVw0BbhzvPXXg@43xIs4YwE5Z7DsWOzDSPOBTEaue3ty6EyxKwJhHK0IpkCccZB9wBAAi2jzGjO7Zk0NBQ@46xIs4YwE5Z7G9J6kzXVQUmik-F9Rd23gLTdzlTswGj7g5F1Q_VaEE-_9VqfmrrK7GkGwYKFc" "40xIs4YwE5Z7G9Wz1fXbiNaj7BIJ_cEtkCA14e3w3wC_EWRE9DEWJLOHy4bS9CN@43xIs4YwE5Z7DsWOzDSPPhRRrG8MhYR4xhrORXRDTIPqsocZB9wBIC2jyBAueqKUNS5w@28xIs4YwE5Z7HdgnUcxRT_3luPSlp4IXoJLmBFTjzk")
-  export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh "T007y7sqHksCjVWmIaW5kRrbA@T032a0zZlJapLMZw9pdDQnOoo2clfysC8H5aCjVWmIaW5kRrbA@T0225KkcRhgdoAeEI0jznP4OcQCjVWmIaW5kRrbA" "T015vPp0RRoR_VHRT0cCjVWmIaW5kRrbA@T0225KkcRkpK8QLWdU7ykvMIdwCjVWmIaW5kRrbA@T024aG_llbW3LM1L9qFNQWOgo2QwCjVWmIaW5kRrbA" "T0225KkcRkhIoFaGdhr8lvADfACjVWmIaW5kRrbA@T011y7sqHksZ9VMCjVWmIaW5kRrbA@T020aXzwlYqOIvhb-KpFTXuaCjVWmIaW5kRrbA")
+  export JDSXSY_SHARECODES=$(Combin_Sub ForOtherImmortal)
+  export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh)
   export JSMOBILEFESTIVAL_SHARECODES=$(Combin_Sub ForOtherJdMobileFestival)
   export JD818_SHARECODES=$(Combin_Sub ForOtherJd818)
-  export JDNY_SHARECODES=$(Combin_Sub ForOtherNY "j9RoBbME7MdXT659NrZx_ZAl5x8Xpb3QXQ@LyObj274eRnw1W-G4TTSKJrg-Gtn2DWES34aD_okEbiNRyprpCi1r0vxpG4@oMZeXeBM9dgEALA2P7l0-j9x2fvRPVKg4ORNWJdNApVvFGxw@-JU2XuJAqI5RbL99e_xws-KVrM5mFC3yABZvc1NC8A@oMZeXbAZ9YkGVeI5Nbd59ycmKfzpzDk-IsouIiXcb_EeEsc1@j9RoBbNIoIwbT64xe_w8_stmdjdi_goYr_BzPg@oMZeXuNIoo9eCrQ4M-Mj-Dk2-lV0kpWurFM8FSIOuZUgdIca@-JI2XOFKp4xSHuYwNrBx-JwFPX13zIkVAfqIO8J9BQt7pMqySso" "oMZeXLQaotkCC7ZjY7Z1rFHCHnz7lx2ZfaUA0ZWbMaQSD3yd@oMZeXeJMoolRVuNiM7JwraVY3cAr4eTPyZUJkPR_WqPSZ_VZ@oMZeXuJJqINWVuM2MrFx-hr8gL6KeK3NwUgficBXFDu5EafW@oMZeXbIbpN1WVrY3MbRy_NsMamKlLMKpg6E_N4td5MOX67FW@LACnjk3meRLL1VmI4iTaKDgRGdRTpeYkqR5jdU5b3eoEftSyxHw@LROyjnLfdyfb21KA7jzgs95Ch19cw_V4G94Uhd4En3ddfB4@oMZeXO5LqY8FBrFgNOZw-A-o1YvcgX2-sZsErc1Hhz0QTD8V")
+  export JDNY_SHARECODES=$(Combin_Sub ForOtherNY)
 }
 
 ## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
