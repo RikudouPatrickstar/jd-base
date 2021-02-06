@@ -365,66 +365,6 @@ ForOtherSgmh5=""
 ForOtherSgmh6=""
 
 
-################################## 定义2020年炸年兽活动互助（选填） ##################################
-## 具体填法及要求详见本文件最下方“互助码填法示例”
-## 仅2021年2月12日前有效
-MyNian1=""
-MyNian2=""
-MyNian3=""
-MyNian4=""
-MyNian5=""
-MyNian6=""
-MyNianA=""
-MyNianB=""
-
-ForOtherNian1=""
-ForOtherNian2=""
-ForOtherNian3=""
-ForOtherNian4=""
-ForOtherNian5=""
-ForOtherNian6=""
-
-
-################################## 定义2020年炸年兽组队PK互助（选填） ##################################
-## 具体填法及要求详见本文件最下方“互助码填法示例”
-## 仅2021年2月12日前有效
-MyNianPk1=""
-MyNianPk2=""
-MyNianPk3=""
-MyNianPk4=""
-MyNianPk5=""
-MyNianPk6=""
-MyNianPkA=""
-MyNianPkB=""
-
-ForOtherNianPk1=""
-ForOtherNianPk2=""
-ForOtherNianPk3=""
-ForOtherNianPk4=""
-ForOtherNianPk5=""
-ForOtherNianPk6=""
-
-
-################################## 定义京东手机年终奖活动互助（选填） ##################################
-## 具体填法及要求详见本文件最下方“互助码填法示例”
-## 仅2021年2月8日(含)前有效
-MyJdMobileFestival1=""
-MyJdMobileFestival2=""
-MyJdMobileFestival3=""
-MyJdMobileFestival4=""
-MyJdMobileFestival5=""
-MyJdMobileFestival6=""
-MyJdMobileFestivalA=""
-MyJdMobileFestivalB=""
-
-ForOtherJdMobileFestival1=""
-ForOtherJdMobileFestival2=""
-ForOtherJdMobileFestival3=""
-ForOtherJdMobileFestival4=""
-ForOtherJdMobileFestival5=""
-ForOtherJdMobileFestival6=""
-
-
 ################################## 定义京东压岁钱活动互助（选填） ##################################
 ## 具体填法及要求详见本文件最下方“互助码填法示例”
 ## 仅2021年2月11日(含)前有效
@@ -614,12 +554,6 @@ export JDJOY_APPLYJDBEAN=""
 ################################## 定义是否自动加购物车（选填） ##################################
 ## 口袋书店和东东小窝有些任务需要将商品加进购物车才能完成，默认 "false" 不做这些任务，如想做，请设置为 "true"
 export PURCHASE_SHOPS=""
-
-
-################################## 京东炸年兽小程序自定义UA变量（选填） ##################################
-## 京东炸年兽（（jd_nian_wechat.js））这个脚本所需的，需要使用抓包工具自行抓包，建议填写，防止黑号。
-## 示例：export JD_WECHAT_USER_AGENT="Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15A148 MicroMessenger/7.0.20(0x17001320) NetType/WIFI Language/zh_CN"
-export JD_WECHAT_USER_AGENT=""
 
 
 ################################## Telegram 代理（选填） ##################################
