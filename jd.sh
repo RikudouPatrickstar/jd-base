@@ -74,7 +74,6 @@ function Combin_All {
   export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash)
   export JDNIAN_SHARECODES=$(Combin_Sub ForOtherNian)
   export JDNIANPK_SHARECODES=$(Combin_Sub ForOtherNianPk)
-  export JDSXSY_SHARECODES=$(Combin_Sub ForOtherImmortal)
   export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh)
   export JSMOBILEFESTIVAL_SHARECODES=$(Combin_Sub ForOtherJdMobileFestival)
   export JD818_SHARECODES=$(Combin_Sub ForOtherJd818)
