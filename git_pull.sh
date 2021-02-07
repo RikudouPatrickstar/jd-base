@@ -24,6 +24,16 @@ ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
 isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
 ScriptsURL=https://github.com/RikudouPatrickstar/jd_scripts
+ShellURL=https://github.com/RikudouPatrickstar/jd-base
+
+## 更新shell脚本
+function Git_PullShell {
+  # echo -e "更新shell脚本，原地址：${ShellURL}\n"
+  cd ${ShellDir}
+  git fetch --all
+  ExitStatusShell=$?
+  git reset --hard origin/v3
+}
 
 ## 更新crontab，gitee服务器同一时间限制5个链接，因此每个人更新代码必须错开时间，每次执行git_pull随机生成。
 ## 每天次数随机，更新时间随机，更新秒数随机，至少6次，至多12次，大部分为8-10次，符合正态分布。
@@ -300,6 +310,9 @@ if [ "${TZ}" = "UTC" ]; then
 fi
 echo -e "\nJS脚本目录：${ScriptsDir}\n"
 echo -e "--------------------------------------------------------------\n"
+
+## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
+Git_PullShell
 
 ## 更新crontab
 [[ $(date "+%-H") -le 2 ]] && Update_Cron
