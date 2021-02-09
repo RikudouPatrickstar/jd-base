@@ -41,7 +41,7 @@ PATH=/usr/sbin:/usr/bin:/sbin:/bin
 
 ##############长期活动##############
 # 签到
-3 0,18 * * * cd /scripts && node jd_bean_sign
+3 0,18 * * * bash /root/jd/jd.sh jd_bean_sign
 # 东东超市兑换奖品
 0,30 0 * * * bash /home/myid/jd/jd.sh jd_blueCoin
 # 摇京豆
