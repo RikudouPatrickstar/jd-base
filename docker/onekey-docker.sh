@@ -124,6 +124,8 @@ check_panel_port() {
     if [ ! -z "$(docker ps -a --format "{{.Ports}}" | grep :$PANEL_PORT- 2> /dev/null)" ]; then
         warn "检测到端口号冲突"
         input_panel_port
+    else
+        inp "端口号未与其他 Docker 容器冲突，如仍发现端口冲突，请自行检查宿主机端口占用情况！"
     fi
 }
 
