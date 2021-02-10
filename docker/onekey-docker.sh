@@ -18,10 +18,11 @@ echo "
             ==== Create by 老竭力 | Mod by Patrick⭐ ====
 "
 DOCKER_IMAGE="patrick/jdbase:v3"
-JD_PATH=""
-SHELL_FOLDER=$(pwd)
+SCRIPT_NAME=$0
+SCRIPT_FOLDER=$(pwd)
 CONTAINER_NAME=""
 PANEL_PORT=""
+JD_PATH=""
 CONFIG_PATH=""
 LOG_PATH=""
 
@@ -75,7 +76,7 @@ echo -e "\e[33m请输入配置文件保存的绝对路径,直接回车为当前�
 read jd_path
 JD_PATH=$jd_path
 if [ -z "$jd_path" ]; then
-    JD_PATH=$SHELL_FOLDER
+    JD_PATH=$SCRIPT_FOLDER
 fi
 CONFIG_PATH=$JD_PATH/jd-base-docker/config
 LOG_PATH=$JD_PATH/jd-base-docker/log
@@ -194,3 +195,4 @@ docker ps
 
 log "\n5.安装已经完成。\n现在你可以使用如下信息访问设备来进行配置：\n地址：http://IP:$PANEL_PORT\n用户名：admin\n密码：adminadmin"
 
+rm -f $SCRIPT_FOLDER/$SCRIPT_NAME
