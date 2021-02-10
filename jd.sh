@@ -74,6 +74,7 @@ function Combin_All {
   export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash)
   export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh)
   export JDNY_SHARECODES=$(Combin_Sub ForOtherNY)
+  export JDGLOBAL_SHARECODES=$(Combin_Sub ForOtherGlobal)
 }
 
 ## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
