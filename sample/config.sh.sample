@@ -1,6 +1,6 @@
-## Version: v3.26.1
+## Version: v3.26.2
 ## Date: 2021-02-10
-## Update Content: 增加京东压岁钱活动互助填写区域；将互助码填写示例放在config.sh.sample文件最后。
+## Update Content: 删除通知方式：酷推（Cool Push）
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/RikudouPatrickstar/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -109,19 +109,15 @@ export DD_BOT_SECRET=""
 ## 5. iGot聚合推送，支持多方式推送，填写iGot的推送key。教程：https://wahao.github.io/Bark-MP-helper/#/
 export IGOT_PUSH_KEY=""
 
-## 6. 酷推(Cool Push)，向QQ发送推送消息，参考文档：https://cp.xuthus.cc ，其中QQ_MODE的可选项有（默认send）：send[私聊]、group[群聊]、wx[个微]、ww[企微]、email[邮件]
-export QQ_SKEY=""
-export QQ_MODE=""
-
-## 7. Push Plus，微信扫码登录后一对一推送或一对多推送，参考文档：http://pushplus.hxtrip.com/
+## 6. Push Plus，微信扫码登录后一对一推送或一对多推送，参考文档：http://pushplus.hxtrip.com/
 ## 其中PUSH_PLUS_USER是一对多推送的“群组编码”（一对多推送下面->您的群组(如无则新建)->群组编码）注:(1、需订阅者扫描二维码 2、如果您是创建群组所属人，也需点击“查看二维码”扫描绑定，否则不能接受群组消息推送)，只填PUSH_PLUS_TOKEN默认为一对一推送
 export PUSH_PLUS_TOKEN=""
 export PUSH_PLUS_USER=""
 
-## 8. 企业微信机器人消息推送 webhook 后面的 key，文档：https://work.weixin.qq.com/api/doc/90000/90136/91770
+## 7. 企业微信机器人消息推送 webhook 后面的 key，文档：https://work.weixin.qq.com/api/doc/90000/90136/91770
 export QYWX_KEY=""
 
-## 9. 企业微信应用消息推送的值，文档：https://work.weixin.qq.com/api/doc/90000/90135/90236 
+## 8. 企业微信应用消息推送的值，文档：https://work.weixin.qq.com/api/doc/90000/90135/90236 
 ## 依次填上corpid的值,corpsecret的值,touser的值,agentid,media_id的值，注意用,号隔开，例如："wwcff56746d9adwers,B-791548lnzXBE6_BWfxdf3kSTMJr9vFEPKAbh6WERQ,mingcheng,1000001,2COXgjH2UIfERF2zxrtUOKgQ9XklUqMdGSWLBoW_lSDAdafat"
 export QYWX_AM=""
 
