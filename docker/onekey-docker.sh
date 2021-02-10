@@ -93,7 +93,7 @@ fi
 
 # 检测容器是否存在
 check_container_name() {
-    if [ ! -z "$(docker ps -a | grep $CONTAINER_NAME 2> /dev/null)" ]; then
+    if [ ! -z "$(docker ps --format "{{.Names}}" | grep -w $CONTAINER_NAME 2> /dev/null)" ]; then
         inp "检测到先前已经存在的容器，是否删除先前的容器：\n1) 是[默认]\n2) 不要"
         echo -n -e "\e[33m输入您的选择->\e[0m"
         read update
@@ -121,7 +121,7 @@ input_container_name
 
 # 检测端口是否存在
 check_panel_port() {
-    if [ ! -z "$(docker ps -a | grep $PANEL_PORT 2> /dev/null)" ]; then
+    if [ ! -z "$(docker ps -a --format "{{.Ports}}" | grep :$PANEL_PORT- 2> /dev/null)" ]; then
         warn "检测到端口号冲突"
         input_panel_port
     fi
