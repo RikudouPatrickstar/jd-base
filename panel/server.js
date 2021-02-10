@@ -26,7 +26,7 @@ var confBakDir = path.join(rootPath, 'config/bak/');
 // auth.json 文件目录
 var authConfigFile = path.join(rootPath, 'config/auth.json');
 // Share Code 文件目录
-var shareCodeDir = path.join(rootPath, 'log/jd_get_share_code/');
+var shareCodeDir = path.join(rootPath, 'log/export_sharecodes/');
 // diy.sh 文件目录
 var diyFile = path.join(rootPath, 'config/diy.sh');
 // 日志目录
