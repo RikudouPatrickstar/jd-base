@@ -113,4 +113,4 @@ PATH=/usr/sbin:/usr/bin:/sbin:/bin
 # 删除优惠券(默认注释，如需要自己开启，如有误删，已删除的券可以在回收站中还原，慎用)
 #20 9 * * 6 bash /home/myid/jd/jd.sh jd_delCoupon
 
-
+# 以下为自动添加的任务
