@@ -1,116 +1,58 @@
-############ 第1步 ############
-## 在命令行中使用 echo $PATH 命令查看你的系统PATH是不是和下面一样，如果不一样，则用你的PATH代替下一行中PATH的值：
-PATH=/usr/sbin:/usr/bin:/sbin:/bin
-
-############ 第2步 ############
-## 依次输入which node、which npm、which git、which perl，检查node、npm、git、perl的路径，如路径不在刚刚修改的PATH中，则将路径添加在PATH最前面，并以冒号分隔
-
-############ 第3步 ############
-## 命令行中输入 crontab -l ，将输出内容添加在本行之下（如反馈没有定时任务则可以跳过本步）：
+PATH=PATH
 
 
-############ 第4步 ############
-## 修改以下所有脚本路径和cron时间。
+55 * * * * bash MY_PATH/git_pull.sh >> MY_PATH/log/git_pull.log 2>&1
+57 13 * * * bash MY_PATH/rm_log.sh >/dev/null 2>&1
+48 5 * * * bash MY_PATH/export_sharecodes.sh
 
-# 更新lxk0301大佬的js脚本和RikudouPatrickstar的shell脚本，并替换相关参数：
-55 * * * * bash /home/myid/jd/git_pull.sh >> /home/myid/jd/log/git_pull.log 2>&1
-
-# 删除 RmLogDaysAgo 指定天数以前的旧日志，本行为不记录日志：
-57 13 * * * bash /home/myid/jd/rm_log.sh >/dev/null 2>&1
-
-# 导出所有互助码清单，日志在log/export_sharecodes下：
-48 5 * * * bash /home/myid/jd/export_sharecodes.sh
-
-# 重启挂机脚本：
-33 13 * * * bash /home/myid/jd/jd.sh hangup
 
 # 运行lxk0301大佬的js脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务。
-# 请保留任务名称中的前缀"jd_"，去掉后缀".js"，如果有些任务你不想运行，注释掉就好了，不要删除。
-# 非RikudouPatrickstar/jd_scripts仓库中的脚本不能以“jd_”、“jr_”、“jx_”开头。请在最后保留一个空行。
+# 非RikudouPatrickstar/jd_scripts仓库中的脚本不能以“jd_”、“jr_”、“jx_”开头。
+# 请在最后保留一个空行。
 
-# 签到
-3 0,18 * * * bash /home/myid/jd/jd.sh jd_bean_sign
-# 东东超市兑换奖品
-0,30 0 * * * bash /home/myid/jd/jd.sh jd_blueCoin
-# 摇京豆
-0 0 * * * bash /home/myid/jd/jd.sh jd_club_lottery
-# 东东农场
-5 6-18/6 * * * bash /home/myid/jd/jd.sh jd_fruit
-# 宠汪汪
-15 */2 * * * bash /home/myid/jd/jd.sh jd_joy
-# 宠汪汪喂食
-15 */1 * * * bash /home/myid/jd/jd.sh jd_joy_feedPets
-# 宠汪汪偷好友积分与狗粮
-0 0-10/2 * * * bash /home/myid/jd/jd.sh jd_joy_steal
-# 摇钱树
-0 */2 * * * bash /home/myid/jd/jd.sh jd_moneyTree
-# 东东萌宠
-5 6-18/6 * * * bash /home/myid/jd/jd.sh jd_pet
-# 京东种豆得豆
-0 7-22/1 * * * bash /home/myid/jd/jd.sh jd_plantBean
-# 京东全民开红包
-1 1 * * * bash /home/myid/jd/jd.sh jd_redPacket
-# 进店领豆
-10 0 * * * bash /home/myid/jd/jd.sh jd_shop
-# 京东天天加速
-8 */3 * * * bash /home/myid/jd/jd.sh jd_speed
-# 东东超市
-11 1-23/5 * * * bash /home/myid/jd/jd.sh jd_superMarket
-# 取关京东店铺商品
-55 23 * * * bash /home/myid/jd/jd.sh jd_unsubscribe
-# 京豆变动通知
-5 0 * * * bash /home/myid/jd/jd.sh jd_bean_change
-# 京东抽奖机
-11 1 * * * bash /home/myid/jd/jd.sh jd_lotteryMachine
-# 京东排行榜
-11 9 * * * bash /home/myid/jd/jd.sh jd_rankingList
-# 天天提鹅
-18 * * * * bash /home/myid/jd/jd.sh jd_daily_egg
-# 金融养猪
-12 * * * * bash /home/myid/jd/jd.sh jd_pigPet
-# 点点券
-20 0,20 * * * bash /home/myid/jd/jd.sh jd_necklace
-# 京喜工厂
-20 * * * * bash /home/myid/jd/jd.sh jd_dreamFactory
-# 东东小窝
-16 6,23 * * * bash /home/myid/jd/jd.sh jd_small_home 
-# 东东工厂
-36 * * * * bash /home/myid/jd/jd.sh jd_jdfactory
-# 十元街
-36 8,18 * * * bash /home/myid/jd/jd.sh jd_syj
-# 京东快递签到
-23 1 * * * bash /home/myid/jd/jd.sh jd_kd
-# 京东汽车(签到满500赛点可兑换500京豆)
-0 0 * * * bash /home/myid/jd/jd.sh jd_car
-# 领京豆额外奖励(每日可获得3京豆)
-33 4 * * * bash /home/myid/jd/jd.sh jd_bean_home
-# 京东直播(每日18豆)
-10-20/5 11 * * * bash /home/myid/jd/jd.sh jd_live
-# 微信小程序京东赚赚
-10 11 * * * bash /home/myid/jd/jd.sh jd_jdzz
-# 宠汪汪邀请助力
-10 9-20/2 * * * bash /home/myid/jd/jd.sh jd_joy_run
-# crazyJoy自动每日任务
-10 7 * * * bash /home/myid/jd/jd.sh jd_crazy_joy
-# 京东汽车旅程赛点兑换金豆
-0 0 * * * bash /home/myid/jd/jd.sh jd_car_exchange
-# 导到所有互助码
-47 7 * * * bash /home/myid/jd/jd.sh jd_get_share_code
-# 口袋书店
-7 8,12,18 * * * bash /home/myid/jd/jd.sh jd_bookshop
-# 京喜农场
-# 0 9,12,18 * * * bash /home/myid/jd/jd.sh jd_jxnc
-# 签到领现金
-27 7 * * * bash /home/myid/jd/jd.sh jd_cash
-# 京喜app签到
-39 7 * * * bash /home/myid/jd/jd.sh jx_sign
-# 京东家庭号(暂不知最佳cron)
-# */20 * * * * bash /home/myid/jd/jd.sh jd_family
-# 闪购盲盒
-27 8 * * * bash /home/myid/jd/jd.sh jd_sgmh
-# 京东秒秒币
-10 7 * * * bash /home/myid/jd/jd.sh jd_ms
-# 删除优惠券(默认注释，如需要自己开启，如有误删，已删除的券可以在回收站中还原，慎用)
-#20 9 * * 6 bash /home/myid/jd/jd.sh jd_delCoupon
+33 13 * * * bash MY_PATH/jd.sh hangup
+
+5 0 * * * bash MY_PATH/jd.sh jd_bean_change
+33 4 * * * bash MY_PATH/jd.sh jd_bean_home
+3 0,18 * * * bash MY_PATH/jd.sh jd_bean_sign
+0,30 0 * * * bash MY_PATH/jd.sh jd_blueCoin
+7 8,12,18 * * * bash MY_PATH/jd.sh jd_bookshop
+0 0 * * * bash MY_PATH/jd.sh jd_car
+0 0 * * * bash MY_PATH/jd.sh jd_car_exchange
+27 7 * * * bash MY_PATH/jd.sh jd_cash
+0 0 * * * bash MY_PATH/jd.sh jd_club_lottery
+10 7 * * * bash MY_PATH/jd.sh jd_crazy_joy
+18 * * * * bash MY_PATH/jd.sh jd_daily_egg
+# 20 9 * * 6 bash MY_PATH/jd.sh jd_delCoupon
+20 * * * * bash MY_PATH/jd.sh jd_dreamFactory
+# */20 * * * * bash MY_PATH/jd.sh jd_family
+5 6-18/6 * * * bash MY_PATH/jd.sh jd_fruit
+47 7 * * * bash MY_PATH/jd.sh jd_get_share_code
+36 * * * * bash MY_PATH/jd.sh jd_jdfactory
+10 11 * * * bash MY_PATH/jd.sh jd_jdzz
+15 */2 * * * bash MY_PATH/jd.sh jd_joy
+15 */1 * * * bash MY_PATH/jd.sh jd_joy_feedPets
+10 9-20/2 * * * bash MY_PATH/jd.sh jd_joy_run
+0 0-10/2 * * * bash MY_PATH/jd.sh jd_joy_steal
+# 0 9,12,18 * * * bash MY_PATH/jd.sh jd_jxnc
+23 1 * * * bash MY_PATH/jd.sh jd_kd
+10-20/5 11 * * * bash MY_PATH/jd.sh jd_live
+11 1 * * * bash MY_PATH/jd.sh jd_lotteryMachine
+0 */2 * * * bash MY_PATH/jd.sh jd_moneyTree
+10 7 * * * bash MY_PATH/jd.sh jd_ms
+20 0,20 * * * bash MY_PATH/jd.sh jd_necklace
+5 6-18/6 * * * bash MY_PATH/jd.sh jd_pet
+12 * * * * bash MY_PATH/jd.sh jd_pigPet
+0 7-22/1 * * * bash MY_PATH/jd.sh jd_plantBean
+11 9 * * * bash MY_PATH/jd.sh jd_rankingList
+1 1 * * * bash MY_PATH/jd.sh jd_redPacket
+27 8 * * * bash MY_PATH/jd.sh jd_sgmh
+10 0 * * * bash MY_PATH/jd.sh jd_shop
+16 6,23 * * * bash MY_PATH/jd.sh jd_small_home
+8 */3 * * * bash MY_PATH/jd.sh jd_speed
+11 1-23/5 * * * bash MY_PATH/jd.sh jd_superMarket
+36 8,18 * * * bash MY_PATH/jd.sh jd_syj
+55 23 * * * bash MY_PATH/jd.sh jd_unsubscribe
+39 7 * * * bash MY_PATH/jd.sh jx_sign
 
 # 以下为自动添加的任务
