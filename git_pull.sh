@@ -20,7 +20,6 @@ ContentVersion=${ShellDir}/version
 ContentNewTask=${ShellDir}/new_task
 ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
-isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
 ScriptsURL=https://github.com/RikudouPatrickstar/jd_scripts
 ShellURL=https://github.com/RikudouPatrickstar/jd-base
 
@@ -171,10 +170,7 @@ function Notify_Version {
 
 ## npm install 子程序，判断是否为安卓，判断是否安装有yarn
 function Npm_InstallSub {
-  if [ -n "${isTermux}" ]
-  then
-    npm install --no-bin-links || npm install --no-bin-links --registry=https://registry.npm.taobao.org
-  elif ! type yarn >/dev/null 2>&1
+  if ! type yarn >/dev/null 2>&1
   then
     npm install || npm install --registry=https://registry.npm.taobao.org
   else
