@@ -177,22 +177,14 @@ docker run -dit \
     -v $CONFIG_PATH:/jd/config \
     -v $LOG_PATH:/jd/log \
     -p $PANEL_PORT:5678 \
-    -e ENABLE_HANGUP=true \
-    -e ENABLE_WEB_PANEL=true \
     --name $CONTAINER_NAME \
     --hostname jd \
     --restart always \
     $DOCKER_IMAGE
 
-
-# 检查config文件是否存在
-if [ ! -f "$CONFIG_PATH/config.sh" ]; then
-    docker cp $CONTAINER_NAME:/jd/sample/config.sh.sample $CONFIG_PATH/config.sh
- fi
-
 log "\n4.下面列出所有容器"
 docker ps
 
-log "\n5.安装已经完成。\n现在你可以使用如下信息访问设备来进行配置：\n地址：http://IP:$PANEL_PORT\n用户名：admin\n密码：adminadmin"
+log "\n5.安装已经完成。\n现在你可以使用如下信息访问设备来进行配置：\n地址：http://<ip>:$PANEL_PORT\n用户名：admin\n密码：adminadmin"
 
 rm -f $SCRIPT_FOLDER/$SCRIPT_NAME
