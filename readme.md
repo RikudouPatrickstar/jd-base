@@ -6,93 +6,102 @@
 
 - 本脚本只是给 lxk0301 大佬的 js 脚本套了层壳。
 
-# 二、如有帮助你薅到羊毛，请不吝赏杯茶水费给开发者
+# 二、如有帮助你薅到羊毛，请不吝赏杯茶水
 
 ![thanks](picture/thanks.png)
 
 # 三、快速开始
 ## 1. Linux/MacOS
-需要的依赖：`git wget curl perl moreutils nodejs npm` 请自行安装
+脚本一键部署：  
+运行此脚本前必须手动安装好依赖：`git wget curl perl moreutils node.js npm`  
+```shell
+wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/onekey-install.sh -O onekey-jd-base.sh && chmod +x onekey-jd-base.sh && ./onekey-jd-base.sh
+```
 
-**1. 以下全文均以此路径 `MY_PATH/jd` 进行举例，请自行修改为你自己的路径！**
+## 2. Docker
+### 单个 Docker 容器
+脚本一键部署：  
+```shell
+wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/onekey-docker.sh -O onekey-jd-docker.sh && chmod +x onekey-jd-docker.sh && ./onekey-jd-docker.sh
+``` 
 
-**2. MY_PATH：进入你的目录后，执行 pwd 获取。**
+### Docker-Compose
+需要先运行 make-image 脚本在本地生成一下镜像：
+```shell
+wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/make-image.sh && chmod +x make-image.sh && ./make-image.sh
+```
 
-**3. 需要多账号并发的，请建立多个账户，每个账户各自使用一套脚本。想要方便简单使用多账号并发的，请使用 Docker 的方式。**
+[Docker 相关文件](https://github.com/RikudouPatrickstar/jd-base/tree/v3/docker) 已提供，自行研究使用，小白勿触！
 
-1. 克隆本仓库
+## 四、Web 面板使用说明
 
-    ```shell
-    cd MY_PATH && git clone -b v3 https://github.com/RikudouPatrickstar/jd-base jd
-    ```
+下面内容是针对非 Docker 用户的，Docker 中这些流程都做好了，直接使用即可。
 
-2. 复制并编辑自己的配置文件
+### 使用流程
 
-    ```shell
-    cd MY_PATH/jd
+1. 面板默认已开启
 
-    # 创建一个配置文件保存目录
-    mkdir config
+2. 面板目录为 {项目安装目录}/panel
 
-    # 复制仓库下sample/config.sh.sample到config目录中，并命名为config.sh
-    cp sample/config.sh.sample config/config.sh
-
-    # 复制仓库下sample/computer.list.sample到config目录中，并命名为crontab.list
-    cp sample/computer.list.sample config/crontab.list
-
-    # 然后编辑这两个文件
-    ```
-    
-    可以通过控制面板编辑，详见 [控制面板使用说明](#四web-面板使用说明) 。
-    
-    其中 `config.sh` 是配置文件，`crontab.list` 是定时任务清单，**如何编辑请查看两个文件内的注释，务必仔细阅读！**
-
-    关于 `crontab.list`，这里说明一下，除了那些本来就会准时运行的脚本外，如果还有一些脚本你不想随机延迟，要么在 `config.sh` 中 `RandomDelay` 不要赋值(所有任务都将不延迟执行)，要么参考下文 [如何手动运行脚本](#如何手动运行脚本) 部分，在 `crontab.list` 中不想被随机延迟运行的任务后面，添加上 `now`，比如：
-    
-    ```shell
-    20 * * * * bash MY_PATH/jd/jd.sh jd_dreamFactory now
-    ```
-
-3. 初始化
-
-    **在首次编辑好 `config.sh` 和 `crontab.list` 后，请务必手动运行一次 `git_pull.sh`，不仅是为检查错误，也是为了运行一次 `npm install` 用以安装 js 指定的依赖。**
+3. 手动启动，根据需要二选一。
 
     ```shell
-    bash git_pull.sh
+    # 1. 如需要编辑保存好就结束掉在线页面(保存好后按Ctrl+C结束)
+    node server.js
+
+    # 2. 如需一直后台运行，以方便随时在线编辑（两种方式二选一即可）
+    # 2.1 nohup 方式
+    nohup node server.js > /dev/null &
+
+    # 2.2 pm2 方式
+    npm install -g pm2    # npm和yarn二选一
+    yarn global add pm2   # npm和yarn二选一
+    pm2 start server.js
     ```
 
-    **针对首次运行 `git_pull.sh` **，出现类似以下字样才表示 `npm install` 运行成功：
-    ```
-    audited 205 packages in 3.784s
+4. 访问 `http://<ip>:5678` 登陆、编辑并保存即可（初始用户名：`admin`，初始密码：`adminadmin`）。如无法访问，请从防火墙、端口转发、网络方面着手解决。
 
-    11 packages are looking for funding
-    run `npm fund` for details
+5. 如需要重置密码，cd 到本仓库的目录下输入 `bash jd.sh resetpwd`。
 
-    found 0 vulnerabilities
-    ```
+### 效果图
 
-    如果 `npm install` 失败，请尝试手动运行，可按如下操作，如果失败，可运行多次：
+![home](picture/home.png)
 
-    ```shell
-    cd MY_PATH/jd/scripts
+![GetCookie1](picture/GetCookie1.png)
 
-    # 如果只安装了npm
-    npm install || npm install --registry=https://registry.npm.taobao.org
+![GetCookie2](picture/GetCookie2.png)
 
-    # 如果安装了yarn
-    yarn install
-    ```
+![crontab](picture/crontab.png)
 
-4. 添加定时任务
+![diff](picture/diff.png)
 
-    **请注意：以下命令会完整覆盖你当前用户的 crontab 清单，请务必先按照 `crontab.list` 中的注释操作后再执行下面的命令！！！**
+# 五、脚本相关说明
 
-    ```shell
-    cd MY_PATH/jd
-    crontab config/crontab.list
-    ```
+## [git_pull.sh](git_pull.sh)
 
-5. 部署完成。
+1. 自动更新 lxk0301 的京东薅羊毛脚本；
+
+2. 自动更新我的 shell 脚本；
+
+3. 自动删除失效的定时任务，并发送通知；
+
+4. 自动添加新的定时任务，并发送通知；
+
+5. 检测配置文件模板 `config.sh.sample` 是否升版，如有升版，发出通知；
+
+6. 其他还有若干功能，查看 [git_pull.sh](git_pull.sh) 注释即可看到。
+
+## [export_sharecodes.sh](export_sharecodes.sh)
+
+从已经产生的日志中导出互助码，注意：是已经产生的日志。
+
+## [rm_log.sh](rm_log.sh)
+
+自动按设定天数（config.sh 中设置的）删除旧日志。
+
+## [jd.sh](jd.sh)
+
+自动按 crontab.list 设定的时间去跑各个薅羊毛脚本，需要后本脚本后面提供 js 脚本名称。
 
 ### 如何更新配置文件
 
@@ -163,113 +172,6 @@ export 变量名3="变量值3"
     如果 lxk0301 脚本名不记得也不要紧，输错了也会提示你的：
 
     ![PC2](picture/PC2.png)
-
-## 2. Docker
-### 单个 Docker 容器
-脚本一键部署：  
-```shell
-wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/onekey-docker.sh -O onekey-jd-docker.sh && chmod +x onekey-jd-docker.sh && ./onekey-jd-docker.sh
-``` 
-
-### Docker-Compose 多账户并发
-需要先运行 make-image 脚本在本地生成一下镜像：
-```shell
-wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/make-image.sh && chmod +x make-image.sh && ./make-image.sh
-```
-
-[Docker 相关文件](https://github.com/RikudouPatrickstar/jd-base/tree/v3/docker) 已提供，自行研究使用，小白勿触！
-
-## 四、Web 面板使用说明
-
-下面内容是针对非 Docker 用户的，Docker 中这些流程都做好了，直接使用即可，请见 [Docker 部分](#2-docker)。
-
-### 使用流程
-
-1. cd 到本仓库脚本目录下。
-
-2. 复制用户名和密码的配置文件到配置目录下。
-
-    ```shell
-    cp sample/auth.json config/auth.json
-    ```
-
-3. 进入本仓库下 panel 目录。
-
-    ```shell
-    cd panel
-    ```
-
-4. 安装依赖，npm 和 yarn 二选一。
-
-   - 计算机：
-
-    ```shell
-    # 如果只安装了npm
-    npm install || npm install --registry=https://registry.npm.taobao.org
-
-    # 如果安装了yarn，可代替npm
-    yarn install
-    ```
-
-5. 启动在线网页，根据需要二选一。
-
-    ```shell
-    # 1. 如需要编辑保存好就结束掉在线页面(保存好后按Ctrl+C结束)
-    node server.js
-
-    # 2. 如需一直后台运行，以方便随时在线编辑（两种方式二选一即可）
-    # 2.1 nohup 方式
-    nohup node server.js > /dev/null &
-
-    # 2.2 pm2 方式
-    npm install -g pm2    # npm和yarn二选一
-    yarn global add pm2   # npm和yarn二选一
-    pm2 start server.js
-    ```
-
-6. 访问 `http://<ip>:5678` 登陆、编辑并保存即可（初始用户名：`admin`，初始密码：`adminadmin`）。如无法访问，请从防火墙、端口转发、网络方面着手解决。
-
-7. 如需要重置密码，cd 到本仓库的目录下输入 `bash jd.sh resetpwd`。
-
-### 效果图
-
-![home](picture/home.png)
-
-![GetCookie1](picture/GetCookie1.png)
-
-![GetCookie2](picture/GetCookie2.png)
-
-![crontab](picture/crontab.png)
-
-![diff](picture/diff.png)
-
-# 五、脚本可以干什么
-
-## [git_pull.sh](git_pull.sh)
-
-1. 自动更新 lxk0301 的京东薅羊毛脚本；
-
-2. 自动更新我的 shell 脚本；
-
-3. 自动删除失效的定时任务，并发送通知；
-
-4. 自动添加新的定时任务，并发送通知；
-
-5. 检测配置文件模板 `config.sh.sample` 是否升版，如有升版，发出通知；
-
-6. 其他还有若干功能，查看 [git_pull.sh](git_pull.sh) 注释即可看到。
-
-## [export_sharecodes.sh](export_sharecodes.sh)
-
-从已经产生的日志中导出互助码，注意：是已经产生的日志。
-
-## [rm_log.sh](rm_log.sh)
-
-自动按设定天数（config.sh 中设置的）删除旧日志。
-
-## [jd.sh](jd.sh)
-
-自动按 crontab.list 设定的时间去跑各个薅羊毛脚本，需要后本脚本后面提供 js 脚本名称。
 
 # 六、配置文件
 

@@ -1,4 +1,4 @@
-PATH=PATH
+ENV_PATH=
 
 
 55 * * * * bash MY_PATH/git_pull.sh >> MY_PATH/log/git_pull.log 2>&1
