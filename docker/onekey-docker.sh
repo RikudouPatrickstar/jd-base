@@ -19,9 +19,10 @@ echo "
 "
 DOCKER_IMAGE="patrick/jdbase:v3"
 SCRIPT_NAME=$0
-SCRIPT_FOLDER=$(pwd)
+SCRIPT_FOLDER=$(cd "$(dirname "$0")";pwd)
 CONTAINER_NAME=""
 PANEL_PORT=""
+WORK_SPACE="${SCRIPT_FOLDER}/onekey-jd-docker-workspace"
 JD_PATH=""
 CONFIG_PATH=""
 LOG_PATH=""
@@ -154,16 +155,16 @@ mkdir -p $LOG_PATH
 
 if [ $NEW_IMAGE = true ]; then
     log "\n2.1.正在创建新镜像..."
-    rm -fr $JD_PATH/Dockerfile
-    rm -fr $JD_PATH/docker-entrypoint.sh
+    mkdir -p $WORK_SPACE
+    rm -fr $WORK_SPACE/Dockerfile
+    rm -fr $WORK_SPACE/docker-entrypoint.sh
     if [ $HAS_IMAGE = true ]; then
         docker image rm -f $DOCKER_IMAGE
     fi
-    wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/Dockerfile -O $JD_PATH/Dockerfile
-    wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/docker-entrypoint.sh -O $JD_PATH/docker-entrypoint.sh
-    docker build -t $DOCKER_IMAGE $JD_PATH > $LOG_PATH/new_image.log
-    rm -fr $JD_PATH/Dockerfile
-    rm -fr $JD_PATH/docker-entrypoint.sh
+    wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/Dockerfile -O $WORK_SPACE/Dockerfile
+    wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/docker-entrypoint.sh -O $WORK_SPACE/docker-entrypoint.sh
+    docker build -t $DOCKER_IMAGE $WORK_SPACE > $LOG_PATH/new_image.log
+    rm -fr $WORK_SPACE
 fi
 
 if [ $DEL_CONTAINER = true ]; then
