@@ -24,7 +24,7 @@ echo -e "\e[31\n警告：运行本脚本前必须手动安装好如下依赖：g
 read
 
 echo -e "\n\e[32m1. 获取源码\e[0m"
-[ ! -d ${JD_DIR} ] && mv ${JD_DIR} ${SHELL_DIR}/jd.bak && echo "检测到当前目录下有jd目录，已备份为jd.bak"
+[ -d ${JD_DIR} ] && mv ${JD_DIR} ${SHELL_DIR}/jd.bak && echo "检测到当前目录下有jd目录，已备份为jd.bak"
 git clone -b v3 https://github.com/RikudouPatrickstar/jd-base ${JD_DIR}
 
 echo -e "\n\e[32m2. 检查配置文件\e[0m"
@@ -33,7 +33,7 @@ echo -e "\n\e[32m2. 检查配置文件\e[0m"
 
 if [ ! -s ${JD_DIR}/config/crontab.list ]
 then
-  cp -fv ${JD_DIR}/sample/computer.list.sample ${JD_DIR}/config/crontab.list
+  cp -fv ${JD_DIR}/sample/crontab.list.sample ${JD_DIR}/config/crontab.list
   sed -i "s,MY_PATH,${JD_DIR},g" ${JD_DIR}/config/crontab.list
   sed -i "s,ENV_PATH=,PATH=$PATH,g" ${JD_DIR}/config/crontab.list
   echo
@@ -55,9 +55,10 @@ echo -e "\n\e[32m3. 执行 git_pull\e[0m"
 bash ${JD_DIR}/git_pull.sh
 
 echo -e "\n\e[32m4. 启动控制面板\e[0m"
-pushd ${JD_DIR}/panel >> /dev/null
+cd ${JD_DIR}/panel >> /dev/null
 npm install
 pm2 start server.js || npm install -g pm2 && pm2 start server.js
+cd ${SHELL_DIR}
 echo -e "请访问 http://<ip>:5678 进行配置"
 echo -e "$(cat ${JD_DIR}/config/auth.json)"
 

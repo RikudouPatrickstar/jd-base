@@ -7,7 +7,7 @@ echo -e "\n====================1. 创建配置目录========================\n"
 echo -e "\n====================2. 更新源代码==========================\n"
 [ ! -d ${JD_DIR}/log ] && mkdir -p ${JD_DIR}/log
 crond
-bash git_pull
+bash ${JD_DIR}/git_pull.sh
 echo
 
 echo -e "======================3. 检测配置文件========================\n"
@@ -19,7 +19,9 @@ then
   echo -e "成功添加定时任务...\n"
 else
   echo -e "检测到config配置目录下不存在crontab.list或存在但文件为空，从示例文件复制一份用于初始化...\n"
-  cp -fv ${JD_DIR}/sample/docker.list.sample ${JD_DIR}/config/crontab.list
+  cp -fv ${JD_DIR}/sample/crontab.list.sample ${JD_DIR}/config/crontab.list
+  sed -i "s,MY_PATH,${JD_DIR},g" ${JD_DIR}/config/crontab.list
+  sed -i "s,ENV_PATH=,PATH=$PATH,g" ${JD_DIR}/config/crontab.list
   echo
   crontab ${JD_DIR}/config/crontab.list
   echo -e "成功添加定时任务...\n"
@@ -40,7 +42,7 @@ fi
 echo -e "======================4. 启动挂机程序========================\n"
 . ${JD_DIR}/config/config.sh
 if [ -n "${Cookie1}" ]; then
-  bash jd hangup 2>/dev/null
+  bash ${JD_DIR}/jd.sh hangup 2>/dev/null
   echo -e "挂机程序启动成功...\n"
 else
   echo -e "config.sh中还未填入有效的Cookie，可能是首次部署容器，因此不启动挂机程序...\n"

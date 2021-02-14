@@ -157,12 +157,10 @@ if [ $NEW_IMAGE = true ]; then
     log "\n2.1.正在创建新镜像..."
     mkdir -p $WORK_SPACE
     rm -fr $WORK_SPACE/Dockerfile
-    rm -fr $WORK_SPACE/docker-entrypoint.sh
     if [ $HAS_IMAGE = true ]; then
         docker image rm -f $DOCKER_IMAGE
     fi
     wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/Dockerfile -O $WORK_SPACE/Dockerfile
-    wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/docker-entrypoint.sh -O $WORK_SPACE/docker-entrypoint.sh
     docker build -t $DOCKER_IMAGE $WORK_SPACE > $LOG_PATH/new_image.log
     rm -fr $WORK_SPACE
 fi
