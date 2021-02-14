@@ -8,7 +8,7 @@
 
 # 二、如有帮助你薅到羊毛，请不吝赏杯茶水
 
-![thanks](picture/thanks.png)
+![thanks](thanks.png)
 
 # 三、快速开始
 ## 1. Linux/MacOS
@@ -62,18 +62,6 @@ wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/make-image.s
 4. 访问 `http://<ip>:5678` 登陆、编辑并保存即可（初始用户名：`admin`，初始密码：`adminadmin`）。如无法访问，请从防火墙、端口转发、网络方面着手解决。
 
 5. 如需要重置密码，cd 到本仓库的目录下输入 `bash jd.sh resetpwd`。
-
-### 效果图
-
-![home](picture/home.png)
-
-![GetCookie1](picture/GetCookie1.png)
-
-![GetCookie2](picture/GetCookie2.png)
-
-![crontab](picture/crontab.png)
-
-![diff](picture/diff.png)
 
 # 五、脚本相关说明
 
@@ -165,14 +153,6 @@ export 变量名3="变量值3"
     bash jd.sh xxx now  # 无论是否设置了随机延迟，均立即运行
     ```
 
-    如果你没输 lxk0301 大佬的脚本名称也不要紧，`jd.sh` 会提示你：
-
-    ![PC1](picture/PC1.png)
-
-    如果 lxk0301 脚本名不记得也不要紧，输错了也会提示你的：
-
-    ![PC2](picture/PC2.png)
-
 # 六、配置文件
 
 ## 助力次数
@@ -218,8 +198,6 @@ ForOtherFruit4="${MyFruit1}@${MyFruit2}@${MyFruit3}@${MyFruitC}@${MyFruit6}@${My
 ForOtherFruit5="${MyFruit1}@${MyFruit2}@${MyFruit3}@${MyFruitB}@${MyFruit4}@${MyFruit6}@${MyFruitC}@${MyFruitA}"
 ForOtherFruit6="${MyFruit1}@${MyFruit2}@${MyFruit3}@${MyFruitA}@${MyFruit4}@${MyFruit5}@${MyFruitC}"
 ```
-
-![Sharecodes](picture/Sharecodes.png)
 
 ### 如何控制不同时间赋不同的值
 
