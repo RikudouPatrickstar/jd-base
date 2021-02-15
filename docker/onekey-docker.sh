@@ -17,7 +17,7 @@ echo "
                                                                      
             ==== Create by 老竭力 | Mod by Patrick⭐ ====
 "
-DOCKER_IMAGE="patrick/jdbase:v3"
+DOCKER_IMAGE="patrick/jd-base:v3"
 SCRIPT_NAME=$0
 SCRIPT_FOLDER=$(cd "$(dirname "$0")";pwd)
 CONTAINER_NAME=""
@@ -85,7 +85,7 @@ LOG_PATH=$JD_PATH/jd-base-docker/log
 # 检测镜像是否存在
 if [ ! -z "$(docker images -q $DOCKER_IMAGE 2> /dev/null)" ]; then
     HAS_IMAGE=true
-    inp "检测到先前已经存在的镜像，是否拉取最新的镜像：\n1) 是[默认]\n2) 不需要"
+    inp "检测到先前已经存在的镜像，是否创建新的镜像：\n1) 是[默认]\n2) 不需要"
     echo -n -e "\e[33m输入您的选择->\e[0m"
     read update
     if [ "$update" = "2" ]; then
@@ -184,6 +184,5 @@ docker run -dit \
 log "\n4.下面列出所有容器"
 docker ps
 
-log "\n5.安装已经完成。\n现在你可以使用如下信息访问设备来进行配置：\n地址：http://<ip>:$PANEL_PORT\n用户名：admin\n密码：adminadmin"
-
+log "\n5.安装已经完成。\n请访问 http://<ip>:5678 进行配置\n初始用户名：admin，初始密码：adminadmin"
 rm -f $SCRIPT_FOLDER/$SCRIPT_NAME
