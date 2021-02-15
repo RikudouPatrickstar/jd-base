@@ -21,8 +21,13 @@ SHELL_DIR=$(cd "$(dirname "$0")";pwd)
 SCRIPT_NAME=$0
 JD_DIR=${SHELL_DIR}/jd
 
-echo -e "\e[31m\n警告：运行本脚本前必须手动安装好如下依赖：\ngit wget curl perl moreutils node.js npm\n按任意键继续，否则按 Ctrl + C 退出！\e[0m"
+echo -e "\e[33m注意：运行本脚本前必须手动安装好如下依赖：\ngit wget curl perl moreutils node.js npm\n\n按任意键继续，否则按 Ctrl + C 退出！\e[0m"
 read
+
+if [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ] || [ ! -x "$(command -v git)" ] || [ ! -x "$(command -v curl)" ] || [ ! -x "$(command -v wget)" ] || [ ! -x "$(command -v perl)" ]; then
+  echo -e "\e[31m依赖未安装完整！\e[0m"
+  exit 1
+fi
 
 echo -e "\n\e[32m1. 获取源码\e[0m"
 [ -d ${JD_DIR} ] && mv ${JD_DIR} ${SHELL_DIR}/jd.bak && echo "检测到当前目录下有jd目录，已备份为jd.bak"
