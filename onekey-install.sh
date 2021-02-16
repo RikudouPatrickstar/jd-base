@@ -60,13 +60,12 @@ bash ${JdDir}/git_pull.sh
 echo -e "\n\e[32m4. 启动控制面板\e[0m"
 cd ${JdDir}/panel >> /dev/null
 npm install
-if [ ! -x "$(command -v pm2)" ]; then
-  npm install -g pm2
-fi
-pm2 start server.js --watch && pm2 save && pm2 startup
+node server.js &
 cd ${ShellDir}
-echo -e "请访问 http://<ip>:5678 进行配置"
-echo -e "初始用户名：admin，初始密码：adminadmin"
+echo -e "\e[32m请访问 http://<ip>:5678 进行配置\e[0m"
+echo -e "\e[32m初始用户名：admin，初始密码：adminadmin\e[0m"
+
+echo -e "\n更多关于控制面板的信息请访问 https://github.com/RikudouPatrickstar/jd-base#%E5%9B%9Bweb-%E9%9D%A2%E6%9D%BF%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E\n"
 
 echo -e "\e[33m注意：原有定时任务已备份在 ${JdDir}/old_crontab \e[0m"
 rm -f ${ShellDir}/${ShellName}

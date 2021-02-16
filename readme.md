@@ -39,24 +39,21 @@ wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/make-image.s
 
 ### 使用流程
 
-1. 面板默认已开启
+1. 面板目录为 {项目安装目录}/panel
 
-2. 面板目录为 {项目安装目录}/panel
-
-3. 手动启动，根据需要二选一。
+2. 手动启动，根据需要二选一。
 
     ```shell
-    # 1. 如需要编辑保存好就结束掉在线页面(保存好后按Ctrl+C结束)
+    # 1. 如需要编辑保存好就结束掉在线页面(保存好后按 Ctrl + C 结束)
     node server.js
 
-    # 2. 如需一直后台运行，以方便随时在线编辑（两种方式二选一即可）
-    # 2.1 nohup 方式
-    nohup node server.js > /dev/null &
-
-    # 2.2 pm2 方式
+    # 2. 如需一直后台运行，以方便随时在线编辑
     npm install -g pm2    # npm和yarn二选一
     yarn global add pm2   # npm和yarn二选一
-    pm2 start server.js
+    pm2 start server.js --watch
+    
+    # 2.1 如果需要开机自启
+    pm2 save && pm2 startup
     ```
 
 4. 访问 `http://<ip>:5678` 登陆、编辑并保存即可（初始用户名：`admin`，初始密码：`adminadmin`）。如无法访问，请从防火墙、端口转发、网络方面着手解决。
@@ -99,14 +96,14 @@ wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/make-image.s
 
 ### 如何添加其他脚本
 
-本环境基于 node，所以也只能跑 js 脚本。你可以把你的后缀为 `.js` 的脚本放在 `MY_PATH/jd/scripts` 下。比如你放了个 `test.js`，可以在你的 `crontab.list` 中添加如下的定时任务：
+本环境基于 node，所以也只能跑 js 脚本。你可以把你的后缀为 `.js` 的脚本放在 `{项目安装目录}/jd/scripts` 下。比如你放了个 `test.js`，可以在你的 `crontab.list` 中添加如下的定时任务：
 
 ```shell
-15 10 * * * bash MY_PATH/jd/jd.sh test     # 如果不需要准时运行或RandemDelay未设置
-15 10 * * * bash MY_PATH/jd/jd.sh test now # 如果设置了RandemDelay但又需要它准时运行
+15 10 * * * bash {项目安装目录}/jd/jd.sh test     # 如果不需要准时运行或RandemDelay未设置
+15 10 * * * bash {项目安装目录}/jd/jd.sh test now # 如果设置了RandemDelay但又需要它准时运行
 ```
 
-然后运行一下 `crontab MY_PATH/jd/config/crontab.list` 更新定时任务即可。
+然后运行一下 `crontab {项目安装目录}/jd/config/crontab.list` 更新定时任务即可。
 
 **注意：在 crontab.list 中，你额外添加的任务不能以 “jd_”、“jr_”、“jx_” 开头，以 “jd_”、“jr_”、“jx_” 开头的任务如果不在 [jd_scripts](https://github.com/RikudouPatrickstar/jd_scripts) 这个仓库中，那么这个任务会被删除。**
 
@@ -123,21 +120,21 @@ export 变量名3="变量值3"
 1. 手动 git pull 更新脚本
 
     ```shell
-    cd MY_PATH/jd
+    cd {项目安装目录}/jd
     bash git_pull.sh
     ```
 
 2. 手动删除指定时间以前的旧日志
 
     ```shell
-    cd MY_PATH/jd
+    cd {项目安装目录}/jd
     bash rm_log.sh
     ```
 
 3. 手动导出所有互助码
 
     ```shell
-    cd MY_PATH/jd
+    cd {项目安装目录}/jd
     bash export_sharecodes.sh
     ```
 
@@ -148,7 +145,7 @@ export 变量名3="变量值3"
 5. 手动执行薅羊毛脚本，用法如下(其中 `xxx` 为 lxk0301 大佬的脚本名称)，不支持直接以 `node xxx.js` 命令运行：
 
     ```shell
-    cd MY_PATH/jd
+    cd {项目安装目录}/jd
     bash jd.sh xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数
     bash jd.sh xxx now  # 无论是否设置了随机延迟，均立即运行
     ```
