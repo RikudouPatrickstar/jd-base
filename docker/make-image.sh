@@ -5,18 +5,18 @@
 # This is free software, licensed under the GNU General Public License v3.
 # See /LICENSE for more information.
 #
-DOCKER_IMAGE="patrick/jd-base:v3"
-JD_PATH="$(pwd)/patrick-jd"
-SCRIPT_NAME=$0
+DockerImage="patrick/jd-base:v3"
+JdDir="$(pwd)/patrick-jd"
+ShellName=$0
 
-if [ ! -z "$(docker images -q $DOCKER_IMAGE 2> /dev/null)" ]; then
-    docker image rm -f $DOCKER_IMAGE
+if [ ! -z "$(docker images -q $DockerImage 2> /dev/null)" ]; then
+    docker image rm -f $DockerImage
 fi
 
-mkdir $JD_PATH
-wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/Dockerfile -O $JD_PATH/Dockerfile
-docker build -t $DOCKER_IMAGE $JD_PATH
+mkdir $JdDir
+wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/Dockerfile -O $JdDir/Dockerfile
+docker build -t $DockerImage $JdDir
 
-rm -fr $JD_PATH
+rm -fr $JdDir
 
 exit 0

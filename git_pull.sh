@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 ## 文件路径、脚本网址、文件版本以及各种环境的判断
-ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
-[[ ${JD_DIR} ]] && ShellJd=jd || ShellJd=${ShellDir}/jd.sh
+ShellDir=$(cd "$(dirname "$0")";pwd)
+ShellJd=${ShellDir}/jd.sh
 LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
 ScriptsDir=${ShellDir}/scripts

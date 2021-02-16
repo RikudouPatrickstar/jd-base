@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 ## 路径、环境判断
-ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
+ShellDir=$(cd "$(dirname "$0")";pwd)
 LogDir=${ShellDir}/log
-[[ ${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT} ]] && Opt="P" || Opt="E"
 Tips="从日志中未找到任何互助码..."
 
 ## 所有有互助码的活动，只需要把脚本名称去掉前缀jd_后列在Name1中，将其中文名称列在Name2中即可。Name1和Name2中两个名称必须一一对应。
@@ -17,10 +16,10 @@ function Cat_Scodes {
     for log in $(ls -r); do
       case $# in
         1)
-          codes=$(cat ${log} | grep -${Opt} "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g; s|，.+||g}" | perl -ne '{print if /：/}')
+          codes=$(cat ${log} | grep -E "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g; s|，.+||g}" | perl -ne '{print if /：/}')
           ;;
         2)
-          codes=$(grep -${Opt} $2 ${log} | perl -pe "{s| ||g; s|$2||g}")
+          codes=$(grep -E $2 ${log} | perl -pe "{s| ||g; s|$2||g}")
           ;;
       esac
       [[ ${codes} ]] && break

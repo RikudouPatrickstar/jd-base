@@ -2,7 +2,7 @@ version: "2.0"
 services:
   # 第1个容器
   jd1:
-    image: patrick/jdbase:v3
+    image: patrick/jd-base:v3
     container_name: jd1
     restart: always
     tty: true
@@ -11,13 +11,13 @@ services:
     volumes:
       - ./jd1/config:/jd/config
       - ./jd1/log:/jd/log
-      #- ./jd1/scripts:/jd/scripts    # 如果想要看到lxk0301大佬的js脚本，以方便的添加额外脚本，可以解除本行注释，下同
+      - ./jd1/scripts:/jd/scripts
     ports:
       - 5678:5678
 
   # 第2个容器
   jd2:
-    image: patrick/jdbase:v3
+    image: patrick/jd-base:v3
     container_name: jd2
     restart: always
     tty: true
@@ -26,12 +26,13 @@ services:
     volumes:
       - ./jd2/config:/jd/config
       - ./jd2/log:/jd/log
+      - ./jd1/scripts:/jd/scripts
     ports:
       - 5679:5678
 
   # 第3个容器，以此类推
   jd3:
-    image: patrick/jdbase:v3
+    image: patrick/jd-base:v3
     container_name: jd3
     restart: always
     tty: true
@@ -40,5 +41,6 @@ services:
     volumes:
       - ./jd3/config:/jd/config
       - ./jd3/log:/jd/log
+      - ./jd1/scripts:/jd/scripts
     ports:
       - 5680:5678

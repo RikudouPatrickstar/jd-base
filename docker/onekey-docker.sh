@@ -17,19 +17,20 @@ echo "
                                                                      
             ==== Create by 老竭力 | Mod by Patrick⭐ ====
 "
-DOCKER_IMAGE="patrick/jd-base:v3"
-SCRIPT_NAME=$0
-SCRIPT_FOLDER=$(cd "$(dirname "$0")";pwd)
-CONTAINER_NAME=""
-PANEL_PORT=""
-WORK_SPACE="${SCRIPT_FOLDER}/onekey-jd-docker-workspace"
-JD_PATH=""
-CONFIG_PATH=""
-LOG_PATH=""
+DockerImage="patrick/jd-base:v3"
+ShellName=$0
+ShellDir=$(cd "$(dirname "$0")";pwd)
+ContainerName=""
+PanelPort=""
+WorkDir="${ShellDir}/onekey-jd-docker-workdir"
+JdDir=""
+ConfigDir=""
+LogDir=""
+ScriptsDir=""
 
-HAS_IMAGE=false
-NEW_IMAGE=true
-DEL_CONTAINER=false
+HasImage=false
+NewImage=true
+DelContainer=false
 
 log() {
     echo -e "\e[32m$1 \e[0m"
@@ -45,7 +46,7 @@ warn() {
 
 
 # 检查 Docker 环境
-docker_install() {
+Install_Docker() {
     if [ -x "$(command -v docker)" ]; then
        log "Docker 已安装!"
     else
@@ -64,7 +65,7 @@ docker_install() {
         fi
     fi
 }
-docker_install
+Install_Docker
 
 warn "\n注意如果你什么都不清楚，建议所有选项都直接回车，使用默认选择！！！\n"
 
@@ -74,117 +75,117 @@ warn "\n注意如果你什么都不清楚，建议所有选项都直接回车，
 
 # 配置文件目录
 echo -e "\e[33m请输入配置文件保存的绝对路径,直接回车为当前目录:\e[0m"
-read jd_path
-JD_PATH=$jd_path
-if [ -z "$jd_path" ]; then
-    JD_PATH=$SCRIPT_FOLDER
+read JdDir
+JdDir=$JdDir
+if [ -z "$JdDir" ]; then
+    JdDir=$ShellDir/jd-docker
 fi
-CONFIG_PATH=$JD_PATH/jd-base-docker/config
-LOG_PATH=$JD_PATH/jd-base-docker/log
-SCRPTS_PATH=$JD_PATH/jd-base-docker/scripts
+ConfigDir=$JdDir/config
+LogDir=$JdDir/log
+ScriptsDir=$JdDir/scripts
 
 # 检测镜像是否存在
-if [ ! -z "$(docker images -q $DOCKER_IMAGE 2> /dev/null)" ]; then
-    HAS_IMAGE=true
+if [ ! -z "$(docker images -q $DockerImage 2> /dev/null)" ]; then
+    HasImage=true
     inp "检测到先前已经存在的镜像，是否创建新的镜像：\n1) 是[默认]\n2) 不需要"
     echo -n -e "\e[33m输入您的选择->\e[0m"
     read update
     if [ "$update" = "2" ]; then
-        NEW_IMAGE=false
+        NewImage=false
     fi
 fi
 
 # 检测容器是否存在
-check_container_name() {
-    if [ ! -z "$(docker ps --format "{{.Names}}" | grep -w $CONTAINER_NAME 2> /dev/null)" ]; then
+Check_ContainerName() {
+    if [ ! -z "$(docker ps --format "{{.Names}}" | grep -w $ContainerName 2> /dev/null)" ]; then
         inp "检测到先前已经存在的容器，是否删除先前的容器：\n1) 是[默认]\n2) 不要"
         echo -n -e "\e[33m输入您的选择->\e[0m"
         read update
         if [ "$update" = "2" ]; then
             log "选择了不删除先前的容器，需要重新输入容器名称"
-            input_container_name
+            Input_ContainerName
         else
-            DEL_CONTAINER=true
+            DelContainer=true
         fi
     fi
 }
 
 # 输入容器名称
-input_container_name() {
+Input_ContainerName() {
     echo -n -e "\n\e[33m请输入要创建的Docker容器名称[默认为：jd]->\e[0m"
-    read container_name
-    if [ -z "$container_name" ]; then
-        CONTAINER_NAME="jd"
+    read ContainerName
+    if [ -z "$ContainerName" ]; then
+        ContainerName="jd"
     else
-        CONTAINER_NAME=$container_name
+        ContainerName=$ContainerName
     fi
-    check_container_name 
+    Check_ContainerName 
 }
-input_container_name
+Input_ContainerName
 
 # 检测端口是否存在
-check_panel_port() {
-    if [ ! -z "$(docker ps -a --format "{{.Ports}}" | grep :$PANEL_PORT- 2> /dev/null)" ]; then
+Check_PanelPort() {
+    if [ ! -z "$(docker ps -a --format "{{.Ports}}" | grep :$PanelPort- 2> /dev/null)" ]; then
         warn "检测到端口号冲突"
-        input_panel_port
+        Input_PanelPort
     else
         inp "端口号未与其他 Docker 容器冲突，如仍发现端口冲突，请自行检查宿主机端口占用情况！"
     fi
 }
 
 # 输入端口号
-input_panel_port() {
+Input_PanelPort() {
     echo -n -e "\n\e[33m请输入控制面板端口号[默认为：5678]->\e[0m"
-    read panel_port
-    if [ -z "$panel_port" ]; then
-        PANEL_PORT="5678"
+    read PanelPort
+    if [ -z "$PanelPort" ]; then
+        PanelPort="5678"
     else
-        PANEL_PORT=$panel_port
+        PanelPort=$PanelPort
     fi
-    check_panel_port
+    Check_PanelPort
 }
-input_panel_port
+Input_PanelPort
 
 #
 # 配置信息收集完成，开始安装
 #
 
-log "\n1.创建配置文件目录"
-mkdir -p $CONFIG_PATH
-mkdir -p $LOG_PATH
+log "\n1.创建文件目录"
+mkdir -p $ConfigDir
+mkdir -p $LogDir
+mkdir -p $ScriptsDir
 
-
-if [ $NEW_IMAGE = true ]; then
+if [ $NewImage = true ]; then
     log "\n2.1.正在创建新镜像..."
-    mkdir -p $WORK_SPACE
-    rm -fr $WORK_SPACE/Dockerfile
-    if [ $HAS_IMAGE = true ]; then
-        docker image rm -f $DOCKER_IMAGE
+    rm -fr $WorkDir
+    mkdir -p $WorkDir
+    if [ $HasImage = true ]; then
+        docker image rm -f $DockerImage
     fi
-    wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/Dockerfile -O $WORK_SPACE/Dockerfile
-    docker build -t $DOCKER_IMAGE $WORK_SPACE > $LOG_PATH/new_image.log
-    rm -fr $WORK_SPACE
+    wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/Dockerfile -O $WorkDir/Dockerfile
+    docker build -t $DockerImage $WorkDir > $LogDir/NewImage.log
+    rm -fr $WorkDir
 fi
 
-if [ $DEL_CONTAINER = true ]; then
+if [ $DelContainer = true ]; then
     log "\n2.2.删除先前的容器"
-    docker stop $CONTAINER_NAME > /dev/null
-    docker rm $CONTAINER_NAME > /dev/null
+    docker stop $ContainerName > /dev/null
+    docker rm $ContainerName > /dev/null
 fi
 
 log "\n3.创建容器并运行"
 docker run -dit \
-    -v $CONFIG_PATH:/jd/config \
-    -v $LOG_PATH:/jd/log \
-    -v $SCRPTS_PATH:/jd/scripts \
-    -p $PANEL_PORT:5678 \
-    --name $CONTAINER_NAME \
+    -v $ConfigDir:/jd/config \
+    -v $LogDir:/jd/log \
+    -v $ScriptsDir:/jd/scripts \
+    -p $PanelPort:5678 \
+    --name $ContainerName \
     --hostname jd \
     --restart always \
-    $DOCKER_IMAGE
+    $DockerImage
 
 log "\n4.下面列出所有容器"
 docker ps
 
 log "\n5.安装已经完成。\n请访问 http://<ip>:5678 进行配置\n初始用户名：admin，初始密码：adminadmin"
-rm -f $SCRIPT_FOLDER/$SCRIPT_NAME
+rm -f $ShellDir/$ShellName
