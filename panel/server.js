@@ -25,6 +25,8 @@ var crontabFile = path.join(rootPath, 'config/crontab.list');
 var confBakDir = path.join(rootPath, 'config/bak/');
 // auth.json 文件目录
 var authConfigFile = path.join(rootPath, 'config/auth.json');
+// export_sharecodes.sh 文件所在目录
+var shareCodeScript = path.join(rootPath, 'export_sharecodes.sh');
 // Share Code 文件目录
 var shareCodeDir = path.join(rootPath, 'log/export_sharecodes/');
 // diy.sh 文件目录
@@ -533,6 +535,19 @@ app.post('/api/save', function (request, response) {
         response.send({ err: 0, title: "保存成功! ", msg: "将自动刷新页面查看修改后的 " + postfile + " 文件" });
     } else {
         response.send({ err: 1, title: "保存失败! ", msg: loginFaild });
+    }
+
+});
+
+/**
+ * run export_sharecodes
+ */
+app.post('/api/sharecodes', function (request, response) {
+    if (request.session.loggedin) {
+        execSync('bash ' + shareCodeScript);
+        response.send({ err: 0, title: "执行成功! ", msg: "将自动刷新页面查看重新截取的互助码"});
+    } else {
+        response.send({ err: 1, title: "执行失败! ", msg: loginFaild });
     }
 
 });
