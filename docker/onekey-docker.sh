@@ -81,6 +81,7 @@ if [ -z "$jd_path" ]; then
 fi
 CONFIG_PATH=$JD_PATH/jd-base-docker/config
 LOG_PATH=$JD_PATH/jd-base-docker/log
+SCRPTS_PATH=$JD_PATH/jd-base-docker/scripts
 
 # 检测镜像是否存在
 if [ ! -z "$(docker images -q $DOCKER_IMAGE 2> /dev/null)" ]; then
@@ -175,6 +176,7 @@ log "\n3.创建容器并运行"
 docker run -dit \
     -v $CONFIG_PATH:/jd/config \
     -v $LOG_PATH:/jd/log \
+    -v $SCRPTS_PATH:/jd/scripts \
     -p $PANEL_PORT:5678 \
     --name $CONTAINER_NAME \
     --hostname jd \
