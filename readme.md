@@ -50,7 +50,7 @@ wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/make-image.s
     # 2. 如需一直后台运行，以方便随时在线编辑
     npm install -g pm2    # npm和yarn二选一
     yarn global add pm2   # npm和yarn二选一
-    pm2 start server.js --watch
+    pm2 start server.js
     
     # 2.1 如果需要开机自启
     pm2 save && pm2 startup

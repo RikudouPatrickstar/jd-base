@@ -75,10 +75,11 @@ warn "\n注意如果你什么都不清楚，建议所有选项都直接回车，
 
 # 配置文件目录
 echo -e "\e[33m请输入配置文件保存的绝对路径,直接回车为当前目录:\e[0m"
-read JdDir
-JdDir=$JdDir
-if [ -z "$JdDir" ]; then
+read jd_dir
+if [ -z "$jd_dir" ]; then
     JdDir=$ShellDir/jd-docker
+else
+    JdDir=$jd_dir
 fi
 ConfigDir=$JdDir/config
 LogDir=$JdDir/log
@@ -113,11 +114,11 @@ Check_ContainerName() {
 # 输入容器名称
 Input_ContainerName() {
     echo -n -e "\n\e[33m请输入要创建的Docker容器名称[默认为：jd]->\e[0m"
-    read ContainerName
-    if [ -z "$ContainerName" ]; then
+    read container_name
+    if [ -z "$container_name" ]; then
         ContainerName="jd"
     else
-        ContainerName=$ContainerName
+        ContainerName=$container_name
     fi
     Check_ContainerName 
 }
@@ -136,11 +137,11 @@ Check_PanelPort() {
 # 输入端口号
 Input_PanelPort() {
     echo -n -e "\n\e[33m请输入控制面板端口号[默认为：5678]->\e[0m"
-    read PanelPort
-    if [ -z "$PanelPort" ]; then
+    read panel_port
+    if [ -z "$panel_port" ]; then
         PanelPort="5678"
     else
-        PanelPort=$PanelPort
+        PanelPort=$panel_port
     fi
     Check_PanelPort
 }

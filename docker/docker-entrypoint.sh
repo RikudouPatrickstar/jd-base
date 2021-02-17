@@ -49,7 +49,7 @@ else
 fi
 
 echo -e "======================5. 启动控制面板========================\n"
-  pm2 start ${JD_DIR}/panel/server.js --watch
+  pm2 start ${JD_DIR}/panel/server.js
   echo -e "控制面板启动成功...\n"
   echo -e "请访问 http://<ip>:5678 进行配置\n"
   echo -e "初始用户名：admin，初始密码：adminadmin\n"
