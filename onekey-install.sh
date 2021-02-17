@@ -63,7 +63,7 @@ npm install
 node server.js &
 cd ${ShellDir}
 echo -e "\e[32m请访问 http://<ip>:5678 进行配置\e[0m"
-echo -e "\e[32m初始用户名：admin，初始密码：adminadmin\e[0m"
+echo -e "\e[32m初始用户名：admin，初始密码：password\e[0m"
 
 echo -e "\n更多关于控制面板的信息请访问 https://github.com/RikudouPatrickstar/jd-base#%E5%9B%9Bweb-%E9%9D%A2%E6%9D%BF%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E\n"
 

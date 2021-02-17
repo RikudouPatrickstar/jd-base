@@ -56,7 +56,7 @@ wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/make-image.s
     pm2 save && pm2 startup
     ```
 
-4. 访问 `http://<ip>:5678` 登陆、编辑并保存即可（初始用户名：`admin`，初始密码：`adminadmin`）。如无法访问，请从防火墙、端口转发、网络方面着手解决。
+4. 访问 `http://<ip>:5678` 登陆、编辑并保存即可（初始用户名：`admin`，初始密码：`password`）。如无法访问，请从防火墙、端口转发、网络方面着手解决。
 
 5. 如需要重置密码，cd 到本仓库的目录下输入 `bash jd.sh resetpwd`。
 
@@ -306,7 +306,7 @@ fi
       (node:191) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
     ```
 
-    如果是 Docker，请运行 `docker exec -it jd bash git_pull`，仔细看输出日志，可运行多次直到不报错为止。
+    如果是 Docker，请运行 `docker exec -it jd bash git_pull.sh`，仔细看输出日志，可运行多次直到不报错为止。
 
     如果是非 Docker，cd 到本仓库脚本目录后执行 `bash git_pull.sh`，仔细看输出日志，可运行多次直到不报错为止。
 

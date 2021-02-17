@@ -188,5 +188,5 @@ docker run -dit \
 log "\n4.下面列出所有容器"
 docker ps
 
-log "\n5.安装已经完成。\n请访问 http://<ip>:5678 进行配置\n初始用户名：admin，初始密码：adminadmin"
+log "\n5.安装已经完成。\n请访问 http://<ip>:5678 进行配置\n初始用户名：admin，初始密码：password"
 rm -f $ShellDir/$ShellName
