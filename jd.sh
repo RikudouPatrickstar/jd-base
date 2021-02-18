@@ -72,7 +72,6 @@ function Combin_All {
   export BOOKSHOP_SHARECODES=$(Combin_Sub ForOtherBookShop)
   export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash)
   export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh)
-  export JDNY_SHARECODES=$(Combin_Sub ForOtherNY)
   export JDGLOBAL_SHARECODES=$(Combin_Sub ForOtherGlobal)
 }
 
@@ -171,7 +170,7 @@ function Run_HangUp {
 ## 重置密码
 function Reset_Pwd {
   cp -f ${ShellDir}/sample/auth.json ${ConfigDir}/auth.json
-  echo -e "控制面板重置成功，用户名：admin，密码：adminadmin\n"
+  echo -e "控制面板重置成功，用户名：admin，密码：password\n"
 }
 
 ## 运行京东脚本
@@ -204,7 +203,7 @@ function Run_Normal {
     LogFile="${LogDir}/${FileName}/${LogTime}.log"
     [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
     cd ${WhichDir}
-    sed -i 's/let randomCount = .*;/let randomCount = 0;/g' ${FileName}.js && node ${FileName}.js | tee ${LogFile}
+    sed -i 's/randomCount = .*;/randomCount = 0;/g' ${FileName}.js && node ${FileName}.js | tee ${LogFile}
   else
     echo -e "\n在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在，请确认...\n"
     Help
