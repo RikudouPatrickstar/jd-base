@@ -1,6 +1,6 @@
-## Version: v3.26.4
+## Version: v3.26.5
 ## Date: 2021-02-19
-## Update Content: 定义通知TOKEN：同时支持 ServerChan 和 ServerChan Turbo
+## Update Content: 宠汪汪改为默认自动给好友的汪汪喂食(因宠汪汪聚宝盆下线)
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考WIKI（https://github.com/RikudouPatrickstar/jd-base/wiki）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -448,7 +448,7 @@ export JD_JOY_REWARD_NOTIFY=""
 
 
 ################################## 定义宠汪汪是否自动给好友的汪汪喂食（选填） ##################################
-## 默认 "false" 不会自动给好友的汪汪喂食，如想自动喂食，请改成 "true"
+## 默认 "true" 不会自动给好友的汪汪喂食，如想自动喂食，请改成 "false"
 export JOY_HELP_FEED=""
 
 
