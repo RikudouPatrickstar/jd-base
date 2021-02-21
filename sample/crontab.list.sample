@@ -1,7 +1,7 @@
 ENV_PATH=
 
 
-55 * * * * bash MY_PATH/git_pull.sh >> MY_PATH/log/git_pull.log 2>&1
+55 8-22/2 * * * bash MY_PATH/git_pull.sh >> MY_PATH/log/git_pull.log 2>&1
 57 13 * * * bash MY_PATH/rm_log.sh >/dev/null 2>&1
 48 5 * * * bash MY_PATH/export_sharecodes.sh
 
@@ -14,7 +14,8 @@ ENV_PATH=
 
 5 0 * * * bash MY_PATH/jd.sh jd_bean_change
 33 4 * * * bash MY_PATH/jd.sh jd_bean_home
-3 0,18 * * * bash MY_PATH/jd.sh jd_bean_sign
+3 6,18 * * * bash MY_PATH/jd.sh jd_bean_sign
+1 7,12,19 * * * bash MY_PATH/jd.sh jd_beauty
 0,30 0 * * * bash MY_PATH/jd.sh jd_blueCoin
 7 8,12,18 * * * bash MY_PATH/jd.sh jd_bookshop
 0 0 * * * bash MY_PATH/jd.sh jd_car
@@ -29,14 +30,13 @@ ENV_PATH=
 5 6-18/6 * * * bash MY_PATH/jd.sh jd_fruit
 47 7 * * * bash MY_PATH/jd.sh jd_get_share_code
 36 * * * * bash MY_PATH/jd.sh jd_jdfactory
-10 11 * * * bash MY_PATH/jd.sh jd_jdzz
+# 10 11 * * * bash MY_PATH/jd.sh jd_jdzz
 15 */2 * * * bash MY_PATH/jd.sh jd_joy
 15 */1 * * * bash MY_PATH/jd.sh jd_joy_feedPets
 10 9-20/2 * * * bash MY_PATH/jd.sh jd_joy_run
 0 0-10/2 * * * bash MY_PATH/jd.sh jd_joy_steal
 # 0 9,12,18 * * * bash MY_PATH/jd.sh jd_jxnc
 23 1 * * * bash MY_PATH/jd.sh jd_kd
-10-20/5 11 * * * bash MY_PATH/jd.sh jd_live
 11 1 * * * bash MY_PATH/jd.sh jd_lotteryMachine
 0 */2 * * * bash MY_PATH/jd.sh jd_moneyTree
 10 7 * * * bash MY_PATH/jd.sh jd_ms
@@ -44,12 +44,14 @@ ENV_PATH=
 5 6-18/6 * * * bash MY_PATH/jd.sh jd_pet
 12 * * * * bash MY_PATH/jd.sh jd_pigPet
 0 7-22/1 * * * bash MY_PATH/jd.sh jd_plantBean
+1 0,23 * * * bash MY_PATH/jd.sh jd_price
 11 9 * * * bash MY_PATH/jd.sh jd_rankingList
 1 1 * * * bash MY_PATH/jd.sh jd_redPacket
 27 8 * * * bash MY_PATH/jd.sh jd_sgmh
 10 0 * * * bash MY_PATH/jd.sh jd_shop
 16 6,23 * * * bash MY_PATH/jd.sh jd_small_home
 8 */3 * * * bash MY_PATH/jd.sh jd_speed
+1 1,6 * * * bash MY_PATH/jd.sh jd_speed_sign
 11 1-23/5 * * * bash MY_PATH/jd.sh jd_superMarket
 36 8,18 * * * bash MY_PATH/jd.sh jd_syj
 55 23 * * * bash MY_PATH/jd.sh jd_unsubscribe
