@@ -32,6 +32,7 @@ bash ${JD_DIR}/git_pull.sh
 echo
 
 echo -e "======================4. 启动挂机程序========================\n"
+. ${JD_DIR}/config/config.sh
 if [ -n "${Cookie1}" ]; then
   bash ${JD_DIR}/jd.sh hangup 2>/dev/null
   echo -e "挂机程序启动成功...\n"
