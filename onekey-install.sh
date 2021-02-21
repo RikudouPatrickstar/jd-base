@@ -35,7 +35,6 @@ git clone -b v3 https://github.com/RikudouPatrickstar/jd-base ${JdDir}
 
 echo -e "\n\e[32m2. 检查配置文件\e[0m"
 [ ! -d ${JdDir}/config ] && mkdir -p ${JdDir}/config
-[ ! -d ${JdDir}/log ] && mkdir -p ${JdDir}/log
 
 if [ ! -s ${JdDir}/config/crontab.list ]
 then
