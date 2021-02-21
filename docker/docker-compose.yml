@@ -2,7 +2,7 @@ version: "2.0"
 services:
   # 第1个容器
   jd1:
-    image: patrick/jd-base:v3
+    image: ohmypatrick/jd-base:v3
     container_name: jd1
     restart: always
     tty: true
@@ -17,7 +17,7 @@ services:
 
   # 第2个容器
   jd2:
-    image: patrick/jd-base:v3
+    image: ohmypatrick/jd-base:v3
     container_name: jd2
     restart: always
     tty: true
@@ -32,7 +32,7 @@ services:
 
   # 第3个容器，以此类推
   jd3:
-    image: patrick/jd-base:v3
+    image: ohmypatrick/jd-base:v3
     container_name: jd3
     restart: always
     tty: true

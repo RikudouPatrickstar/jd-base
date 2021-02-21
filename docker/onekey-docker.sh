@@ -17,7 +17,7 @@ echo "
                                                                      
             ==== Create by 老竭力 | Mod by Patrick⭐ ====
 "
-DockerImage="patrick/jd-base:v3"
+DockerImage="ohmypatrick/jd-base:v3"
 ShellName=$0
 ShellDir=$(cd "$(dirname "$0")";pwd)
 ContainerName=""
@@ -28,9 +28,14 @@ ConfigDir=""
 LogDir=""
 ScriptsDir=""
 
+GetImageType="Online"
 HasImage=false
 NewImage=true
 DelContainer=false
+
+NeedDirConfig=""
+NeedDirLog=""
+NeedDirScripts=""
 
 log() {
     echo -e "\e[32m$1 \e[0m"
@@ -73,33 +78,34 @@ warn "\n注意如果你什么都不清楚，建议所有选项都直接回车，
 # 收集配置信息
 #
 
-# 配置文件目录
-echo -e "\e[33m请输入配置文件保存的绝对路径,直接回车为当前目录:\e[0m"
-read jd_dir
-if [ -z "$jd_dir" ]; then
-    JdDir=$ShellDir/jd-docker
-else
-    JdDir=$jd_dir
-fi
-ConfigDir=$JdDir/config
-LogDir=$JdDir/log
-ScriptsDir=$JdDir/scripts
-
 # 检测镜像是否存在
-if [ ! -z "$(docker images -q $DockerImage 2> /dev/null)" ]; then
-    HasImage=true
-    inp "检测到先前已经存在的镜像，是否创建新的镜像：\n1) 是[默认]\n2) 不需要"
+Check_Image() {
+    if [ ! -z "$(docker images -q $DockerImage 2> /dev/null)" ]; then
+        HasImage=true
+        inp "检测到先前已经存在的镜像，是否创建新的镜像：\n1) 是[默认]\n2) 不需要"
+        echo -n -e "\e[33m输入您的选择->\e[0m"
+        read update
+        if [ "$update" = "2" ]; then
+            NewImage=false
+        fi
+    fi
+}
+Check_Image
+
+Choose_GetImageType() {
+    inp "\n选择镜像获取方式：\n1) 在线获取[默认]\n2) 本地生成"
     echo -n -e "\e[33m输入您的选择->\e[0m"
     read update
     if [ "$update" = "2" ]; then
-        NewImage=false
+        GetImageType="Local"
     fi
-fi
+}
+Choose_GetImageType
 
 # 检测容器是否存在
 Check_ContainerName() {
     if [ ! -z "$(docker ps --format "{{.Names}}" | grep -w $ContainerName 2> /dev/null)" ]; then
-        inp "检测到先前已经存在的容器，是否删除先前的容器：\n1) 是[默认]\n2) 不要"
+        inp "\n检测到先前已经存在的容器，是否删除先前的容器：\n1) 是[默认]\n2) 不要"
         echo -n -e "\e[33m输入您的选择->\e[0m"
         read update
         if [ "$update" = "2" ]; then
@@ -124,16 +130,6 @@ Input_ContainerName() {
 }
 Input_ContainerName
 
-# 检测端口是否存在
-Check_PanelPort() {
-    if [ ! -z "$(docker ps -a --format "{{.Ports}}" | grep :$PanelPort- 2> /dev/null)" ]; then
-        warn "检测到端口号冲突"
-        Input_PanelPort
-    else
-        inp "端口号未与其他 Docker 容器冲突，如仍发现端口冲突，请自行检查宿主机端口占用情况！"
-    fi
-}
-
 # 输入端口号
 Input_PanelPort() {
     echo -n -e "\n\e[33m请输入控制面板端口号[默认为：5678]->\e[0m"
@@ -143,29 +139,88 @@ Input_PanelPort() {
     else
         PanelPort=$panel_port
     fi
-    Check_PanelPort
+    inp "如发现端口冲突，请自行检查端口占用情况！"
 }
 Input_PanelPort
+
+# 配置文件目录
+
+Need_ConfigDir() {
+    inp "\n是否需要映射配置文件目录：\n1) 是[默认]\n2) 否"
+    echo -n -e "\e[33m输入您的选择->\e[0m"
+    read need_config_dir
+    if [ "$need_config_dir" = "2" ]; then
+        NeedDirConfig=''
+    else
+        NeedDirConfig="-v $ConfigDir:/jd/config"
+        mkdir -p $ConfigDir
+    fi
+}
+
+Need_LogDir() {
+    inp "\n是否需要映射日志文件目录：\n1) 是[默认]\n2) 否"
+    echo -n -e "\e[33m输入您的选择->\e[0m"
+    read need_log_dir
+    if [ "$need_log_dir" = "2" ]; then
+        NeedDirLog=''
+    else
+        NeedDirLog="-v $LogDir:/jd/log"
+        mkdir -p $LogDir
+    fi
+}
+
+Need_ScriptsDir() {
+    inp "\n是否需要映射js脚本目录：\n1) 是\n2) 否[默认]"
+    echo -n -e "\e[33m输入您的选择->\e[0m"
+    read need_scripts_dir
+    if [ "$need_scripts_dir" = "1" ]; then
+        NeedDirScripts="-v $ScriptsDir:/jd/scripts"
+        mkdir -p $ScriptsDir
+    fi
+}
+
+Need_Dir() {
+    inp "\n是否需要映射文件目录：\n1) 是[默认]\n2) 否"
+    echo -n -e "\e[33m输入您的选择->\e[0m"
+    read need_dir
+    if [ "$need_dir" = "2" ]; then
+        log "选择了不映射文件目录"
+    else
+        echo -e "\n\e[33m请输入配置文件保存的绝对路径,直接回车为 $ShellDir/jd-docker :\e[0m"
+        read jd_dir
+        if [ -z "$jd_dir" ]; then
+            JdDir=$ShellDir/jd-docker
+        else
+            JdDir=$jd_dir
+        fi
+        ConfigDir=$JdDir/config
+        LogDir=$JdDir/log
+        ScriptsDir=$JdDir/scripts
+        Need_ConfigDir
+        Need_LogDir
+        Need_ScriptsDir
+    fi
+}
+Need_Dir
 
 #
 # 配置信息收集完成，开始安装
 #
 
-log "\n1.创建文件目录"
-mkdir -p $ConfigDir
-mkdir -p $LogDir
-mkdir -p $ScriptsDir
-
 if [ $NewImage = true ]; then
-    log "\n2.1.正在创建新镜像..."
-    rm -fr $WorkDir
-    mkdir -p $WorkDir
+    log "\n正在获取新镜像..."
     if [ $HasImage = true ]; then
         docker image rm -f $DockerImage
     fi
-    wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/Dockerfile -O $WorkDir/Dockerfile
-    docker build -t $DockerImage $WorkDir > $LogDir/NewImage.log
-    rm -fr $WorkDir
+    if [ $GetImageType = "Local" ]; then
+        rm -fr $WorkDir
+        mkdir -p $WorkDir
+        wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/Dockerfile -O $WorkDir/Dockerfile
+        docker build -t $DockerImage $WorkDir > $LogDir/NewImage.log
+        rm -fr $WorkDir
+    else
+        docker pull $DockerImage
+    fi
 fi
 
 if [ $DelContainer = true ]; then
@@ -174,19 +229,20 @@ if [ $DelContainer = true ]; then
     docker rm $ContainerName > /dev/null
 fi
 
-log "\n3.创建容器并运行"
+log "\n创建容器并运行"
 docker run -dit \
-    -v $ConfigDir:/jd/config \
-    -v $LogDir:/jd/log \
-    -v $ScriptsDir:/jd/scripts \
+    $NeedDirConfig \
+    $NeedDirLog \
+    $NeedDirScripts \
     -p $PanelPort:5678 \
     --name $ContainerName \
     --hostname jd \
     --restart always \
     $DockerImage
 
-log "\n4.下面列出所有容器"
+log "\n下面列出所有容器"
 docker ps
 
-log "\n5.安装已经完成。\n请访问 http://<ip>:5678 进行配置\n初始用户名：admin，初始密码：password"
+log "\n安装已经完成。\n请访问 http://<ip>:5678 进行配置\n初始用户名：admin，初始密码：password"
 rm -f $ShellDir/$ShellName
+
