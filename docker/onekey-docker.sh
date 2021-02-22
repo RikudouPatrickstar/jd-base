@@ -1,9 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Copyright (C) 2021 Patrick⭐
 #
-# This is free software, licensed under the GNU General Public License v3.
-# See /LICENSE for more information.
+# 以 Docker 容器的方式一键安装 jd-base。
 #
 clear
 

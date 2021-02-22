@@ -1,16 +1,14 @@
 ENV_PATH=
 
 
-55 8-22/2 * * * bash MY_PATH/git_pull.sh >> MY_PATH/log/git_pull.log 2>&1
-57 13 * * * bash MY_PATH/rm_log.sh >/dev/null 2>&1
-48 5 * * * bash MY_PATH/export_sharecodes.sh
-
+55 8-23/3 * * * bash MY_PATH/git_pull.sh >> MY_PATH/log/git_pull.log 2>&1
+57 3 * * * bash MY_PATH/rm_log.sh >/dev/null 2>&1
+48 4 * * * bash MY_PATH/export_sharecodes.sh
+33 13 * * * bash MY_PATH/jd.sh hangup
 
 # 运行lxk0301大佬的js脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务。
 # 非RikudouPatrickstar/jd_scripts仓库中的脚本不能以“jd_”、“jr_”、“jx_”开头。
 # 请在最后保留一个空行。
-
-33 13 * * * bash MY_PATH/jd.sh hangup
 
 5 0 * * * bash MY_PATH/jd.sh jd_bean_change
 33 4 * * * bash MY_PATH/jd.sh jd_bean_home

@@ -168,7 +168,7 @@ function Notify_Version {
   fi
 }
 
-## npm install 子程序，判断是否为安卓，判断是否安装有yarn
+## npm install 子程序，判断是否安装有yarn
 function Npm_InstallSub {
   if ! type yarn >/dev/null 2>&1
   then

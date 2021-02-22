@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Copyright (C) 2021 Patrick⭐
 #
-# This is free software, licensed under the GNU General Public License v3.
-# See /LICENSE for more information.
+# 在本地生成 jd-base Docker 镜像。
 #
+clear
+
 DockerImage="ohmypatrick/jd-base:v3"
 WorkDir="${ShellDir}/jd-docker-workdir"
 ShellName=$0
