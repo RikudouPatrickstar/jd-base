@@ -92,12 +92,21 @@ function Trans_UN_SUBSCRIBES {
   export UN_SUBSCRIBES="${goodPageSize}\n${shopPageSize}\n${jdUnsubscribeStopGoods}\n${jdUnsubscribeStopShop}"
 }
 
+## 设置获取共享池助力码个数
+function Get_HelpPoolNum {
+  HelpPoolNum=$( printf "%d" "$HelpPoolNum" 2> /dev/null )
+  if [ $HelpPoolNum -lt 0 ] || [ $HelpPoolNum -gt 25 ]; then
+      HelpPoolNum=0
+  fi
+}
+
 ## 申明全部变量
 function Set_Env {
   Count_UserSum
   Combin_All
   Trans_JD_BEAN_SIGN_NOTIFY
   Trans_UN_SUBSCRIBES
+  Get_HelpPoolNum
 }
 
 ## 随机延迟
@@ -203,7 +212,7 @@ function Run_Normal {
     LogFile="${LogDir}/${FileName}/${LogTime}.log"
     [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
     cd ${WhichDir}
-    sed -i 's/randomCount = .*;/randomCount = 0;/g' ${FileName}.js && node ${FileName}.js | tee ${LogFile}
+    sed -i "s/randomCount = .*;/randomCount = $HelpPoolNum;/g" ${FileName}.js && node ${FileName}.js | tee ${LogFile}
   else
     echo -e "\n在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在，请确认...\n"
     Help
