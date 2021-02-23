@@ -307,14 +307,27 @@ echo -e "--------------------------------------------------------------\n"
 
 ## 更新shell脚本、检测配置文件版本并将sample/config.sh.sample复制到config目录下
 Git_PullShell
-
-## 更新crontab
 [[ $(date "+%-H") -le 2 ]] && Update_Cron
+VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+[ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+if [ ${ExitStatusShell} -eq 0 ]
+then
+  echo -e "\nshell脚本更新完成...\n"
+  if [ -n "${JD_DIR}" ] && [ -d ${ConfigDir} ]; then
+    cp -f ${FileConfSample} ${ConfigDir}/config.sh.sample
+  fi
+else
+  echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+fi
 
 ## 克隆或更新js脚本
-[ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
-[ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
+if [ ${ExitStatusShell} -eq 0 ]; then
+  echo -e "--------------------------------------------------------------\n"
+  [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
+  [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
+fi
 
+## 移除部分内容
 sed -i '/本脚本开源免费使用 By/d' ${ScriptsDir}/sendNotify.js
 
 ## 执行各函数
