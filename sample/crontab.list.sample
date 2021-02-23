@@ -6,8 +6,8 @@ ENV_PATH=
 48 4 * * * bash MY_PATH/export_sharecodes.sh
 33 13 * * * bash MY_PATH/jd.sh hangup
 
-# 运行lxk0301大佬的js脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务。
-# 非RikudouPatrickstar/jd_scripts仓库中的脚本不能以“jd_”、“jr_”、“jx_”开头。
+# 运行 jd_scripts 脚本，仅列出长期任务作初始化用，AutoAddCron=true时，将自动添加短期任务。
+# 非 RikudouPatrickstar/jd_scripts 仓库中的脚本不能以 “jd_”、“jr_”、“jx_” 开头。
 # 请在最后保留一个空行。
 
 5 0 * * * bash MY_PATH/jd.sh jd_bean_change

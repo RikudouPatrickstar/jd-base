@@ -34,7 +34,7 @@
             <header>
                 <h1>在线编辑工具</h1>
                 <button id="save" title="保存">保存 config.sh</button>
-                <button id="cookietools" title="手机扫描二维码登录">扫码获取Cookie</button>
+                <button id="cookietools" title="手机扫描二维码登录">扫码获取 Cookie</button>
             </header>
             <h4>config.sh</h4>
             <div class="wrapper">
@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div id="qrcode"></div>
-            <div class="info">请使用京东手机APP扫码</div>
+            <div class="info">请使用京东手机 APP 扫码</div>
             <div class="qframe-close" title="关闭">✖</div>
         </div>
     </div>
@@ -98,7 +98,7 @@
                             $("#refresh_qrcode").addClass("hidden");
                             userCookie = data.cookie
                             Swal.fire({
-                                title: "cookie已获取",
+                                title: "Cookie 已获取",
                                 html:
                                     '<div class="cookieCon" style="font-size:12px;">' + userCookie + '</div>',
                                 text: userCookie,

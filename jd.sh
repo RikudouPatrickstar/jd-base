@@ -10,29 +10,29 @@ LogDir=${ShellDir}/log
 ListScripts=($(cd ${ScriptsDir}; ls *.js | grep -E "j[drx]_"))
 ListCron=${ConfigDir}/crontab.list
 
-## 导入config.sh
+## 导入 config.sh
 function Import_Conf {
   if [ -f ${FileConf} ]
   then
     . ${FileConf}
     if [ -z "${Cookie1}" ]; then
-      echo -e "请先在config.sh中配置好Cookie...\n"
+      echo -e "请先在 config.sh 中配置好 Cookie\n"
       exit 1
     fi
   else
-    echo -e "配置文件 ${FileConf} 不存在，请先按教程配置好该文件...\n"
+    echo -e "配置文件 ${FileConf} 不存在，请先按教程配置好该文件\n"
     exit 1
   fi
 }
 
-## 更新crontab
+## 更新 Crontab
 function Detect_Cron {
   if [[ $(cat ${ListCron}) != $(crontab -l) ]]; then
     crontab ${ListCron}
   fi
 }
 
-## 用户数量UserSum
+## 用户数量 UserSum
 function Count_UserSum {
   for ((i=1; i<=1000; i++)); do
     Tmp=Cookie$i
@@ -41,7 +41,7 @@ function Count_UserSum {
   done
 }
 
-## 组合Cookie和互助码子程序
+## 组合 Cookie 和互助码子程序
 function Combin_Sub {
   CombinAll=""
   for ((i=1; i<=${UserSum}; i++)); do
@@ -57,7 +57,7 @@ function Combin_Sub {
   echo ${CombinAll} | perl -pe "{s|^&||; s|^@+||; s|&@|&|g; s|@+|@|g}"
 }
 
-## 组合Cookie、Token与互助码
+## 组合 Cookie、Token 与互助码
 function Combin_All {
   export JD_COOKIE=$(Combin_Sub Cookie)
   export FRUITSHARECODES=$(Combin_Sub ForOtherFruit)
@@ -74,7 +74,7 @@ function Combin_All {
   export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh)
 }
 
-## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
+## 转换 JD_BEAN_SIGN_STOP_NOTIFY 或 JD_BEAN_SIGN_NOTIFY_SIMPLE
 function Trans_JD_BEAN_SIGN_NOTIFY {
   case ${NotifyBeanSign} in
     0)
@@ -86,7 +86,7 @@ function Trans_JD_BEAN_SIGN_NOTIFY {
   esac
 }
 
-## 转换UN_SUBSCRIBES
+## 转换 UN_SUBSCRIBES
 function Trans_UN_SUBSCRIBES {
   export UN_SUBSCRIBES="${goodPageSize}\n${shopPageSize}\n${jdUnsubscribeStopGoods}\n${jdUnsubscribeStopShop}"
 }
@@ -114,7 +114,7 @@ function Random_Delay {
     CurMin=$(date "+%-M")
     if [[ ${CurMin} -gt 2 && ${CurMin} -lt 30 ]] || [[ ${CurMin} -gt 31 && ${CurMin} -lt 59 ]]; then
       CurDelay=$((${RANDOM} % ${RandomDelay} + 1))
-      echo -e "\n命令未添加 \"now\"，随机延迟 ${CurDelay} 秒后再执行任务，如需立即终止，请按 CTRL+C...\n"
+      echo -e "\n命令未添加 \"now\"，随机延迟 ${CurDelay} 秒后再执行任务，如需立即终止，请按 CTRL+C\n"
       sleep ${CurDelay}
     fi
   fi
@@ -123,12 +123,12 @@ function Random_Delay {
 ## 使用说明
 function Help {
   echo -e "本脚本的用法为："
-  echo -e "1. bash jd.sh xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数"
+  echo -e "1. bash jd.sh xxx      # 如果设置了随机延迟并且当时时间不在 0-2、30-31、59 分内，将随机延迟一定秒数"
   echo -e "2. bash jd.sh xxx now  # 无论是否设置了随机延迟，均立即运行"
   echo -e "3. bash jd.sh hangup   # 重启挂机程序"
   echo -e "4. bash jd.sh resetpwd # 重置控制面板用户名和密码"
-  echo -e "\n针对用法1、用法2中的\"xxx\"，无需输入后缀\".js\"，另外，如果前缀是\"jd_\"的话前缀也可以省略。"
-  echo -e "当前有以下脚本可以运行（仅列出以jd_、jr_、jx_开头的脚本）："
+  echo -e "\n针对用法1、用法2中的 \"xxx\"，无需输入后缀 \".js\"，另外，如果前缀是 \"jd_\" 的话前缀也可以省略。"
+  echo -e "当前有以下脚本可以运行（仅列出以 jd_、jr_、jx_ 开头的脚本）："
   cd ${ScriptsDir}
   for ((i=0; i<${#ListScripts[*]}; i++)); do
     Name=$(grep "new Env" ${ListScripts[i]} | awk -F "'|\"" '{print $2}')
@@ -213,7 +213,7 @@ function Run_Normal {
     cd ${WhichDir}
     sed -i "s/randomCount = .*;/randomCount = $HelpPoolNum;/g" ${FileName}.js && node ${FileName}.js | tee ${LogFile}
   else
-    echo -e "\n在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在，请确认...\n"
+    echo -e "\n在 ${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir} 三个目录下均未检测到 $1 脚本的存在\n"
     Help
   fi
 }
@@ -237,12 +237,12 @@ case $# in
     if [[ $2 == now ]]; then
       Run_Normal $1 $2
     else
-      echo -e "\n命令输入错误...\n"
+      echo -e "\n命令输入错误\n"
       Help
     fi
     ;;
   *)
-    echo -e "\n命令过多...\n"
+    echo -e "\n命令过多\n"
     Help
     ;;
 esac

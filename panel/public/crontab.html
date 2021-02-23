@@ -62,7 +62,7 @@
                     let icon = (data.err == 0) ? "success" : "error"
                     Swal.fire({
                         title:data.title,
-                        html: data.msg + '<br>❤️🧡定时任务已同步更新🧡❤️',
+                        html: data.msg + '<br>定时任务已同步更新',
                         icon: icon
                     }).then((result) => {
                         window.location.reload(true);

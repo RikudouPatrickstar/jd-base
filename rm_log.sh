@@ -7,12 +7,13 @@ LogDir=${ShellDir}/log
 ## 导入配置文件
 . ${ShellDir}/config/config.sh
 
-## 删除运行js脚本的旧日志
+## 删除运行 js 脚本的旧日志
 function Rm_JsLog {
   LogFileList=$(ls -l ${LogDir}/*/*.log | awk '{print $9}')
   for log in ${LogFileList}
   do
-    LogDate=$(echo ${log} | awk -F "/" '{print $NF}' | cut -c1-10)   #文件名比文件属性获得的日期要可靠
+    # 文件名比文件属性获得的日期要可靠
+    LogDate=$(echo ${log} | awk -F "/" '{print $NF}' | cut -c1-10)
     if [[ $(uname -s) == Darwin ]]
     then
       DiffTime=$(($(date +%s) - $(date -j -f "%Y-%m-%d" "${LogDate}" +%s)))
@@ -23,7 +24,7 @@ function Rm_JsLog {
   done
 }
 
-## 删除git_pull.sh的运行日志
+## 删除 git_pull.sh 的运行日志
 function Rm_GitPullLog {
   if [[ $(uname -s) == Darwin ]]
   then
