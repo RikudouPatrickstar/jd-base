@@ -18,7 +18,7 @@ ENV_PATH=
 7 8,12,18 * * * bash MY_PATH/jd.sh jd_bookshop
 0 0 * * * bash MY_PATH/jd.sh jd_car
 0 0 * * * bash MY_PATH/jd.sh jd_car_exchange
-27 7 * * * bash MY_PATH/jd.sh jd_cash
+27 */4 * * * bash MY_PATH/jd.sh jd_cash
 0 0 * * * bash MY_PATH/jd.sh jd_club_lottery
 10 7 * * * bash MY_PATH/jd.sh jd_crazy_joy
 18 * * * * bash MY_PATH/jd.sh jd_daily_egg
