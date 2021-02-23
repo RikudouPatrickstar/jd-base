@@ -1,6 +1,6 @@
-## Version: v3.27.0
-## Date: 2021-02-22
-## Update Content: 添加获取共享池助力码个数的控制变量 HelpPoolNum，由用户自己选择给多少个共享池助力码助力
+## Version: v3.28.0
+## Date: 2021-02-23
+## Update Content: 移除过期活动环球挑战赛互助码填写区域
 
 ## 上面版本号中，如果第2位数字有变化，那么代表增加了新的参数，如果只有第3位数字有变化，仅代表更新了注释，没有增加新的参数，可更新可不更新
 ## 如需更新，请参考项目README（https://github.com/RikudouPatrickstar/jd-base/blob/v3/readme.md）中"如何更新配置文件"部分的操作说明，进行智能比对后修改。
@@ -367,25 +367,6 @@ ForOtherSgmh4=""
 ForOtherSgmh5=""
 ForOtherSgmh6=""
 
-
-################################## 定义京东环球挑战赛活动互助（选填） ##################################
-## 具体填法及要求详见本文件最下方“互助码填法示例”
-## 仅2021年2月22日(含)前有效
-MyGlobal1=""
-MyGlobal2=""
-MyGlobal3=""
-MyGlobal4=""
-MyGlobal5=""
-MyGlobal6=""
-MyGlobalA=""
-MyGlobalB=""
-
-ForOtherGlobal1=""
-ForOtherGlobal2=""
-ForOtherGlobal3=""
-ForOtherGlobal4=""
-ForOtherGlobal5=""
-ForOtherGlobal6=""
 
 ################################## 定义东东超市蓝币兑换数量（选填） ##################################
 ## 东东超市蓝币兑换，可用值包括：
