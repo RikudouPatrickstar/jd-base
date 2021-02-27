@@ -29,10 +29,14 @@ if [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ] || [ ! -x "$(co
 fi
 
 echo -e "\n\e[32m1. 获取源码\e[0m"
-[ -d ${JdDir} ] && mv ${JdDir} ${ShellDir}/jd.bak && echo "检测到当前目录下有 jd 目录，已备份为 jd.bak"
+[ -d ${JdDir} ] && mv ${JdDir} ${JdDir}.bak && echo "检测到已有 ${JdDir} 目录，已备份为 ${JdDir}.bak"
 git clone -b v3 https://github.com/RikudouPatrickstar/jd-base ${JdDir}
 
-echo -e "\n\e[32m2. 检查配置文件\e[0m"
+echo -e "\n\e[32m2.1 如果有用于存放配置文件的远程 Git 仓库，请输入地址，否则直接回车:\e[0m"
+read remote_config
+[ -n "$remote_config" ] && git clone $remote_config ${JdDir}/config
+
+echo -e "\n\e[32m2.2 检查配置文件\e[0m"
 [ ! -d ${JdDir}/config ] && mkdir -p ${JdDir}/config
 
 if [ ! -s ${JdDir}/config/crontab.list ]
@@ -44,13 +48,9 @@ fi
 crontab -l > ${JdDir}/old_crontab
 crontab ${JdDir}/config/crontab.list
 
-if [ ! -s ${JdDir}/config/config.sh ]; then
-  cp -fv ${JdDir}/sample/config.sh.sample ${JdDir}/config/config.sh
-fi
+[ ! -s ${JdDir}/config/config.sh ] && cp -fv ${JdDir}/sample/config.sh.sample ${JdDir}/config/config.sh
 
-if [ ! -s ${JdDir}/config/auth.json ]; then
-  cp -fv ${JdDir}/sample/auth.json ${JdDir}/config/auth.json
-fi
+[ ! -s ${JdDir}/config/auth.json ] && cp -fv ${JdDir}/sample/auth.json ${JdDir}/config/auth.json
 
 echo -e "\n\e[32m3. 执行 git_pull.sh\e[0m"
 bash ${JdDir}/git_pull.sh

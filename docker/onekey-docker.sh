@@ -152,7 +152,13 @@ Need_ConfigDir() {
         NeedDirConfig=''
     else
         NeedDirConfig="-v $ConfigDir:/jd/config"
-        mkdir -p $ConfigDir
+        echo -e "\n\e[33m如果有用于存放配置文件的远程 Git 仓库，请输入地址，否则直接回车:\e[0m"
+        read remote_config
+        if [ -n "$remote_config" ]; then
+            git clone $remote_config ${JdDir}/config
+        else
+            mkdir -p $ConfigDir
+        fi
     fi
 }
 
