@@ -335,8 +335,11 @@ if [ ${ExitStatusShell} -eq 0 ]; then
   [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
 fi
 
-## 移除部分内容
+## 移除通知的部分内容
 sed -i '/本脚本开源免费使用 By/d' ${ScriptsDir}/sendNotify.js
+
+## 授予可执行权限
+chmod +x ${ShellDir}/*sh
 
 ## 执行各函数
 if [[ ${ExitStatusScripts} -eq 0 ]]
