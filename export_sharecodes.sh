@@ -16,7 +16,8 @@ function Cat_Scodes {
     for log in $(ls -r); do
       case $# in
         1)
-          codes=$(cat ${log} | grep -E "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g; s|，.+||g}" | perl -ne '{print if /：/}')
+          [ $1 != "cfd" ] && codes=$(cat ${log} | grep -E "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g; s|，.+||g}" | perl -ne '{print if /：/}')
+          [ $1 == "cfd" ] && codes=$(cat ${log} | grep -E "开始【京东账号|【🏖岛主】你的互助码" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n【🏖岛主】你的互助码(：)?:?|：|g; s|，.+||g}" | perl -ne '{print if /：/}')
           ;;
         2)
           codes=$(grep -E $2 ${log} | perl -pe "{s| ||g; s|$2||g}")
@@ -24,7 +25,7 @@ function Cat_Scodes {
       esac
       [[ ${codes} ]] && break
     done
-    [[ ${codes} ]] && echo "${codes}" || echo ${Tips}
+    [[ ${codes} ]] && echo "${codes}" | sed s/[[:space:]]//g || echo ${Tips}
   else
     echo "未运行过 jd_$1 脚本，未产生日志"
   fi
