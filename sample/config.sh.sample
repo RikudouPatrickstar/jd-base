@@ -1,6 +1,6 @@
-## Version: v3.30.0
-## Date: 2021-03-01
-## Update Content: 新增脚本她的节
+## Version: v3.30.1
+## Date: 2021-03-02
+## Update Content: 删除京喜农场 TOKEN，助力好友无需提供京喜 TOKEN
 
 ## 上面版本号中，如果第 2 位数字有变化，那么代表增加了新的参数，推荐更新，如果只有第 3 位数字有变化，则可更新可不更新
 ## 如需更新，请参考项目 README 中“如何更新配置文件”部分的操作说明，进行智能比对后修改。
@@ -300,19 +300,6 @@ ForOtherJxnc3=""
 ForOtherJxnc4=""
 ForOtherJxnc5=""
 ForOtherJxnc6=""
-
-
-################################## 定义京喜农场 TOKEN（选填） ##################################
-## 如果某个 Cookie 的账号种植的是 App 种子，则必须填入有效的 TOKEN；而种植非 App 种子则不需要 TOKEN
-## TOKEN 的形式：{"farm_jstoken":"749a90f871adsfads8ffda7bf3b1576760","timestamp":"1610165423873","phoneid":"42c7e3dadfadsfdsaac-18f0e4f4a0cf"}
-## 因 TOKEN 中带有双引号，因此，变量值两侧必须由一对单引号引起来
-## TOKEN 如何获取请阅读以下文件的注释：https://github.com/RikudouPatrickstar/jd_scripts/blob/master/jd_jxnc.js
-TokenJxnc1=''
-TokenJxnc2=''
-TokenJxnc3=''
-TokenJxnc4=''
-TokenJxnc5=''
-TokenJxnc6=''
 
 
 ################################## 定义口袋书店互助（选填） ##################################
