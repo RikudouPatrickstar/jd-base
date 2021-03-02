@@ -1,6 +1,5 @@
 ENV_PATH=
 
-
 55 8-23/3 * * * bash MY_PATH/git_pull.sh >> MY_PATH/log/git_pull.log 2>&1
 57 3 * * * bash MY_PATH/rm_log.sh >/dev/null 2>&1
 48 4 * * * bash MY_PATH/export_sharecodes.sh
@@ -12,13 +11,14 @@ ENV_PATH=
 
 5 0 * * * bash MY_PATH/jd.sh jd_bean_change
 33 4 * * * bash MY_PATH/jd.sh jd_bean_home
-3 6,18 * * * bash MY_PATH/jd.sh jd_bean_sign
+3 0,18 * * * bash MY_PATH/jd.sh jd_bean_sign
 1 7,12,19 * * * bash MY_PATH/jd.sh jd_beauty
 0,30 0 * * * bash MY_PATH/jd.sh jd_blueCoin
 7 8,12,18 * * * bash MY_PATH/jd.sh jd_bookshop
 0 0 * * * bash MY_PATH/jd.sh jd_car
 0 0 * * * bash MY_PATH/jd.sh jd_car_exchange
 27 */4 * * * bash MY_PATH/jd.sh jd_cash
+5 0,8,13,19 * * * bash MY_PATH/jd.sh jd_cfd
 0 0 * * * bash MY_PATH/jd.sh jd_club_lottery
 10 7 * * * bash MY_PATH/jd.sh jd_crazy_joy
 10 12 * * * bash MY_PATH/jd.sh jd_crazy_joy_bonus
