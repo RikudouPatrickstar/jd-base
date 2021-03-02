@@ -30,7 +30,7 @@ ENV_PATH=
 47 7 * * * bash MY_PATH/jd.sh jd_get_share_code
 36 * * * * bash MY_PATH/jd.sh jd_jdfactory
 # 10 11 * * * bash MY_PATH/jd.sh jd_jdzz
-15 */2 * * * bash MY_PATH/jd.sh jd_joy
+45 */2,23 * * * bash MY_PATH/jd.sh jd_joy
 0 0-16/8 * * * bash MY_PATH/jd.sh jd_joy_reward
 15 */1 * * * bash MY_PATH/jd.sh jd_joy_feedPets
 10 9-20/2 * * * bash MY_PATH/jd.sh jd_joy_run
