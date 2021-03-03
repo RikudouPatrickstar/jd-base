@@ -29,15 +29,13 @@ var authConfigFile = path.join(rootPath, 'config/auth.json');
 var shareCodeScript = path.join(rootPath, 'export_sharecodes.sh');
 // Share Code 文件目录
 var shareCodeDir = path.join(rootPath, 'log/export_sharecodes/');
-// diy.sh 文件目录
-var diyFile = path.join(rootPath, 'config/diy.sh');
 // 日志目录
 var logPath = path.join(rootPath, 'log/');
 
 var authError = "错误的用户名密码，请重试";
 var loginFaild = "请先登录!";
 
-var configString = "config sample crontab shareCode diy";
+var configString = "config sample crontab shareCode";
 
 var s_token, cookies, guid, lsid, lstoken, okl_token, token, userCookie = ""
 
@@ -215,10 +213,6 @@ function bakConfFile(file) {
             oldConfContent = getFileContentByName(crontabFile);
             fs.writeFileSync(bakConfFile, oldConfContent);
             break;
-        case "diy.sh":
-            oldConfContent = getFileContentByName(diyFile);
-            fs.writeFileSync(bakConfFile, oldConfContent);
-            break;
         default:
             break;
     }
@@ -238,9 +232,6 @@ function saveNewConf(file, content) {
         case "crontab.list":
             fs.writeFileSync(crontabFile, content);
             execSync('crontab ' + crontabFile);
-            break;
-        case "diy.sh":
-            fs.writeFileSync(diyFile, content);
             break;
         default:
             break;
@@ -387,9 +378,6 @@ app.get('/api/config/:key', function (request, response) {
                     let shareCodeFile = getLastModifyFilePath(shareCodeDir);
                     content = getFileContentByName(shareCodeFile);
                     break;
-                case 'diy':
-                    content = getFileContentByName(diyFile);
-                    break;
                 default:
                     break;
             }
@@ -445,18 +433,6 @@ app.get('/shareCode', function (request, response) {
 app.get('/crontab', function (request, response) {
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/public/crontab.html'));
-    } else {
-        response.redirect('./');
-    }
-
-});
-
-/**
- * 自定义脚本 页面
- */
-app.get('/diy', function (request, response) {
-    if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname + '/public/diy.html'));
     } else {
         response.redirect('./');
     }
@@ -611,6 +587,4 @@ app.get('/api/logs/:dir/:file', function (request, response) {
 
 checkConfigFile()
 
-app.listen(5678, () => {
-    console.log('控制面板已启动！');
-});
+app.listen(5678);

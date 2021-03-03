@@ -8,7 +8,6 @@ LogDir=${ShellDir}/log
 ScriptsDir=${ShellDir}/scripts
 ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
-FileDiy=${ConfigDir}/diy.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 ListCron=${ConfigDir}/crontab.list
 ListCronLxk=${ScriptsDir}/docker/crontab_list.sh
@@ -358,14 +357,4 @@ then
 else
   echo -e "jd_scripts 更新失败，请检查原因或再次运行 git_pull.sh\n"
   Change_ALL
-fi
-
-## 调用用户自定义的diy.sh
-if [[ ${EnableExtraShell} == true ]]; then
-  if [ -f ${FileDiy} ]
-  then
-    . ${FileDiy}
-  else
-    echo -e "${FileDiy} 文件不存在，跳过执行 DIY 脚本\n"
-  fi
 fi
