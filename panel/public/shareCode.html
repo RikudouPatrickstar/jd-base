@@ -32,7 +32,7 @@
             </nav>
             <header>
                 <h1>互助码在线查看</h1>
-                <button id="run" title="手动刷新">手动刷新</button>
+                <button id="refresh" title="手动刷新">手动刷新</button>
                 <br/>
                 <p>此处显示的互助码来源于 log/export_sharecodes 目录中的输出日志</p>
                 <br/><br/>
@@ -58,7 +58,8 @@
                 editor.setValue(data);
             });
 
-            $('#run').click(function () {
+            $('#refresh').click(function () {
+                document.getElementById("refresh").disabled=true;
                 let timeStamp = (new Date()).getTime()
                 $.post('./api/sharecodes?t='+timeStamp, {}, function (data) {
                     let icon = (data.err == 0) ? "success" : "error"
