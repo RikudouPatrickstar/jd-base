@@ -77,6 +77,16 @@ warn "\n注意如果你什么都不清楚，建议所有选项都直接回车，
 # 收集配置信息
 #
 
+# 选择镜像获取方式
+Choose_GetImageType() {
+    inp "\n选择镜像获取方式：\n1) 在线获取[默认]\n2) 本地生成"
+    echo -n -e "\e[33m输入您的选择->\e[0m"
+    read update
+    if [ "$update" = "2" ]; then
+        GetImageType="Local"
+    fi
+}
+
 # 检测镜像是否存在
 Check_Image() {
     if [ ! -z "$(docker images -q $DockerImage 2> /dev/null)" ]; then
@@ -86,24 +96,18 @@ Check_Image() {
         read update
         if [ "$update" = "2" ]; then
             NewImage=false
+        else
+            Choose_GetImageType
         fi
+    else
+        Choose_GetImageType
     fi
 }
 Check_Image
 
-Choose_GetImageType() {
-    inp "\n选择镜像获取方式：\n1) 在线获取[默认]\n2) 本地生成"
-    echo -n -e "\e[33m输入您的选择->\e[0m"
-    read update
-    if [ "$update" = "2" ]; then
-        GetImageType="Local"
-    fi
-}
-Choose_GetImageType
-
 # 检测容器是否存在
 Check_ContainerName() {
-    if [ ! -z "$(docker ps --format "{{.Names}}" | grep -w $ContainerName 2> /dev/null)" ]; then
+    if [ ! -z "$(docker ps -a --format "{{.Names}}" | grep -w $ContainerName 2> /dev/null)" ]; then
         inp "\n检测到先前已经存在的容器，是否删除先前的容器：\n1) 是[默认]\n2) 不要"
         echo -n -e "\e[33m输入您的选择->\e[0m"
         read update
