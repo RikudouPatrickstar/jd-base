@@ -83,18 +83,20 @@ function Count_UserSum {
 
 ## 把 config.sh 中提供的所有账户的 PIN 附加在 jd_joy_run.js 中，让各账户相互进行宠汪汪赛跑助力
 function Change_JoyRunPins {
-  j=${UserSum}
-  PinALL=""
-  while [[ $j -ge 1 ]]
-  do
-    Tmp=Cookie$j
-    CookieTemp=${!Tmp}
-    PinTemp=$(echo ${CookieTemp} | perl -pe "{s|.*pt_pin=(.+);|\1|; s|%|\\\x|g}")
-    PinTempFormat=$(printf ${PinTemp})
-    PinALL="${PinTempFormat},${PinALL}"
-    let j--
-  done
-  perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|}" ${ScriptsDir}/jd_joy_run.js
+  # j=${UserSum}
+  # PinALL=""
+  # while [[ $j -ge 1 ]]
+  # do
+  #   Tmp=Cookie$j
+  #   CookieTemp=${!Tmp}
+  #   PinTemp=$(echo ${CookieTemp} | perl -pe "{s|.*pt_pin=(.+);|\1|; s|%|\\\x|g}")
+  #   PinTempFormat=$(printf ${PinTemp})
+  #   PinALL="${PinTempFormat},${PinALL}"
+  #   let j--
+  # done
+  # perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|}" ${ScriptsDir}/jd_joy_run.js
+  # 暂时屏蔽
+  rm -f ${ScriptsDir}/jd_joy_run.js
 }
 
 ## 修改 jd_scripts 的函数汇总

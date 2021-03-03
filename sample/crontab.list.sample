@@ -33,7 +33,7 @@ ENV_PATH=
 45 */2,23 * * * bash MY_PATH/jd.sh jd_joy
 0 0-16/8 * * * bash MY_PATH/jd.sh jd_joy_reward
 15 */1 * * * bash MY_PATH/jd.sh jd_joy_feedPets
-10 9-20/2 * * * bash MY_PATH/jd.sh jd_joy_run
+# 10 9-20/2 * * * bash MY_PATH/jd.sh jd_joy_run
 0 0-10/2 * * * bash MY_PATH/jd.sh jd_joy_steal
 0 9,12,18 * * * bash MY_PATH/jd.sh jd_jxnc
 23 1 * * * bash MY_PATH/jd.sh jd_kd
