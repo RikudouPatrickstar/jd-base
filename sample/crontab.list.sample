@@ -20,7 +20,7 @@ ENV_PATH=
 27 */4 * * * bash MY_PATH/jd.sh jd_cash
 5 0,8,13,19 * * * bash MY_PATH/jd.sh jd_cfd
 0 0 * * * bash MY_PATH/jd.sh jd_club_lottery
-10 7 * * * bash MY_PATH/jd.sh jd_crazy_joy
+10 7,23 * * * bash MY_PATH/jd.sh jd_crazy_joy
 10 12 * * * bash MY_PATH/jd.sh jd_crazy_joy_bonus
 18 * * * * bash MY_PATH/jd.sh jd_daily_egg
 # 20 9 * * 6 bash MY_PATH/jd.sh jd_delCoupon
