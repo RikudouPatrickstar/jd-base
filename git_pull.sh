@@ -98,12 +98,7 @@ function Change_ALL {
 ## js-drop.list 如果上述检测文件删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
   if [ -f ${ListCron} ]; then
-    if [ -n "${JD_DIR}" ]
-    then
-      grep -E " j[drx]_\w+" ${ListCron} | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | sort -u > ${ListTask}
-    else
-      grep "${ShellDir}/" ${ListCron} | grep -E " j[drx]_\w+" | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | sort -u > ${ListTask}
-    fi
+    grep "${ShellDir}/" ${ListCron} | grep -E " j[drx]_\w+" | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | sort -u > ${ListTask}
     cat ${ListCronLxk} | grep -E "j[drx]_\w+\.js" | perl -pe "s|.+(j[drx]_\w+)\.js.+|\1|" | sort -u > ${ListJs}
     grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
     grep -vwf ${ListJs} ${ListTask} > ${ListJsDrop}
@@ -295,7 +290,7 @@ if [ "${TZ}" = "UTC" ]; then
 fi
 echo -e "--------------------------------------------------------------\n"
 
-## 更新 jd-base、检测配置文件版本并将 sample/config.sh.sample 复制到 config 目录下
+## 更新 jd-base、检测配置文件版本
 Git_PullShell
 [[ $(date "+%-H") -le 2 ]] && Update_Cron
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
@@ -303,9 +298,6 @@ VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3
 if [ ${ExitStatusShell} -eq 0 ]
 then
   echo -e "\njd-base 更新完成\n"
-  if [ -n "${JD_DIR}" ] && [ -d ${ConfigDir} ]; then
-    cp -f ${FileConfSample} ${ConfigDir}/config.sh.sample
-  fi
 else
   echo -e "\njd-base 更新失败，请检查原因后再次运行 git_pull.sh，或等待定时任务自动再次运行 git_pull.sh\n"
 fi
