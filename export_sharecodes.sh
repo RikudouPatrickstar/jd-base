@@ -31,7 +31,7 @@ function Cat_Scodes {
           for ((num=1;num<=$1;num++));do
             echo -e "${codes}" | grep -Eq "My$3${num}"
             if [ $? -eq 1 ];then
-              codes=$(echo "${codes}" | sed -r "/My$3$(expr ${num} - 1)/a\My$3${num}=''") 
+              codes=$(echo "${codes}" | sed -r "/My$3$(expr ${num} - 1)=/a\My$3${num}=''") 
             fi
           done
           ;;
