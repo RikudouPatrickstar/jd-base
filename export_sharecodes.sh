@@ -38,17 +38,24 @@ function Cat_Scodes {
       esac
       [[ ${codes} ]] && break
     done
-    ## 导出为他人助力变量
-    HelpCodes=""
-    for ((num=1;num<=$1;num++));do
-        HelpCodes=${HelpCodes}"\${My"$3${num}"}@"
-    done
-    HelpCodes=$(echo ${HelpCodes} | sed -r "s/@$//")
-    ForOtherCodes=""
-    for ((num=1;num<=$1;num++));do
-        ForOtherCodes=${ForOtherCodes}"ForOther"$3${num}"=\""${HelpCodes}"\"\n"
-    done
-    [[ ${codes} ]] && echo -e "${codes}\n\n${ForOtherCodes}" | sed s/[[:space:]]//g || echo ${Tips}
+    if [[ ${codes} ]]; then
+      ## 导出为他人助力变量
+      HelpCodes=""
+      for ((num=1;num<=$1;num++));do
+        echo -e "${codes}" | grep -Eq "My$3${num}=''"
+        if [ $? -eq 1 ]; then
+          HelpCodes=${HelpCodes}"\${My"$3${num}"}@"
+        fi
+      done
+      HelpCodes=$(echo ${HelpCodes} | sed -r "s/@$//")
+      ForOtherCodes=""
+      for ((num=1;num<=$1;num++));do
+          ForOtherCodes=${ForOtherCodes}"ForOther"$3${num}"=\""${HelpCodes}"\"\n"
+      done
+      echo -e "${codes}\n\n${ForOtherCodes}" | sed s/[[:space:]]//g
+    else
+      echo ${Tips}
+    fi
   else
     echo "未运行过 jd_$2 脚本，未产生日志"
   fi
@@ -56,7 +63,7 @@ function Cat_Scodes {
 
 ## 汇总
 function Cat_All {
-  echo -e "\n从最后一个正常的日志中寻找互助码，仅供参考。"
+  echo -e "\n从最后一个日志中寻找互助码，仅供参考。"
   for ((i=0; i<${#Name1[*]}; i++)); do
     echo -e "\n${Name2[i]}："
     [[ $(Cat_Scodes "${CookieNum}" "${Name1[i]}" "${Name3[i]}" "的${Name2[i]}好友互助码") == ${Tips} ]] && Cat_Scodes "${CookieNum}" "${Name1[i]}" "${Name3[i]}" || Cat_Scodes "${CookieNum}" "${Name1[i]}" "${Name3[i]}" "的${Name2[i]}好友互助码"
