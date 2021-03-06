@@ -37,6 +37,7 @@ ENV_PATH=
 0 0-10/2 * * * bash MY_PATH/jd.sh jd_joy_steal
 0 9,12,18 * * * bash MY_PATH/jd.sh jd_jxnc
 23 1 * * * bash MY_PATH/jd.sh jd_kd
+10-20/5 12,23 * * * bash MY_PATH/jd.sh jd_live
 11 1 * * * bash MY_PATH/jd.sh jd_lotteryMachine
 0 */2 * * * bash MY_PATH/jd.sh jd_moneyTree
 10 7 * * * bash MY_PATH/jd.sh jd_ms
