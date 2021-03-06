@@ -22,16 +22,15 @@ function Cat_Scodes {
     for log in $(ls -r); do
       case $# in
         3)
-          [ $2 != "cfd" ] && codes=$(cat ${log} | grep -E "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g; s|，.+||g}" | sed -r "s/【京东账号/My$3/;s/】.*?：/='/;s/】.*?/='/;s/$/'/")
-          [ $2 == "cfd" ] && codes=$(cat ${log} | grep -E "开始【京东账号|【🏖岛主】你的互助码" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n【🏖岛主】你的互助码(：)?:?|：|g; s|，.+||g}" | sed -r "s/【京东账号/My$3/;s/】.*?：/='/;s/】.*?/=\'/;s/$/'/;s/\(每次运行都变化,不影响\)//")
+          codes=$(cat ${log} | grep -E "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g; s|，.+||g}" | sed -r "s/【京东账号/My$3/;s/】.*?：/='/;s/】.*?/='/;s/$/'/;s/\(每次运行都变化,不影响\)//")
           ;;
         4)
           codes=$(grep -E $4 ${log} | sed -r "s/【京东账号/My$3/;s/（.*?】/='/;s/$/'/")
           ## 添加判断，若未找到该用户互助码，则设置为空值
-          for ((num=1;num<=$1;num++));do
-            echo -e "${codes}" | grep -Eq "My$3${num}"
+          for ((user_num=1;user_num<=$1;user_num++));do
+            echo -e "${codes}" | grep -Eq "My$3${user_num}"
             if [ $? -eq 1 ];then
-              codes=$(echo "${codes}" | sed -r "/My$3$(expr ${num} - 1)=/a\My$3${num}=''") 
+              codes=$(echo "${codes}" | sed -r "/My$3$(expr ${user_num} - 1)=/a\My$3${user_num}=''") 
             fi
           done
           ;;
@@ -40,17 +39,17 @@ function Cat_Scodes {
     done
     if [[ ${codes} ]]; then
       ## 导出为他人助力变量
-      HelpCodes=""
-      for ((num=1;num<=$1;num++));do
-        echo -e "${codes}" | grep -Eq "My$3${num}=''"
+      help_code=""
+      for ((user_num=1;user_num<=$1;user_num++));do
+        echo -e "${codes}" | grep -Eq "My$3${user_num}=''"
         if [ $? -eq 1 ]; then
-          HelpCodes=${HelpCodes}"\${My"$3${num}"}@"
+          help_code=${help_code}"\${My"$3${user_num}"}@"
         fi
       done
-      HelpCodes=$(echo ${HelpCodes} | sed -r "s/@$//")
       ForOtherCodes=""
-      for ((num=1;num<=$1;num++));do
-          ForOtherCodes=${ForOtherCodes}"ForOther"$3${num}"=\""${HelpCodes}"\"\n"
+      for ((user_num=1;user_num<=$1;user_num++));do
+        new_code=$(echo ${help_code} | sed "s/\${My"$3${user_num}"}@//;s/@$//")
+        ForOtherCodes=${ForOtherCodes}"ForOther"$3${user_num}"=\""${new_code}"\"\n"
       done
       echo -e "${codes}\n\n${ForOtherCodes}" | sed s/[[:space:]]//g
     else
