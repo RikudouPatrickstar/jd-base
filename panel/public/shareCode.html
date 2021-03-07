@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>互助码</title>
+    <title>提取互助码</title>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/codemirror.min.js"></script>
     <script type="text/javascript" src="./js/shell.js"></script>
@@ -23,14 +23,14 @@
                     <li><a href="./home">参数配置</a></li>
                     <li><a href="./crontab">定时设定</a></li>
                     <li><a href="./diff">对比工具</a></li>
-                    <li class="active"><a href="./shareCode">互助码</a></li>
+                    <li class="active"><a href="./shareCode">提取互助码</a></li>
                     <li><a href="./log">日志查询</a></li>
                     <li><a href="./changepwd">修改密码</a></li>
                     <li><a href="./logout">退出</a></li>
                 </ul>
             </nav>
             <header>
-                <h1>互助码在线查看</h1>
+                <h1>互助码在线获取</h1>
                 <button id="refresh" title="手动刷新">手动刷新</button>
                 <br/>
                 <p>此处显示的互助码来源于 log/export_sharecodes 目录中的输出日志</p>
@@ -49,7 +49,7 @@
                 styleActiveLine: true,
                 matchBrackets: true,
                 readOnly: true,
-                mode: 'text',
+                mode: 'shell',
                 theme: 'dracula'
             });
             let timeStamp = (new Date()).getTime()
