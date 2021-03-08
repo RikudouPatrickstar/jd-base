@@ -25,16 +25,17 @@ ENV_PATH=
 18 * * * * bash MY_PATH/jd.sh jd_daily_egg
 # 20 9 * * 6 bash MY_PATH/jd.sh jd_delCoupon
 20 * * * * bash MY_PATH/jd.sh jd_dreamFactory
-# */20 * * * * bash MY_PATH/jd.sh jd_family
+*/20 * * * * bash MY_PATH/jd.sh jd_family
 5 6-18/6 * * * bash MY_PATH/jd.sh jd_fruit
 47 7 * * * bash MY_PATH/jd.sh jd_get_share_code
 36 * * * * bash MY_PATH/jd.sh jd_jdfactory
-# 10 11 * * * bash MY_PATH/jd.sh jd_jdzz
+10 11 * * * bash MY_PATH/jd.sh jd_jdzz
 45 */2,23 * * * bash MY_PATH/jd.sh jd_joy
-0 0-16/8 * * * bash MY_PATH/jd.sh jd_joy_reward
 15 */1 * * * bash MY_PATH/jd.sh jd_joy_feedPets
+0 0-16/8 * * * bash MY_PATH/jd.sh jd_joy_reward
 10 9-20/2 * * * bash MY_PATH/jd.sh jd_joy_run
 0 0-10/2 * * * bash MY_PATH/jd.sh jd_joy_steal
+20 5,23 * * * bash MY_PATH/jd.sh jd_jxd
 0 9,12,18 * * * bash MY_PATH/jd.sh jd_jxnc
 23 1 * * * bash MY_PATH/jd.sh jd_kd
 10-20/5 12,23 * * * bash MY_PATH/jd.sh jd_live
