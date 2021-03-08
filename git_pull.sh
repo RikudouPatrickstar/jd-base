@@ -19,8 +19,8 @@ ContentVersion=${ShellDir}/version
 ContentNewTask=${ShellDir}/new_task
 ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
-ScriptsURL=https://github.com/RikudouPatrickstar/jd_scripts
-ShellURL=https://github.com/RikudouPatrickstar/jd-base
+ScriptsURL=https://github.com.cnpmjs.org/RikudouPatrickstar/jd_scripts
+ShellURL=https://github.com.cnpmjs.org/RikudouPatrickstar/jd-base
 
 ## 更新 jd-base
 function Git_PullShell {

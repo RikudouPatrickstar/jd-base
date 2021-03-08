@@ -224,7 +224,8 @@ if [ $NewImage = true ]; then
     if [ $GetImageType = "Local" ]; then
         rm -fr $WorkDir
         mkdir -p $WorkDir
-        wget -q https://github.com/RikudouPatrickstar/jd-base/raw/v3/docker/Dockerfile -O $WorkDir/Dockerfile
+        wget -q https://cdn.jsdelivr.net/gh/RikudouPatrickstar/jd-base/docker/Dockerfile -O $WorkDir/Dockerfile
+        sed -i 's,github.com,github.com.cnpmjs.org,g' $WorkDir/Dockerfile
         docker build -t $DockerImage $WorkDir > $LogDir/NewImage.log
         rm -fr $WorkDir
     else

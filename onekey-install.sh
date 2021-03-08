@@ -30,7 +30,7 @@ fi
 
 echo -e "\n\e[32m1. 获取源码\e[0m"
 [ -d ${JdDir} ] && mv ${JdDir} ${JdDir}.bak && echo "检测到已有 ${JdDir} 目录，已备份为 ${JdDir}.bak"
-git clone -b v3 https://github.com/RikudouPatrickstar/jd-base ${JdDir}
+git clone -b v3 https://github.com.cnpmjs.org/RikudouPatrickstar/jd-base ${JdDir}
 
 echo -e "\n\e[32m2.1 如果有用于存放配置文件的远程 Git 仓库，请输入地址，否则直接回车:\e[0m"
 read remote_config
