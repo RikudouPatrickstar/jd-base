@@ -7,7 +7,9 @@
     <title>参数配置</title>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/codemirror.min.js"></script>
+    <script type="text/javascript" src="./js/comment.js"></script>
     <script type="text/javascript" src="./js/shell.js"></script>
+    <script type="text/javascript" src="./js/sublime.js"></script>
     <script type="text/javascript" src="./js/sweetalert2.js"></script>
     <script type="text/javascript" src="./js/qrcode.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/codemirror.min.css">
@@ -33,7 +35,13 @@
             <header>
                 <h1>在线编辑工具</h1>
                 <button id="save" title="保存">保存 config.sh</button>
+                <button id="wrap" title="切换换行">切换换行</button>
                 <button id="cookietools" title="手机扫描二维码登录">扫码获取 Cookie</button>
+                &nbsp;&nbsp;
+                <span>
+                    <input type="checkbox" id="autoReplace" checked="checked">
+                    <label for="autoReplace">扫码后自动替换 Cookie</label>
+                </span>
             </header>
             <h4>config.sh</h4>
             <div class="wrapper">
@@ -50,24 +58,34 @@
                 </div>
             </div>
             <div id="qrcode"></div>
-            <div class="info">请使用京东手机 APP 扫码</div>
+            <div class="info">请使用京东手机APP扫码</div>
             <div class="qframe-close" title="关闭">✖</div>
         </div>
     </div>
     <script>
+        $.ajaxSetup({ cache: false });
+
         var qrcode, userCookie;
         $(document).ready(function () {
             var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
                 lineNumbers: true,
-                lineWrapping: true,
+                lineWrapping: false,
                 styleActiveLine: true,
                 matchBrackets: true,
                 mode: 'shell',
-                theme: 'dracula'
+                theme: 'dracula',
+                keyMap: 'sublime'
             });
-            let timeStamp = (new Date()).getTime()
-            $.get("./api/config/config?t="+timeStamp, function (data) {
+            $.get('./api/config/config', function (data) {
                 editor.setValue(data);
+            });
+
+            // 勾选记忆
+            if (localStorage.getItem('autoReplaceCookie') === 'false') {
+                $('#autoReplace').prop('checked', false);
+            }
+            $('#autoReplace').on('change', function() {
+                localStorage.setItem('autoReplaceCookie', $(this).prop('checked'));
             });
 
             qrcode = new QRCode(document.getElementById("qrcode"),
@@ -86,26 +104,66 @@
                 document.body.removeChild(aux);
             }
 
+            function autoReplace(cookie){
+                var value = editor.getValue();
+                var ptPin = /pt_pin=[\S]+;/.exec(cookie)[0];
+                var cookieReg = new RegExp(`pt_key=[\\S]+;${ptPin}`);
+                if (cookieReg.test(value)) {
+                    var newValue = value.replace(cookieReg, cookie);
+                    editor.setValue(newValue);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
 
             function checkLogin() {
                 var timeId = setInterval(() => {
-                    let timeStamp = (new Date()).getTime()
-                    $.get('./cookie?t='+timeStamp, function (data) {
+                    $.get('./cookie', function (data) {
                         if (data.err == 0) {
                             clearInterval(timeId);
                             $("#qrcontainer").addClass("hidden");
                             $("#refresh_qrcode").addClass("hidden");
                             userCookie = data.cookie
-                            Swal.fire({
-                                title: "Cookie 已获取",
-                                html:
-                                    '<div class="cookieCon" style="font-size:12px;">' + userCookie + '</div>',
-                                text: userCookie,
-                                icon: "success",
-                                confirmButtonText: "复制",
-                            }).then((result) => {
-                                copyToClip(userCookie);
-                            })
+                            var isAutoReplace = $('#autoReplace').prop('checked');
+                            if (isAutoReplace) {
+                                if (autoReplace(userCookie)) {
+                                    Swal.fire({
+                                        title: "cookie已获取(2s后自动替换)",
+                                        html:
+                                            '<div class="cookieCon" style="font-size:12px;">' + userCookie + '</div>',
+                                        icon: "success",
+                                        showConfirmButton: false,
+                                    });
+
+                                    setTimeout(() => {
+                                        $('#save').trigger('click');
+                                    }, 2000);
+                                } else {
+                                    Swal.fire({
+                                        title: "cookie已获取",
+                                        html:
+                                            '<div class="cookieCon" style="font-size:16px;font-weight: bold;">自动替换失败，请复制Cookie后手动更新。</div>' +
+                                            '<div class="cookieCon" style="font-size:12px;">' + userCookie + '</div>',
+                                        icon: "success",
+                                        confirmButtonText: "复制Cookie",
+                                    }).then((result) => {
+                                        copyToClip(userCookie);
+                                    });
+                                }
+                            } else {
+                                Swal.fire({
+                                    title: "cookie已获取",
+                                    html:
+                                        '<div class="cookieCon" style="font-size:12px;">' + userCookie + '</div>',
+                                    icon: "success",
+                                    confirmButtonText: "复制Cookie",
+                                }).then((result) => {
+                                    copyToClip(userCookie);
+                                });
+                            }
+                            
                         } else if (data.err == 21) {
                             clearInterval(timeId);
                             $("#refresh_qrcode").removeClass("hidden");
@@ -116,8 +174,7 @@
             }
 
             function get_code() {
-                let timeStamp = (new Date()).getTime()
-                $.get('./qrcode?t='+timeStamp, function (data) {
+                $.get('./qrcode', function (data) {
                     if (data.err == 0) {
                         $("#qrcontainer").removeClass("hidden")
                         $("#refresh_qrcode").addClass("hidden")
@@ -144,8 +201,7 @@
 
             $('#save').click(function () {
                 var confContent = editor.getValue();
-                let timeStamp = (new Date()).getTime()
-                $.post('./api/save?t='+timeStamp, { content: confContent, name: "config.sh" }, function (data) {
+                $.post('./api/save', { content: confContent, name: "config.sh" }, function (data) {
                     let icon = (data.err == 0) ? "success" : "error"
                     Swal.fire({
                         title:data.title,
@@ -155,6 +211,11 @@
                         window.location.reload(true);
                     })
                 });
+            });
+
+            $('#wrap').click(function () {
+                var lineWrapping = editor.getOption('lineWrapping');
+                editor.setOption('lineWrapping', !lineWrapping);
             });
         });
 

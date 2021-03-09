@@ -262,6 +262,21 @@ nav .active a {
     background-color: transparent;
 }
 
+/* 手动执行脚本页面 */
+.run-cmd-form {
+    margin-top: 8px;
+}
+
+.cmd-section {
+    background: #282a36;
+    color: #f8f8f2;
+    padding: 0 8px;
+}
+
+.cmd-section input {
+    width: 120px;
+}
+
 /* chrome 滚动条 */
 ::-webkit-scrollbar-track-piece {
     width: 10px;
