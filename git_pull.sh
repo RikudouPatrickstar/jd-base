@@ -29,26 +29,7 @@ function Git_PullShell {
   git fetch --all
   ExitStatusShell=$?
   git reset --hard origin/v3
-}
-
-## 每次执行 git_pull 随机生成，每天次数随机，更新时间随机，更新秒数随机，至少 6 次，至多 12 次，大部分为 8-10 次，符合正态分布。
-function Update_Cron {
-  if [ -f ${ListCron} ]; then
-    RanMin=$((${RANDOM} % 60))
-    RanSleep=$((${RANDOM} % 56))
-    RanHourArray[0]=$((${RANDOM} % 3))
-    for ((i=1; i<14; i++)); do
-      j=$(($i - 1))
-      tmp=$((${RANDOM} % 3 + ${RanHourArray[j]} + 2))
-      [[ ${tmp} -lt 24 ]] && RanHourArray[i]=${tmp} || break
-    done
-    RanHour=${RanHourArray[0]}
-    for ((i=1; i<${#RanHourArray[*]}; i++)); do
-      RanHour="${RanHour},${RanHourArray[i]}"
-    done
-    perl -i -pe "s|.+(bash git_pull.+)|${RanMin} ${RanHour} \* \* \* sleep ${RanSleep} && \1|" ${ListCron}
-    crontab ${ListCron}
-  fi
+  chmod +x *sh
 }
 
 ## 克隆 jd_scripts
@@ -292,7 +273,6 @@ echo -e "--------------------------------------------------------------\n"
 
 ## 更新 jd-base、检测配置文件版本
 Git_PullShell
-[[ $(date "+%-H") -le 2 ]] && Update_Cron
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 [ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 if [ ${ExitStatusShell} -eq 0 ]
@@ -307,13 +287,8 @@ if [ ${ExitStatusShell} -eq 0 ]; then
   echo -e "--------------------------------------------------------------\n"
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
   [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
+  sed -i '/本脚本开源免费使用 By/d' ${ScriptsDir}/sendNotify.js
 fi
-
-## 移除通知的部分内容
-sed -i '/本脚本开源免费使用 By/d' ${ScriptsDir}/sendNotify.js
-
-## 授予可执行权限
-chmod +x ${ShellDir}/*sh
 
 ## 执行各函数
 if [[ ${ExitStatusScripts} -eq 0 ]]
