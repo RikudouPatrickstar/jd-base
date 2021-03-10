@@ -7,7 +7,9 @@
     <title>定时设定</title>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/codemirror.min.js"></script>
+    <script type="text/javascript" src="./js/comment.js"></script>
     <script type="text/javascript" src="./js/shell.js"></script>
+    <script type="text/javascript" src="./js/sublime.js"></script>
     <script type="text/javascript" src="./js/sweetalert2.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/codemirror.min.css">
     <link rel="stylesheet" type="text/css" href="./css/twilight.css">
@@ -23,7 +25,7 @@
                     <li><a href="./home">参数配置</a></li>
                     <li class="active"><a href="./crontab">定时设定</a></li>
                     <li><a href="./diff">对比工具</a></li>
-                    <li><a href="./shareCode">提取互助码</a></li>
+                    <li><a href="./run">手动执行</a></li>
                     <li><a href="./log">日志查询</a></li>
                     <li><a href="./changepwd">修改密码</a></li>
                     <li><a href="./logout">退出</a></li>
@@ -40,28 +42,29 @@
         </div>
     </div>
     <script>
+        $.ajaxSetup({ cache: false });
+
         $(document).ready(function () {
             var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
                 lineNumbers: true,
-                lineWrapping: true,
+                lineWrapping: false,
                 styleActiveLine: true,
                 matchBrackets: true,
                 mode: 'shell',
-                theme: 'dracula'
+                theme: 'dracula',
+                keyMap: 'sublime'
             });
-            let timeStamp = Date.now();
-            $.get("./api/config/crontab?t="+timeStamp, function (data) {
+            $.get('./api/config/crontab', function (data) {
                 editor.setValue(data);
             });
 
             $('#save').click(function () {
                 var confContent = editor.getValue();
-                let timeStamp = Date.now();
-                $.post('./api/save?t='+timeStamp, { content: confContent, name: "crontab.list" }, function (data) {
+                $.post('./api/save', { content: confContent, name: "crontab.list" }, function (data) {
                     let icon = (data.err == 0) ? "success" : "error"
                     Swal.fire({
                         title:data.title,
-                        html: data.msg + '<br><br>定时任务已同步更新',
+                        html: data.msg + '<br>❤️🧡定时任务已同步更新🧡❤️',
                         icon: icon
                     }).then((result) => {
                         window.location.reload(true);

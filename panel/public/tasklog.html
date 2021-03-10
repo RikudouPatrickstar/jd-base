@@ -26,7 +26,7 @@
                         <li><a href="./home">参数配置</a></li>
                         <li><a href="./crontab">定时设定</a></li>
                         <li><a href="./diff">对比工具</a></li>
-                        <li><a href="./shareCode">提取互助码</a></li>
+                        <li><a href="./run">手动执行</a></li>
                         <li class="active"><a href="./log">日志查询</a></li>
                         <li><a href="./changepwd">修改密码</a></li>
                         <li><a href="./logout">退出</a></li>
@@ -68,11 +68,13 @@
     <script src="https://cdn.jsdelivr.net/npm/metismenu"></script>
     <script src="./js/codemirror.min.js"></script>
     <script>
+        $.ajaxSetup({ cache: false });
+
         var qrcode, userCookie;
         $(document).ready(function () {
             var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
                 lineNumbers: true,
-                lineWrapping: true,
+                lineWrapping: false,
                 styleActiveLine: true,
                 matchBrackets: true,
                 readOnly: true,
@@ -80,22 +82,33 @@
                 theme: 'dracula'
             });
             
-            $.get("./api/logs", function (data) {
+            $.get('./api/logs', function (data) {
                 var dirs = data.dirs;
                 var navHtml = "";
                 for (let index in dirs) {
                     var dirName = dirs[index].dirName;
-                    var row = `<li class="nav-item">
+                    // 文件在log/目录时
+                    if (dirName === '@') {
+                        var row = `<li class="nav-item">`;
+                        for (let filesKey in dirs[index].files) {
+                            var fileName = dirs[index].files[filesKey];
+                            row += `<a class="nav-link" href="javascript:logDetail('${dirName}', '${fileName}');">${fileName}</a>`
+                        }
+                            row += `</li>`;
+                    } else {
+                        var row = `<li class="nav-item">
                                 <a class="nav-link text-dark has-arrow" href="#">${dirName}</a>
                                 <ul class="nav flex-column pl-1">
                                     <li class="nav-item">`;
-                    for (let filesKey in dirs[index].files) {
-                        var fileName = dirs[index].files[filesKey];
-                        row += `<a class="nav-link" href="javascript:logDetail('${dirName}', '${fileName}');">${fileName}</a>`
-                    }
-                        row += `</li>
-                                </ul>
-                            </li>`;
+                        for (let filesKey in dirs[index].files) {
+                            var fileName = dirs[index].files[filesKey];
+                            row += `<a class="nav-link" href="javascript:logDetail('${dirName}', '${fileName}');">${fileName}</a>`
+                        }
+                            row += `</li>
+                                    </ul>
+                                </li>`;
+                        }
+                    
                     navHtml += row;
                 }
                 $('#menu1').html(navHtml);
@@ -107,7 +120,7 @@
                     dispatch(document.getElementById('toggleIcon'), 'click');
                 }
 
-                $.get("./api/logs/" + dir + "/" + file, function (data) {
+                $.get(`./api/logs/${dir}/${file}`, function (data) {
                     editor.setValue(data);
                 });
             }

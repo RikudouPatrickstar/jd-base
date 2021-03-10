@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>手动执行京东脚本</title>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/codemirror.min.js"></script>
+    <script type="text/javascript" src="./js/shell.js"></script>
+    <script type="text/javascript" src="./js/sweetalert2.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/codemirror.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/twilight.css">
+    <link rel="stylesheet" type="text/css" href="./css/dracula.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="diffs">
+            <nav>
+                <ul>
+                    <li><a href="./home">参数配置</a></li>
+                    <li><a href="./crontab">定时设定</a></li>
+                    <li><a href="./diff">对比工具</a></li>
+                    <li class="active"><a href="./run">手动执行</a></li>
+                    <li><a href="./log">日志查询</a></li>
+                    <li><a href="./changepwd">修改密码</a></li>
+                    <li><a href="./logout">退出</a></li>
+                </ul>
+            </nav>
+            <header>
+                <h1>手动执行京东脚本</h1>
+                <button id="wrap" title="切换换行">切换换行</button>
+                <br/>
+                <button id="jd_list" class="cmd-btn" title="列出脚本">列出脚本</button>
+                <button id="git_pull" title="更新脚本文件">更新脚本文件</button>
+                <button id="jd_get_share_code" class="cmd-btn" title="获取互助码">获取互助码</button>
+                <button id="export_sharecodes" title="导出互助码">导出互助码</button>
+                <button id="rm_log" class="cmd-btn" title="删除旧日志">删除旧日志</button>
+                <button id="hangup" title="重启挂机程序">重启挂机程序</button>
+                <button id="ps" title="查看进程">查看进程</button>
+                <br/>
+                <form class="run-cmd-form" action="runCmd" method="POST">
+                    <div class="cmd-section">
+                        bash jd(.sh) <input id="jdScript" name="jdScript" type="text" placeholder="请输入脚本名称" required> now
+                    </div>
+                    <input type="submit" id="runCmd">
+                </form>
+            </header>
+            <h4>运行日志</h4>
+            <div class="wrapper">
+                <textarea id="code" name="code" readonly="readonly"></textarea>
+            </div>
+        </div>
+    </div>
+    <script>
+        $.ajaxSetup({ cache: false });
+
+        $(document).ready(function () {
+            var timer=0;
+            var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                lineNumbers: true,
+                lineWrapping: false,
+                styleActiveLine: true,
+                matchBrackets: true,
+                readOnly: true,
+                mode: 'text',
+                theme: 'dracula'
+            });
+
+            $('.cmd-btn').click(function() {
+                let confirmTxt, cmd;
+                switch (this.id) {
+                    case 'rm_log':
+                        confirmTxt = '确认删除旧日志？';
+                        cmd = 'bash rm_log.sh 2>&1 | tee log/rm_log.log';
+                        break;
+                    case 'jd_list':
+                        // confirmTxt = '';
+                        cmd = 'bash jd.sh';
+                        break;
+                    case 'jd_get_share_code':
+                        confirmTxt = '确认获取互助码？';
+                        cmd = `bash jd.sh ${this.id} now`;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (confirmTxt && !confirm(confirmTxt)) {
+                    return;
+                }
+
+                if (timer) {
+                    Swal.fire({
+                        text: '请等待上一条任务执行完毕。',
+                        icon: 'error'
+                    });
+                    return;
+                }
+
+                editor.setValue('');
+
+                const jsName = this.id === 'jd_list' ? '' : this.id;
+                $.post('./runCmd', { cmd }, function (data) {
+                    editor.setValue(data.msg);
+
+                    if (jsName) {
+                        //将光标和滚动条设置到文本区最下方
+                        editor.execCommand('goDocEnd');
+                    }
+
+                    clearInterval(timer);
+                    timer = 0;
+                });
+
+                timer = 1;
+                // 1s后开始查日志
+                setTimeout(() => {
+                    jsName && getLogInterval(jsName);
+                }, 1000);
+            });
+
+            $('#hangup, #export_sharecodes, #git_pull, #ps').click(function() {
+                let confirmTxt, cmd;
+                switch (this.id) {
+                    case 'git_pull':
+                        confirmTxt = '确认更新脚本文件？';
+                        cmd = 'bash git_pull.sh 2>&1 | tee -a log/git_pull.log';
+                        break;
+                    case 'export_sharecodes':
+                        confirmTxt = '确认导出互助码？';
+                        cmd = `bash ${this.id}.sh`;
+                        break;
+                    case 'ps':
+                        // confirmTxt = '确认查看进程？';
+                        cmd = `${this.id}`;
+                        break;
+                    case 'hangup':
+                        confirmTxt = '确认重启挂机程序？';
+                        cmd = `bash jd.sh ${this.id}`;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (confirmTxt && !confirm(confirmTxt)) {
+                    return;
+                }
+
+                if (timer) {
+                    Swal.fire({
+                        text: '请等待上一条任务执行完毕。',
+                        icon: 'error'
+                    });
+                    return;
+                }
+                editor.setValue('');
+
+                $.post('./runCmd', { cmd }, function (data) {
+                    editor.setValue(data.msg);
+
+                    clearInterval(timer);
+                    timer = 0;
+                });
+
+                timer = 1;
+            });
+
+
+            $('#runCmd').click(function() {
+                const jdScript = $('#jdScript').val();
+                if (!jdScript) {
+                    Swal.fire({
+                        text: '请先补充命令。',
+                        icon: 'error'
+                    });
+                    return;
+                }
+
+                if (timer) {
+                    Swal.fire({
+                        text: '请等待上一条任务执行完毕。',
+                        icon: 'error'
+                    });
+                    return;
+                }
+                editor.setValue('');
+
+                const cmd = `bash jd.sh ${jdScript} now`;
+                $.post('./runCmd', {cmd: cmd, delay: 500}, function (data) {
+                    editor.setValue(data.msg);
+
+                    //将光标和滚动条设置到文本区最下方
+                    editor.execCommand('goDocEnd');
+
+                    clearInterval(timer);
+                    timer = 0;
+                });
+
+                timer = 1;
+                // 1s后开始查日志
+                setTimeout(() => {
+                    getLogInterval(jdScript);
+                }, 1000);
+
+                return false;
+            });
+
+
+            function getLogInterval(jsName) {
+                timer && clearInterval(timer);
+
+                // 先执行一次
+                getLog(jsName);
+                timer = setInterval(() => {
+                    getLog(jsName);
+                }, 1500);
+            }
+
+            function getLog(jsName) {
+                $.get(`./runLog/${jsName}`, function (data) {
+                    if (data !== 'no logs') {
+                        editor.setValue(data);
+                    }
+                    //将光标和滚动条设置到文本区最下方
+                    editor.execCommand('goDocEnd');
+                });
+            }
+
+            $('#wrap').click(function () {
+                var lineWrapping = editor.getOption('lineWrapping');
+                editor.setOption('lineWrapping', !lineWrapping);
+            });
+
+            $('#jd_list').trigger('click');
+        });
+
+    </script>
+
+</body>
+
+</html>
