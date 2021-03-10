@@ -48,7 +48,7 @@ function Cat_Scodes {
           codes=$(cat ${log} | grep -E "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g; s|，.+||g}" | sed -r "s/【京东账号/My$2/;s/】.*?：/='/;s/】.*?/='/;s/$/'/;s/\(每次运行都变化,不影响\)//")
           ;;
         3)
-          codes=$(grep -E $3 ${log} | sed -r "s/【京东账号/My$2/;s/（.*?】/='/;s/$/'/")
+          codes=$(grep -E $3 ${log} | uniq | sed -r "s/【京东账号/My$2/;s/（.*?】/='/;s/$/'/")
           ## 添加判断，若未找到该用户互助码，则设置为空值
           for ((user_num=1;user_num<=${UserSum};user_num++));do
             echo -e "${codes}" | grep -Eq "My$2${user_num}"
@@ -74,7 +74,7 @@ function Cat_Scodes {
       ## 生成互助规则模板
       for_other_codes=""
       case $HelpType in
-        0) ### 统一助力模板
+        0) ### 统一优先级助力模板
           new_code=$(echo ${help_code} | sed "s/@$//")
           for ((user_num=1;user_num<=${UserSum};user_num++));do
             if [ $user_num == 1 ]; then
@@ -84,7 +84,22 @@ function Cat_Scodes {
             fi
           done
           ;;
-        *) ### 默认助力模板
+        1) ### 均匀助力模板
+          for ((user_num=1;user_num<=${UserSum};user_num++));do
+            echo ${help_code} | grep "\${My"$2${user_num}"}@" > /dev/null
+            if [ $? -eq 0 ]; then
+              left_str=$(echo ${help_code} | sed "s/\${My$2${user_num}}@/ /g" | awk '{print $1}')
+              right_str=$(echo ${help_code} | sed "s/\${My$2${user_num}}@/ /g" | awk '{print $2}')
+              mark="\${My$2${user_num}}@"
+            else
+              left_str=$(echo ${help_code} | sed "s/${mark}/ /g" | awk '{print $1}')${mark}
+              right_str=$(echo ${help_code} | sed "s/${mark}/ /g" | awk '{print $2}')
+            fi
+            new_code=$(echo ${right_str}${left_str} | sed "s/@$//")
+            for_other_codes=${for_other_codes}"ForOther"$2${user_num}"=\""${new_code}"\"\n"
+          done
+          ;;
+        *) ### 普通优先级助力模板
           for ((user_num=1;user_num<=${UserSum};user_num++));do
             new_code=$(echo ${help_code} | sed "s/\${My"$2${user_num}"}@//;s/@$//")
             for_other_codes=${for_other_codes}"ForOther"$2${user_num}"=\""${new_code}"\"\n"
