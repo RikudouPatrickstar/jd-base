@@ -43,7 +43,7 @@
                 <br/>
                 <form class="run-cmd-form" action="runCmd" method="POST">
                     <div class="cmd-section">
-                        bash jd(.sh) <input id="jdScript" name="jdScript" type="text" placeholder="请输入脚本名称" required> now
+                        bash jd.sh <input id="jdScript" name="jdScript" type="text" placeholder="请输入脚本名称" required> now
                     </div>
                     <input type="submit" id="runCmd">
                 </form>
@@ -135,7 +135,7 @@
                         break;
                     case 'ps':
                         // confirmTxt = '确认查看进程？';
-                        cmd = `${this.id}`;
+                        cmd = `${this.id} | grep node | grep -v grep`;
                         break;
                     case 'hangup':
                         confirmTxt = '确认重启挂机程序？';
