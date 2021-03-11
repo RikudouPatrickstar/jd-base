@@ -501,7 +501,7 @@ app.post('/runCmd', function(request, response) {
             setTimeout(() => {
                 if (error) {
                     console.error(`执行的错误: ${error}`);
-                    response.send({ err: 1, msg: '执行出错！' });
+                    response.send({ err: 1, msg: stdout ? `${stdout}${error}` : `${error}` });
                     return;
 
                 }
@@ -779,6 +779,4 @@ app.get('/api/scripts/:dir/:file', function (request, response) {
 
 checkConfigFile()
 
-app.listen(5678, () => {
-    console.log('应用正在监听 5678 端口!');
-});
+app.listen(5678);

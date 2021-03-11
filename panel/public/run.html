@@ -189,7 +189,7 @@
                 editor.setValue('');
 
                 const cmd = `bash jd.sh ${jdScript} now`;
-                $.post('./runCmd', {cmd: cmd, delay: 500}, function (data) {
+                $.post('./runCmd', {cmd: cmd, delay: 1000}, function (data) {
                     editor.setValue(data.msg);
 
                     //将光标和滚动条设置到文本区最下方
