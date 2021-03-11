@@ -12,7 +12,6 @@ ENV_PATH=
 5 0 * * * bash MY_PATH/jd.sh jd_bean_change
 33 4 * * * bash MY_PATH/jd.sh jd_bean_home
 3 0,18 * * * bash MY_PATH/jd.sh jd_bean_sign
-1 7,12,19 * * * bash MY_PATH/jd.sh jd_beauty
 0,30 0 * * * bash MY_PATH/jd.sh jd_blueCoin
 7 8,12,18 * * * bash MY_PATH/jd.sh jd_bookshop
 0 0 * * * bash MY_PATH/jd.sh jd_car
