@@ -1,6 +1,6 @@
-## Version: v3.35.3
-## Date: 2021-03-10
-## Update Content: 添加导出均匀助力模板，Telegram 通知方式支持 API 自建的反向代理
+## Version: v3.36.3
+## Date: 2021-03-11
+## Update Content: 移除失效脚本 环球挑战赛
 
 ## 上面版本号中，如果第 2 位数字有变化，那么代表推荐更新，如果只有第 3 位数字有变化，则可更新可不更新
 ## 如需更新，请参考项目 README 中“如何更新配置文件”部分的操作说明，进行智能比对后修改。
@@ -106,11 +106,12 @@ export BARK_PUSH=""
 export BARK_SOUND=""
 
 ## 3. Telegram，如需使用，TG_BOT_TOKEN 和 TG_USER_ID 必须同时赋值，教程：https://github.com/RikudouPatrickstar/jd_scripts/blob/master/backUp/TG_PUSH.md
-## Telegram 代理类型为 http，比如代理为 http://127.0.0.1:1080，则 TG_PROXY_HOST 和 TG_PROXY_PORT 分别填写 "127.0.0.1" 和 "1080"。如需使用，请自行解除下列注释
-## Telegram API自建的反向代理地址，比如反向代理地址为 http://aaa.bbb.ccc 则填写 aaa.bbb.ccc。简略搭建教程：https://www.hostloc.com/thread-805441-1-1.html
-## http 代理和 API 自建反向代理任选其一使用即可
 export TG_BOT_TOKEN=""
 export TG_USER_ID=""
+
+## Telegram 代理类型为 http，比如代理为 http://127.0.0.1:1080，则 TG_PROXY_HOST 和 TG_PROXY_PORT 分别填写 "127.0.0.1" 和 "1080"。如需使用，请自行解除下列注释
+## Telegram API自建的反向代理地址，比如反向代理地址为 http://aaa.bbb.ccc 则填写 aaa.bbb.ccc。简略搭建教程：https://shimo.im/docs/JD38CJDQtYy3yTd8/read
+## http 代理和 API 自建反向代理任选其一使用即可
 # export TG_PROXY_HOST=""
 # export TG_PROXY_PORT=""
 # export TG_API_HOST=""
@@ -571,22 +572,4 @@ ForOtherCfd3=""
 ForOtherCfd4=""
 ForOtherCfd5=""
 ForOtherCfd6=""
-
-
-################################## 定义环球挑战赛互助（选填） ##################################
-MyGlobal1=""
-MyGlobal2=""
-MyGlobal3=""
-MyGlobal4=""
-MyGlobal5=""
-MyGlobal6=""
-MyGlobalA=""
-MyGlobalB=""
-
-ForOtherGlobal1=""
-ForOtherGlobal2=""
-ForOtherGlobal3=""
-ForOtherGlobal4=""
-ForOtherGlobal5=""
-ForOtherGlobal6=""
 
