@@ -111,7 +111,7 @@ function Notify_Version {
   then
     if [ ! -f ${SendCount} ]; then
       echo -e "检测到配置文件 config.sh.samlpe 有更新\n\n日期: ${UpdateDate}\n版本: ${VerConf} -> ${VerConfSample}\n内容: ${UpdateContent}\n\n" | tee ${ContentVersion}
-      echo -e "如需更新请手动操作\n本消息只在配置文件更新当天发送一次!" >> ${ContentVersion}
+      echo -e "如需更新请手动操作，本消息只在配置文件更新当天发送一次!" >> ${ContentVersion}
       cd ${ShellDir}
       node update.js
       if [ $? -eq 0 ]; then
