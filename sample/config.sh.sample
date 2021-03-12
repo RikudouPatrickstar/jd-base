@@ -1,6 +1,6 @@
-## Version: v3.36.3
-## Date: 2021-03-11
-## Update Content: 移除失效脚本 环球挑战赛
+## Version: v3.36.4
+## Date: 2021-03-12
+## Update Content: 通知方式 Push Plus 更新
 
 ## 上面版本号中，如果第 2 位数字有变化，那么代表推荐更新，如果只有第 3 位数字有变化，则可更新可不更新
 ## 如需更新，请参考项目 README 中“如何更新配置文件”部分的操作说明，进行智能比对后修改。
@@ -123,7 +123,7 @@ export DD_BOT_SECRET=""
 ## 5. iGot 聚合推送，支持多方式推送，填写 iGot 的推送 key，教程：https://wahao.github.io/Bark-MP-helper/#/
 export IGOT_PUSH_KEY=""
 
-## 6. Push Plus，微信扫码登录后一对一推送或一对多推送，参考文档：http://pushplus.hxtrip.com/
+## 6. Push Plus，微信扫码登录后一对一推送或一对多推送，参考文档：http://www.pushplus.plus/
 ## 其中 PUSH_PLUS_USER 是一对多推送的“群组编码”（一对多推送下面->您的群组(如无则新建)->群组编码
 ## 注:(1、需订阅者扫描二维码 2、如果您是创建群组所属人，也需点击 “查看二维码” 扫描绑定，否则不能接受群组消息推送 3、只填 PUSH_PLUS_TOKEN 默认为一对一推送)
 export PUSH_PLUS_TOKEN=""
