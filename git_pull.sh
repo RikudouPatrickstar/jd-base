@@ -129,10 +129,10 @@ function Notify_Version {
 function Npm_InstallSub {
   if ! type yarn >/dev/null 2>&1
   then
-    npm install || npm install --registry=https://registry.npm.taobao.org
+    npm install --registry=https://registry.npm.taobao.org || npm install
   else
     echo -e "检测到本机安装了 yarn，使用 yarn 替代 npm\n"
-    yarn install || yarn install --registry=https://registry.npm.taobao.org
+    yarn install --registry=https://registry.npm.taobao.org || yarn install
   fi
 }
 
