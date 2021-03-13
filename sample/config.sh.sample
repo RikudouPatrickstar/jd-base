@@ -1,6 +1,6 @@
-## Version: v3.36.5
-## Date: 2021-03-12
-## Update Content: 调整配置文件排版
+## Version: v3.37.5
+## Date: 2021-03-13
+## Update Content: 环球挑战赛又双叒叕回来了。。
 
 ## 上面版本号中，如果第 2 位数字有变化，那么代表推荐更新，如果只有第 3 位数字有变化，则可更新可不更新
 ## 如需更新，请参考项目 README 中“如何更新配置文件”部分的操作说明，进行智能比对后修改。
@@ -459,4 +459,14 @@ MyCfd3=""
 ForOtherCfd1=""
 ForOtherCfd2=""
 ForOtherCfd3=""
+
+
+##-------------------------------- 定义环球挑战赛互助（选填） --------------------------------##
+MyGlobal1=""
+MyGlobal2=""
+MyGlobal3=""
+
+ForOtherGlobal1=""
+ForOtherGlobal2=""
+ForOtherGlobal3=""
 
