@@ -29,7 +29,6 @@ function Git_PullShell {
   git fetch --all
   ExitStatusShell=$?
   git reset --hard origin/v3
-  chmod +x *sh
 }
 
 ## 克隆 jd_scripts
@@ -275,14 +274,15 @@ echo -e "--------------------------------------------------------------\n"
 Git_PullShell
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 [ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-if [ ${ExitStatusShell} -eq 0 ]
-then
+if [ ${ExitStatusShell} -eq 0 ]; then
+  chmod +x ${ShellDir}/*sh
+  chmod +x ${ShellDir}/docker/*sh
   echo -e "\njd-base 更新完成\n"
 else
   echo -e "\njd-base 更新失败，请检查原因后再次运行 git_pull.sh，或等待定时任务自动再次运行 git_pull.sh\n"
 fi
 
-## 克隆或更新 jd_scripts 
+## 克隆或更新 jd_scripts
 if [ ${ExitStatusShell} -eq 0 ]; then
   echo -e "--------------------------------------------------------------\n"
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
