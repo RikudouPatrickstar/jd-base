@@ -1,6 +1,6 @@
-## Version: v3.37.5
-## Date: 2021-03-13
-## Update Content: 环球挑战赛又双叒叕回来了。。
+## Version: v3.38.5
+## Date: 2021-03-14
+## Update Content: 每日签到的通知形式默认改为简洁通知
 
 ## 上面版本号中，如果第 2 位数字有变化，那么代表推荐更新，如果只有第 3 位数字有变化，则可更新可不更新
 ## 如需更新，请参考项目 README 中“如何更新配置文件”部分的操作说明，进行智能比对后修改。
@@ -116,7 +116,7 @@ export TG_USER_ID=""
 # export TG_PROXY_HOST=""
 # export TG_PROXY_PORT=""
 
-## Telegram api自建的反向代理地址，例子：反向代理地址 http://aaa.bbb.ccc 则填写 aaa.bbb.ccc，教程：https://www.hostloc.com/thread-805441-1-1.html
+## Telegram API自建的反向代理地址，例子：反向代理地址 http://aaa.bbb.ccc 则填写 aaa.bbb.ccc，教程：https://www.hostloc.com/thread-805441-1-1.html
 ## 如需使用，请自行解除下注释
 # export TG_API_HOST=""
 
@@ -124,8 +124,8 @@ export TG_USER_ID=""
 ##-------------------------------- 定义每日签到的通知形式（选填） --------------------------------##
 ## js脚本每日签到提供3种通知方式，分别为：
 ## 关闭通知，那么请在下方填入 0
-## 简洁通知，那么请在下方填入 1，其效果见：https://github.com/RikudouPatrickstar/jd_scripts/blob/master/icon/bean_sign_simple.jpg
-## 原始通知，那么请在下方填入 2，如果不填也默认为 2，内容比较长，这也是默认通知方式
+## 简洁通知，那么请在下方填入 1，如果不填也默认为 1，其效果见：https://github.com/RikudouPatrickstar/jd_scripts/blob/master/icon/bean_sign_simple.jpg
+## 原始通知，那么请在下方填入 2，内容比较长
 NotifyBeanSign=""
 
 

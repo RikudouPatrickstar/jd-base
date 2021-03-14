@@ -80,7 +80,12 @@ function Trans_JD_BEAN_SIGN_NOTIFY {
     0)
       export JD_BEAN_SIGN_STOP_NOTIFY="true"
       ;;
-    1)
+    2)
+      export JD_BEAN_SIGN_STOP_NOTIFY="false"
+      export JD_BEAN_SIGN_NOTIFY_SIMPLE="false"
+      ;;
+    *)
+      export JD_BEAN_SIGN_STOP_NOTIFY="false"
       export JD_BEAN_SIGN_NOTIFY_SIMPLE="true"
       ;;
   esac
