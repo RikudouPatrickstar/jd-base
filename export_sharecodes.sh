@@ -51,7 +51,7 @@ function Cat_Scodes {
           codes=$(grep -E $3 ${log} | uniq | sed -r "s/【京东账号/My$2/;s/（.*?】/='/;s/$/'/")
           ## 添加判断，若未找到该用户互助码，则设置为空值
           for ((user_num=1;user_num<=${UserSum};user_num++));do
-            echo -e "${codes}" | grep -Eq "My$2${user_num}"
+            echo -e "${codes}" | grep -Eq "My$2${user_num}="
             if [ $? -eq 1 ];then
               codes=$(echo "${codes}" | sed -r "/My$2$(expr ${user_num} - 1)=/a\My$2${user_num}=''") 
             fi
