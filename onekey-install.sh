@@ -57,7 +57,7 @@ bash ${JdDir}/git_pull.sh
 
 echo -e "\n\e[32m4. 启动控制面板\e[0m"
 cd ${JdDir}/panel >> /dev/null
-npm install --registry=https://registry.npm.taobao.org || npm install
+npm install --registry=https://mirrors.huaweicloud.com/repository/npm/ || npm install
 node server.js &
 cd ${ShellDir}
 echo -e "\e[32m请访问 http://<ip>:5678 进行配置\e[0m"
