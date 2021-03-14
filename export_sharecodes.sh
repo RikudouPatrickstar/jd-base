@@ -53,7 +53,11 @@ function Cat_Scodes {
           for ((user_num=1;user_num<=${UserSum};user_num++));do
             echo -e "${codes}" | grep -Eq "My$2${user_num}="
             if [ $? -eq 1 ];then
-              codes=$(echo "${codes}" | sed -r "/My$2$(expr ${user_num} - 1)=/a\My$2${user_num}=''") 
+              if [ $user_num == 1 ]; then
+                codes=$(echo "${codes}" | sed -r "1i My${2}1=''")
+              else
+                codes=$(echo "${codes}" | sed -r "/My$2$(expr ${user_num} - 1)=/a\My$2${user_num}=''")
+              fi
             fi
           done
           ;;
