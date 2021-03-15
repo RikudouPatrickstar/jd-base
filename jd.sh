@@ -146,8 +146,14 @@ function Help {
 function Run_Nohup {
   for js in ${HangUpJs}
   do
-    if [[ $(ps -ef | grep "${js}" | grep -v "grep") != "" ]]; then
-      ps -ef | grep "${js}" | grep -v "grep" | awk '{print $2}' | xargs kill -9
+    if [ $(. /etc/os-release && echo "$ID") == "openwrt" ]; then
+      if [[ $(ps | grep "${js}" | grep -v "grep") != "" ]]; then
+        ps | grep "${js}" | grep -v "grep" | awk '{print $1}' | xargs kill -9
+      fi
+    else
+      if [[ $(ps -ef | grep "${js}" | grep -v "grep") != "" ]]; then
+        ps -ef | grep "${js}" | grep -v "grep" | awk '{print $2}' | xargs kill -9
+      fi
     fi
   done
 
