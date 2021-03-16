@@ -2,7 +2,9 @@
 
 - 本脚本的原作者为 EvineDeng。
 
-- 本脚本只是给 lxk0301/jd_scripts 套层壳，用来运行其中的 js 脚本，解放双手，自动玩耍京东的各种游戏，获取各种小羊毛。
+- 本脚本只是给 lxk0301/jd_scripts 套层壳，用来运行其中的 js 脚本。
+
+- 请勿将本项目用于任何商业用途！
 
 # 二、如有帮助你薅到羊毛，请不吝赏杯茶水
 
@@ -30,7 +32,7 @@ wget -q https://cdn.jsdelivr.net/gh/RikudouPatrickstar/jd-base/docker/onekey-doc
 
 ### 如何自动更新Docker容器（可选）
 
-安装 [containrrr/watchtower](https://containrrr.dev/watchtower/) 可以自动更新容器，它监视你安装的所有容器的原始镜像的更新情况，如有更新，它将使用你原来的配置自动重新部署容器。更详细的部署说明，包括如何避开某些容器不让它自动更新，如何发更新容器后发送通知，设置检测时间等等，请自行了解。
+安装 [containrrr/watchtower](https://containrrr.dev/watchtower/) 可以自动更新容器，它监视你安装的所有容器的原始镜像的更新情况，如有更新，将使用你原来的配置自动重新部署容器。更详细的部署说明，包括如何避开某些容器不让它自动更新，如何发更新容器后发送通知，设置检测时间等等，请自行了解。
 
 [Docker 相关文件](docker/) 已提供，其他玩法自行研究。
 

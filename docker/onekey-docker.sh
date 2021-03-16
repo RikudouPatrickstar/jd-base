@@ -14,8 +14,10 @@ echo "
 ╚█████╔╝██████╔╝    ██████╔╝╚██████╔╝╚██████╗██║  ██╗███████╗██║  ██║
  ╚════╝ ╚═════╝     ╚═════╝  ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
                                                                      
-            ==== Create by 老竭力 | Mod by Patrick⭐ ====
+================ Create by 老竭力 | Mod by Patrick⭐ ================
 "
+echo -e "\e[31m警告：请勿将本项目用于任何商业用途！\n\e[0m"
+
 DockerImage="thisispatrick/jd-base:v3"
 ShellName=$0
 ShellDir=$(cd "$(dirname "$0")";pwd)
@@ -52,21 +54,10 @@ warn() {
 # 检查 Docker 环境
 Install_Docker() {
     if [ -x "$(command -v docker)" ]; then
-       log "Docker 已安装!"
+        log "Docker 已安装!"
     else
-        if [ -r /etc/os-release ]; then
-            lsb_dist="$(. /etc/os-release && echo "$ID")"
-        fi
-        if [ $lsb_dist == "openwrt" ]; then
-            warn "OpenWrt 环境请自行安装 Docker"
-            exit 1
-        else
-            log "安装 Docker 环境..."
-            curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-            log "Docker 环境安装完成!"
-            systemctl enable docker
-            systemctl start docker
-        fi
+        warn "请自行安装好 Docker ！"
+        exit 1
     fi
 }
 Install_Docker
