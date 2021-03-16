@@ -203,9 +203,7 @@ function Del_Cron {
       perl -i -ne "{print unless / ${Cron}( |$)/}" ${ListCron}
     done
     crontab ${ListCron}
-    echo -e "成功删除失效的脚本与定时任务，当前的定时任务清单：\n\n--------------------------------------------------------------\n"
-    crontab -l
-    echo -e "\n--------------------------------------------------------------\n"
+    echo -e "成功删除失效的脚本与定时任务\n\n"
     if [ -d ${ScriptsDir}/node_modules ]; then
       echo -e "成功删除失效的定时任务：\n\n${JsDrop}\n" > ${ContentDropTask}
       Notify_DropTask
@@ -242,9 +240,7 @@ function Add_Cron {
     if [ $? -eq 0 ]
     then
       crontab ${ListCron}
-      echo -e "成功添加新的定时任务，当前的定时任务清单：\n\n--------------------------------------------------------------\n"
-      crontab -l
-      echo -e "\n--------------------------------------------------------------\n"
+      echo -e "成功添加新的定时任务\n\n"
       if [ -d ${ScriptsDir}/node_modules ]; then
         echo -e "成功添加新的定时任务：\n\n${JsAdd}" > ${ContentNewTask}
         Notify_NewTask
