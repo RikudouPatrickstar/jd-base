@@ -70,6 +70,16 @@ function Change_ALL {
   fi
 }
 
+## 给所有 shell 脚本赋予 755 权限
+function Chmod_ShellScripts {
+  shfiles=$(find ${ShellDir} 2> /dev/null)
+  for shf in ${shfiles}; do
+    if [ ${shf##*.} == 'sh' ]; then
+      chmod 755 ${shf}
+    fi
+   done
+}
+
 ## 检测 jd_scripts 远程仓库中的 docker/crontab_list.sh
 ## 检测定时任务是否有变化，此函数会在 log 文件夹下生成四个文件，分别为：
 ## task.list    crontab.list 中的所有任务清单，仅保留脚本名
@@ -268,11 +278,10 @@ echo -e "--------------------------------------------------------------\n"
 
 ## 更新 jd-base、检测配置文件版本
 Git_PullShell
+Chmod_ShellScripts
 VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 [ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
 if [ ${ExitStatusShell} -eq 0 ]; then
-  chmod +x ${ShellDir}/*sh
-  chmod +x ${ShellDir}/docker/*sh
   echo -e "\njd-base 更新完成\n"
 else
   echo -e "\njd-base 更新失败，请检查原因后再次运行 git_pull.sh，或等待定时任务自动再次运行 git_pull.sh\n"
