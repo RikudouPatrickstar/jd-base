@@ -64,7 +64,6 @@ nav .active a {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    overflow: auto;
 }
 
 .diffs header {
@@ -83,6 +82,8 @@ nav .active a {
 }
 
 .diffs .compare-wrapper #compare {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 0;
     left: 0;
@@ -261,6 +262,36 @@ nav .active a {
     text-decoration: none;
     background-color: transparent;
 }
+
+/* diff页面 */
+.CodeMirror-merge {
+    flex: 1;
+    width: 100%;
+    height: auto;
+    display: flex;
+    overflow: hidden;
+}
+.CodeMirror-merge .CodeMirror {
+    height: 100%;
+}
+.CodeMirror-merge-2pane .CodeMirror-merge-pane {
+    width: calc(50% - 15px);
+}
+.CodeMirror-merge-2pane .CodeMirror-merge-gap { 
+    width: 30px;
+}
+.CodeMirror-merge-2pane .CodeMirror-merge-scrolllock {
+    display: none;
+}
+.CodeMirror-merge-pane-rightmost {
+    position: static;
+}
+.CodeMirror-merge-r-chunk { background: #aaa; }
+.CodeMirror-merge-r-chunk-start { border-top: 1px solid #aaa; }
+.CodeMirror-merge-r-chunk-end { border-bottom: 1px solid #aaa; }
+.CodeMirror-merge-r-connect { fill: #ffffe0; stroke: #ee8; stroke-width: 1px; }
+
+
 
 /* 手动执行脚本页面 */
 .run-cmd-form {
