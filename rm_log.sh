@@ -7,6 +7,7 @@ LogDir=${ShellDir}/log
 ## 导入配置文件
 . ${ShellDir}/config/config.sh
 
+
 ## 删除运行 js 脚本的旧日志
 function Rm_JsLog {
   LogFileList=$(ls -l ${LogDir}/*/*.log | awk '{print $9}')
@@ -24,6 +25,7 @@ function Rm_JsLog {
   done
 }
 
+
 ## 删除 git_pull.sh 的运行日志
 function Rm_GitPullLog {
   if [[ $(uname -s) == Darwin ]]
@@ -37,6 +39,7 @@ function Rm_GitPullLog {
   [ ${LineEndGitPull} -gt 0 ] && perl -i -ne "{print unless 1 .. ${LineEndGitPull} }" ${LogDir}/git_pull.log
 }
 
+
 ## 删除空文件夹
 function Rm_EmptyDir {
   cd ${LogDir}
@@ -48,9 +51,12 @@ function Rm_EmptyDir {
   done
 }
 
+
 ## 运行
 if [ -n "${RmLogDaysAgo}" ]; then
+  echo -e "查找旧日志文件中...\n"
   Rm_JsLog
   Rm_GitPullLog
   Rm_EmptyDir
+  echo -e "删除旧日志执行完毕\n"
 fi

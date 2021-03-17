@@ -9,6 +9,7 @@ LogDir=${ShellDir}/log
 ListScripts=($(cd ${ScriptsDir}; ls *.js | grep -E "j[drx]_"))
 ListCron=${ConfigDir}/crontab.list
 
+
 ## 导入 config.sh
 function Import_Conf {
   if [ -f ${FileConf} ]
@@ -24,12 +25,14 @@ function Import_Conf {
   fi
 }
 
+
 ## 更新 Crontab
 function Detect_Cron {
   if [[ $(cat ${ListCron}) != $(crontab -l) ]]; then
     crontab ${ListCron}
   fi
 }
+
 
 ## 用户数量 UserSum
 function Count_UserSum {
@@ -39,6 +42,7 @@ function Count_UserSum {
     [[ ${CookieTmp} ]] && UserSum=$i || break
   done
 }
+
 
 ## 组合 Cookie 和互助码子程序
 function Combin_Sub {
@@ -53,8 +57,9 @@ function Combin_Sub {
     Tmp2=${!Tmp1}
     CombinAll="${CombinAll}&${Tmp2}"
   done
-  echo ${CombinAll} | perl -pe "{s|^&||; s|^@+||; s|&@|&|g; s|@+|@|g}"
+  echo ${CombinAll} | perl -pe "{s|^&||; s|^@+||; s|&@|&|g; s|@+&|&|g; s|@+|@|g; s|@+$||}"
 }
+
 
 ## 组合 Cookie、Token 与互助码
 function Combin_All {
@@ -74,6 +79,7 @@ function Combin_All {
   export JDGLOBAL_SHARECODES=$(Combin_Sub ForOtherGlobal)
 }
 
+
 ## 转换 JD_BEAN_SIGN_STOP_NOTIFY 或 JD_BEAN_SIGN_NOTIFY_SIMPLE
 function Trans_JD_BEAN_SIGN_NOTIFY {
   case ${NotifyBeanSign} in
@@ -91,10 +97,12 @@ function Trans_JD_BEAN_SIGN_NOTIFY {
   esac
 }
 
+
 ## 转换 UN_SUBSCRIBES
 function Trans_UN_SUBSCRIBES {
   export UN_SUBSCRIBES="${goodPageSize}\n${shopPageSize}\n${jdUnsubscribeStopGoods}\n${jdUnsubscribeStopShop}"
 }
+
 
 ## 设置获取共享池助力码个数
 function Get_HelpPoolNum {
@@ -105,6 +113,7 @@ function Get_HelpPoolNum {
   HelpPoolNum16=0x$( printf %x $HelpPoolNum )
 }
 
+
 ## 申明全部变量
 function Set_Env {
   Count_UserSum
@@ -113,6 +122,7 @@ function Set_Env {
   Trans_UN_SUBSCRIBES
   Get_HelpPoolNum
 }
+
 
 ## 随机延迟
 function Random_Delay {
@@ -125,6 +135,7 @@ function Random_Delay {
     fi
   fi
 }
+
 
 ## 使用说明
 function Help {
@@ -142,61 +153,9 @@ function Help {
   done
 }
 
-## nohup
-function Run_Nohup {
-  for js in ${HangUpJs}
-  do
-    if [ $(. /etc/os-release && echo "$ID") == "openwrt" ]; then
-      if [[ $(ps | grep "${js}" | grep -v "grep") != "" ]]; then
-        ps | grep "${js}" | grep -v "grep" | awk '{print $1}' | xargs kill -9
-      fi
-    else
-      if [[ $(ps -ef | grep "${js}" | grep -v "grep") != "" ]]; then
-        ps -ef | grep "${js}" | grep -v "grep" | awk '{print $2}' | xargs kill -9
-      fi
-    fi
-  done
 
-  for js in ${HangUpJs}
-  do
-    [ ! -d ${LogDir}/${js} ] && mkdir -p ${LogDir}/${js}
-    LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
-    LogFile="${LogDir}/${js}/${LogTime}.log"
-    nohup node ${js}.js > ${LogFile} &
-  done
-}
-
-## pm2
-function Run_Pm2 {
-  pm2 flush
-  for js in ${HangUpJs}
-  do
-    pm2 restart ${js}.js || pm2 start ${js}.js
-  done
-}
-
-## 运行挂机脚本
-function Run_HangUp {
-  Import_Conf $1 && Detect_Cron && Set_Env
-  HangUpJs="jd_crazy_joy_coin"
-  cd ${ScriptsDir}
-  if type pm2 >/dev/null 2>&1; then
-    Run_Pm2 2>/dev/null
-  else
-    Run_Nohup >/dev/null 2>&1
-  fi
-}
-
-## 重置密码
-function Reset_Pwd {
-  cp -f ${ShellDir}/sample/auth.json ${ConfigDir}/auth.json
-  echo -e "控制面板重置成功，用户名：admin，密码：password\n"
-}
-
-## 运行京东脚本
-function Run_Normal {
-  Import_Conf $1 && Detect_Cron && Set_Env
-  
+## 查找脚本路径与准确的文件名
+function Find_FileDir {
   FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
   FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
   SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${ConfigDir}"
@@ -215,8 +174,62 @@ function Run_Normal {
       break
     fi
   done
-  
-  if [ -n "${FileName}" ] && [ -n "${WhichDir}" ]
+}
+
+
+## nohup
+function Run_Nohup {
+  nohup node $1.js 2>&1 > ${LogFile} &
+}
+
+
+## 运行挂机脚本
+function Run_HangUp {
+  HangUpJs="jd_crazy_joy_coin"
+  cd ${ScriptsDir}
+  for js in ${HangUpJs}; do
+    Import_Conf ${js}
+    Count_UserSum
+    Set_Env
+    if type pm2 >/dev/null 2>&1; then
+      pm2 stop ${js}.js 2>/dev/null
+      pm2 flush
+      pm2 start -a ${js}.js --watch "${ScriptsDir}/${js}.js" --name="${js}"
+    else
+      if [ $(. /etc/os-release && echo "$ID") == "openwrt" ]; then
+        if [[ $(ps | grep "${js}" | grep -v "grep") != "" ]]; then
+          ps | grep "${js}" | grep -v "grep" | awk '{print $1}' | xargs kill -9
+        fi
+      else
+        if [[ $(ps -ef | grep "${js}" | grep -v "grep") != "" ]]; then
+          ps -ef | grep "${js}" | grep -v "grep" | awk '{print $2}' | xargs kill -9
+        fi
+      fi
+      [ ! -d ${LogDir}/${js} ] && mkdir -p ${LogDir}/${js}
+      LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
+      LogFile="${LogDir}/${js}/${LogTime}.log"
+      Run_Nohup ${js} >/dev/null 2>&1
+    fi
+  done
+}
+
+
+## 重置密码
+function Reset_Pwd {
+  cp -f ${ShellDir}/sample/auth.json ${ConfigDir}/auth.json
+  echo -e "控制面板重置成功，用户名：admin，密码：password\n"
+}
+
+
+## 运行京东脚本
+function Run_Normal {
+  Import_Conf $1
+  Detect_Cron
+  Count_UserSum
+  Find_FileDir $1
+  Set_Env
+
+  if [[ ${FileName} ]] && [[ ${WhichDir} ]]
   then
     [ $# -eq 1 ] && Random_Delay
     LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
@@ -225,12 +238,13 @@ function Run_Normal {
     cd ${WhichDir}
     sed -i "s/randomCount = .* [0-9]* : [0-9]*;/randomCount = $HelpPoolNum;/g" ${FileName}.js
     sed -i "s/randomCount=.*?0x[0-9a-f]*:0x[0-9a-f]*;/randomCount=$HelpPoolNum16;/g" ${FileName}.js
-    node ${FileName}.js | tee ${LogFile}
+    node ${FileName}.js 2>&1 | tee ${LogFile}
   else
-    echo -e "\n在 ${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir} 三个目录下均未检测到 $1 脚本的存在\n"
+    echo -e "\n在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在\n"
     Help
   fi
 }
+
 
 ## 命令检测
 case $# in
@@ -239,24 +253,31 @@ case $# in
     Help
     ;;
   1)
-    if [[ $1 == hangup ]]; then
-      Run_HangUp
-    elif [[ $1 == resetpwd ]]; then
-      Reset_Pwd
-    else
-      Run_Normal $1
-    fi
+    case $1 in
+      hangup)
+        Run_HangUp
+        ;;
+      resetpwd)
+        Reset_Pwd
+        ;;
+      *)
+        Run_Normal $1
+        ;;
+    esac
     ;;
   2)
-    if [[ $2 == now ]]; then
-      Run_Normal $1 $2
-    else
-      echo -e "\n命令输入错误\n"
-      Help
-    fi
+    case $2 in
+      now)
+        Run_Normal $1 $2
+        ;;
+      *)
+        echo -e "\n命令输入错误\n"
+        Help
+        ;;
+    esac
     ;;
   *)
-    echo -e "\n命令过多\n"
+    echo -e "\n命令输入错误\n"
     Help
     ;;
 esac

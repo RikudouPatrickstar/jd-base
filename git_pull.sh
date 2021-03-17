@@ -22,16 +22,56 @@ SendCount=${ShellDir}/send_count
 ScriptsURL=https://github.com.cnpmjs.org/RikudouPatrickstar/jd_scripts
 ShellURL=https://github.com.cnpmjs.org/RikudouPatrickstar/jd-base
 
-## 更新 jd-base
+
+## 导入配置文件
+function Import_Conf {
+  if [ -f ${FileConf} ]; then
+    . ${FileConf}
+  fi
+}
+
+
+## 重置远程仓库地址
+function Reset_RepoUrl {
+  if [[ ${JD_DIR} ]] && [[ ${ENABLE_RESET_REPO_URL} == true ]]; then
+    if [ -d ${ShellDir}/.git ]; then
+      cd ${ShellDir}
+      git remote set-url origin ${ShellURL}
+      git reset --hard
+    fi
+    if [ -d ${ScriptsDir}/.git ]; then
+      cd ${ScriptsDir}
+      git remote set-url origin ${ScriptsURL}
+      git reset --hard
+    fi
+  fi
+}
+
+
+## 更新 jd-base 脚本
 function Git_PullShell {
   echo -e "更新 jd-base 脚本\n"
   cd ${ShellDir}
   git fetch --all
   ExitStatusShell=$?
   git reset --hard origin/v3
+  echo
 }
 
-## 克隆 jd_scripts
+
+## 更新 jd-base 脚本成功后的操作
+function Git_PullShellNext {
+  if [[ ${ExitStatusShell} -eq 0 ]]; then
+    echo -e "更新 jd-base 脚本成功\n"
+    [[ "${PanelDependOld}" != "${PanelDependNew}" ]] && cd ${ShellDir}/panel && Npm_Install panel
+    Notify_Version
+  else
+    echo -e "更新 jd-base 脚本失败，请检查原因\n"
+  fi
+}
+
+
+## 克隆 jd_scripts 脚本
 function Git_CloneScripts {
   echo -e "克隆 jd_scripts 脚本\n"
   git clone -b master ${ScriptsURL} ${ScriptsDir}
@@ -39,7 +79,8 @@ function Git_CloneScripts {
   echo
 }
 
-## 更新 jd_scripts
+
+## 更新 jd_scripts 脚本
 function Git_PullScripts {
   echo -e "更新 jd_scripts 脚本\n"
   cd ${ScriptsDir}
@@ -48,6 +89,18 @@ function Git_PullScripts {
   git reset --hard origin/master
   echo
 }
+
+
+## 给所有 shell 脚本赋予 755 权限
+function Chmod_ShellScripts {
+  shfiles=$(find ${ShellDir} 2> /dev/null)
+  for shf in ${shfiles}; do
+    if [ ${shf##*.} == 'sh' ]; then
+      chmod 755 ${shf}
+    fi
+   done
+}
+
 
 ## 获取用户数量 UserSum
 function Count_UserSum {
@@ -60,35 +113,21 @@ function Count_UserSum {
   done
 }
 
-## 修改 jd_scripts 的函数汇总
-function Change_ALL {
-  if [ -f ${FileConf} ]; then
-    . ${FileConf}
-    if [ -n "${Cookie1}" ]; then
-      Count_UserSum
-    fi
-  fi
-}
 
-## 给所有 shell 脚本赋予 755 权限
-function Chmod_ShellScripts {
-  shfiles=$(find ${ShellDir} 2> /dev/null)
-  for shf in ${shfiles}; do
-    if [ ${shf##*.} == 'sh' ]; then
-      chmod 755 ${shf}
-    fi
-   done
-}
-
-## 检测 jd_scripts 远程仓库中的 docker/crontab_list.sh
+## 检测文件：远程仓库 jd_scripts 中的 docker/crontab_list.sh
 ## 检测定时任务是否有变化，此函数会在 log 文件夹下生成四个文件，分别为：
 ## task.list    crontab.list 中的所有任务清单，仅保留脚本名
-## js.list      上述检测文件中用来运行 jd_scripts 的清单（去掉后缀 .js，非运行脚本的不会包括在内）
+## js.list      上述检测文件中用来运行 jd_scripts 脚本的清单（去掉后缀.js，非运行脚本的不会包括在内）
 ## js-add.list  如果上述检测文件增加了定时任务，这个文件内容将不为空
 ## js-drop.list 如果上述检测文件删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
   if [ -f ${ListCron} ]; then
-    grep "${ShellDir}/" ${ListCron} | grep -E " j[drx]_\w+" | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | sort -u > ${ListTask}
+    if [ -n "${JD_DIR}" ]
+    then
+      grep -E " j[drx]_\w+" ${ListCron} | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | sort -u > ${ListTask}
+    else
+      grep "${ShellDir}/" ${ListCron} | grep -E " j[drx]_\w+" | perl -pe "s|.+ (j[drx]_\w+).*|\1|" | sort -u > ${ListTask}
+    fi
     cat ${ListCronLxk} | grep -E "j[drx]_\w+\.js" | perl -pe "s|.+(j[drx]_\w+)\.js.+|\1|" | sort -u > ${ListJs}
     grep -vwf ${ListTask} ${ListJs} > ${ListJsAdd}
     grep -vwf ${ListJs} ${ListTask} > ${ListJsDrop}
@@ -97,12 +136,14 @@ function Diff_Cron {
   fi
 }
 
+
 ## 发送删除失效定时任务的消息
 function Notify_DropTask {
   cd ${ShellDir}
   node update.js
   [ -f ${ContentDropTask} ] && rm -f ${ContentDropTask}
 }
+
 
 ## 发送新的定时任务消息
 function Notify_NewTask {
@@ -111,11 +152,21 @@ function Notify_NewTask {
   [ -f ${ContentNewTask} ] && rm -f ${ContentNewTask}
 }
 
+
 ## 检测配置文件版本
 function Notify_Version {
+  ## 识别出两个文件的版本号
+  VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+  [ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
+  
+  ## 删除旧的发送记录文件
   [ -f "${SendCount}" ] && [[ $(cat ${SendCount}) != ${VerConfSample} ]] && rm -f ${SendCount}
+
+  ## 识别出更新日期和更新内容
   UpdateDate=$(grep " Date: " ${FileConfSample} | awk -F ": " '{print $2}')
   UpdateContent=$(grep " Update Content: " ${FileConfSample} | awk -F ": " '{print $2}')
+
+  ## 如果是今天，并且版本号不一致，则发送通知
   if [ -f ${FileConf} ] && [[ "${VerConf}" != "${VerConfSample}" ]] && [[ ${UpdateDate} == $(date "+%Y-%m-%d") ]]
   then
     if [ ! -f ${SendCount} ]; then
@@ -134,6 +185,7 @@ function Notify_Version {
   fi
 }
 
+
 ## npm install 子程序，判断是否安装有 yarn
 function Npm_InstallSub {
   if ! type yarn >/dev/null 2>&1
@@ -145,36 +197,34 @@ function Npm_InstallSub {
   fi
 }
 
+
 ## npm install
 function Npm_Install {
-  cd ${ScriptsDir}
-  if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
-    echo -e "检测到 package.json 有变化，运行 npm install\n"
-    Npm_InstallSub
-    if [ $? -ne 0 ]; then
-      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules 后再次尝试一遍"
-      rm -rf ${ScriptsDir}/node_modules
-    fi
-    echo
+  echo -e "检测到 $1 的依赖包有变化，运行 npm install\n"
+  Npm_InstallSub
+  if [ $? -ne 0 ]; then
+    echo -e "\nnpm install 运行不成功，自动删除 $1/node_modules 后再次尝试一遍"
+    rm -rf node_modules
   fi
+  echo
 
-  if [ ! -d ${ScriptsDir}/node_modules ]; then
+  if [ ! -d node_modules ]; then
     echo -e "运行 npm install\n"
     Npm_InstallSub
     if [ $? -ne 0 ]; then
-      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules\n"
-      echo -e "请进入 ${ScriptsDir} 目录后手动运行 npm install\n"
-      echo -e "当 npm install 失败时，如果检测到有新任务或失效任务，只会输出日志，不会自动增加或删除定时任务\n"
-      echo -e "3\n"
+      echo -e "\nnpm install 运行不成功，自动删除 $1/node_modules\n"
+      echo -e "请进入 $1 目录后手动运行 npm install\n"
+      echo -e "3s\n"
       sleep 1
-      echo -e "2\n"
+      echo -e "2s\n"
       sleep 1
-      echo -e "1\n"
+      echo -e "1s\n"
       sleep 1
-      rm -rf ${ScriptsDir}/node_modules
+      rm -rf node_modules
     fi
   fi
 }
+
 
 ## 输出是否有新的定时任务
 function Output_ListJsAdd {
@@ -185,6 +235,7 @@ function Output_ListJsAdd {
   fi
 }
 
+
 ## 输出是否有失效的定时任务
 function Output_ListJsDrop {
   if [ ${ExitStatusScripts} -eq 0 ] && [ -s ${ListJsDrop} ]; then
@@ -194,17 +245,18 @@ function Output_ListJsDrop {
   fi
 }
 
-## 自动删除失效的脚本与定时任务，需要5个条件：
-##   1.AutoDelCron 设置为 true
-##   2.正常更新jd_scripts ，没有报错
-##   3.js-drop.list不为空
-##   4.crontab.list存在并且不为空
-##   5.已经正常运行过npm install
-## 检测 jd_scripts 仓库中的 docker/crontab_list.sh
+
+## 自动删除失效的定时任务，需要5个条件：
+##   1. AutoAddCron 设置为 true
+##   2. 正常更新 jd_scripts 脚本，没有报错
+##   3. js-drop.list 不为空
+##   4. crontab.list 存在并且不为空
+##   5. 已经正常运行过 npm install
+## 检测文件：远程仓库 jd_scripts 中的 docker/crontab_list.sh
 ## 如果检测到某个定时任务在上述检测文件中已删除，那么在本地也删除对应定时任务
 function Del_Cron {
   if [ "${AutoDelCron}" = "true" ] && [ -s ${ListJsDrop} ] && [ -s ${ListCron} ] && [ -d ${ScriptsDir}/node_modules ]; then
-    echo -e "开始尝试自动删除定时任务：\n"
+    echo -e "开始尝试自动删除定时任务如下：\n"
     cat ${ListJsDrop}
     echo
     JsDrop=$(cat ${ListJsDrop})
@@ -215,24 +267,25 @@ function Del_Cron {
     crontab ${ListCron}
     echo -e "成功删除失效的脚本与定时任务\n\n"
     if [ -d ${ScriptsDir}/node_modules ]; then
-      echo -e "成功删除失效的定时任务：\n\n${JsDrop}\n" > ${ContentDropTask}
+      echo -e "删除失效的定时任务：\n\n${JsDrop}" > ${ContentDropTask}
       Notify_DropTask
     fi
   fi
 }
 
+
 ## 自动增加新的定时任务，需要5个条件：
-##   1.AutoAddCron 设置为 true
-##   2.正常更新jd_scripts ，没有报错
-##   3.js-add.list不为空
-##   4.crontab.list存在并且不为空
-##   5.已经正常运行过npm install
-## 检测 jd_scripts 仓库中的 docker/crontab_list.sh
+##   1. AutoAddCron 设置为 true
+##   2. 正常更新 jd_scripts 脚本，没有报错
+##   3. js-add.list 不为空
+##   4. crontab.list 存在并且不为空
+##   5. 已经正常运行过 npm install
+## 检测文件：远程仓库 jd_scripts 中的 docker/crontab_list.sh
 ## 如果检测到检测文件中增加新的定时任务，那么在本地也增加
 ## 本功能生效时，会自动从检测文件新增加的任务中读取时间，该时间为北京时间
 function Add_Cron {
   if [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ] && [ -s ${ListCron} ] && [ -d ${ScriptsDir}/node_modules ]; then
-    echo -e "开始尝试自动添加定时任务：\n"
+    echo -e "开始尝试自动添加定时任务如下：\n"
     cat ${ListJsAdd}
     echo
     JsAdd=$(cat ${ListJsAdd})
@@ -265,49 +318,43 @@ function Add_Cron {
   fi
 }
 
+
 ## 在日志中记录时间与路径
 echo -e "\n--------------------------------------------------------------\n"
 echo -n "系统时间："
-echo $(date "+%Y-%m-%d %H:%M:%S")
+echo -e "$(date "+%Y-%m-%d %H:%M:%S")\n"
 if [ "${TZ}" = "UTC" ]; then
-  echo
   echo -n "北京时间："
-  echo $(date -d "8 hour" "+%Y-%m-%d %H:%M:%S")
+  echo -e "$(date -d "8 hour" "+%Y-%m-%d %H:%M:%S")\n"
 fi
-echo -e "--------------------------------------------------------------\n"
 
-## 更新 jd-base、检测配置文件版本
+## 导入配置，设置远程仓库地址，更新 jd-base 脚本，发送新配置通知
+Import_Conf "git_pull"
+Reset_RepoUrl
+[ -f ${ShellDir}/panel/package.json ] && PanelDependOld=$(cat ${ShellDir}/panel/package.json)
 Git_PullShell
-Chmod_ShellScripts
-VerConfSample=$(grep " Version: " ${FileConfSample} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-[ -f ${FileConf} ] && VerConf=$(grep " Version: " ${FileConf} | perl -pe "s|.+v((\d+\.?){3})|\1|")
-if [ ${ExitStatusShell} -eq 0 ]; then
-  echo -e "\njd-base 更新完成\n"
-else
-  echo -e "\njd-base 更新失败，请检查原因后再次运行 git_pull.sh，或等待定时任务自动再次运行 git_pull.sh\n"
-fi
+[ -f ${ShellDir}/panel/package.json ] && PanelDependNew=$(cat ${ShellDir}/panel/package.json)
+Git_PullShellNext
 
-## 克隆或更新 jd_scripts
-if [ ${ExitStatusShell} -eq 0 ]; then
-  echo -e "--------------------------------------------------------------\n"
-  [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
-  [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
-  sed -i '/本脚本开源免费使用 By/d' ${ScriptsDir}/sendNotify.js
-fi
+## 克隆或更新 jd_scripts 脚本
+[ -f ${ScriptsDir}/package.json ] && ScriptsDependOld=$(cat ${ScriptsDir}/package.json)
+[ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
+[ -f ${ScriptsDir}/package.json ] && ScriptsDependNew=$(cat ${ScriptsDir}/package.json)
 
 ## 执行各函数
 if [[ ${ExitStatusScripts} -eq 0 ]]
 then
-  echo -e "jd_scripts 更新完成\n"
-  Change_ALL
-  [ -d ${ScriptsDir}/node_modules ] && Notify_Version
+  echo -e "更新 jd_scripts 脚本成功\n"
+  sed -i '/本脚本开源免费使用 By/d' ${ScriptsDir}/sendNotify.js
   Diff_Cron
-  Npm_Install
+  [[ "${ScriptsDependOld}" != "${ScriptsDependNew}" ]] && cd ${ScriptsDir} && Npm_Install scripts
   Output_ListJsAdd
   Output_ListJsDrop
   Del_Cron
   Add_Cron
 else
-  echo -e "jd_scripts 更新失败，请检查原因或再次运行 git_pull.sh\n"
-  Change_ALL
+  echo -e "更新 jd_scripts 脚本失败，请检查原因\n"
 fi
+
+## 给所有 shell 脚本赋予 755 权限
+Chmod_ShellScripts
