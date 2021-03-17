@@ -3,7 +3,6 @@
 ## Update Content: 宠汪汪积分默认不兑换京豆
 
 ## 上面版本号中，如果第 2 位数字有变化，那么代表推荐更新，如果只有第 3 位数字有变化，则可更新可不更新
-## 如需更新，请参考项目 README 中“如何更新配置文件”部分的操作说明，进行智能比对后修改。
 
 ##-------------------------------- 说明 --------------------------------##
 ## 以下配置中，带有 export 申明的，均由 lxk0301 定义，详见：https://github.com/RikudouPatrickstar/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
@@ -16,7 +15,7 @@
 ## 请依次填入每个用户的 Cookie，Cookie 的具体形式（只有 pt_key 字段和 pt_pin 字段，没有其他字段）：pt_key=xxxxxxxxxx;pt_pin=xxxx;
 ## 1. 如果是通过控制面板编辑本文件，点击页面上方 “扫码获取 Cookie” 即可获取
 ## 2. 还可以通过浏览器开发工具获取，教程：https://github.com/RikudouPatrickstar/jd_scripts/wiki/GetCookies
-## 必须按数字顺序 1、2、3、4... 依次编号下去，例子只有 3 个，超出 3 个你继续往下编号即可
+## 必须按数字顺序 1、2、3、4... 依次编号下去，例子只有 3 个，超出 3 个继续往下编号即可
 ## 不允许有汉字，如果 ID 有汉字，请在 PC 浏览器上获取 Cookie，会自动将汉字转换为 URL 编码
 Cookie1=""
 Cookie2=""
