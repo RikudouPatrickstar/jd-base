@@ -104,12 +104,10 @@ function Chmod_ShellScripts {
 
 ## 获取用户数量 UserSum
 function Count_UserSum {
-  i=1
-  while [ $i -le 1000 ]; do
+  for ((i=1; i<=35; i++)); do
     Tmp=Cookie$i
     CookieTmp=${!Tmp}
     [[ ${CookieTmp} ]] && UserSum=$i || break
-    let i++
   done
 }
 
