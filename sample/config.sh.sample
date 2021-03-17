@@ -1,6 +1,6 @@
-## Version: v3.40.7
+## Version: v3.41.7
 ## Date: 2021-03-17
-## Update Content: 宠汪汪积分默认不兑换京豆
+## Update Content: 增加 jd_scripts 以外 js 脚本存放目录设置项
 
 ## 上面版本号中，如果第 2 位数字有变化，那么代表推荐更新，如果只有第 3 位数字有变化，则可更新可不更新
 
@@ -73,6 +73,13 @@ RandomDelay="300"
 ## 自定义 jd_scripts 仓库里京东系列 js 脚本的 User-Agent，不了解 User-Agent 的请不要随意填写内容
 ## 如需使用，请自行解除下一行注释
 # export JD_USER_AGENT=""
+
+
+##-------------------------------- 定义 jd_scripts 以外的 js 脚本存放目录（选填） --------------------------------##
+## 自定义 jd_scripts 仓库以外的 js 脚本存放目录，jd.sh 会尝试调用。
+## 可以填多个目录，用空格隔开，推荐使用绝对路径，例如 “/root/jd/config/myscripts /home/patrick/jd/config/myscripts”
+## 选用位置请注意 gitignore，推荐存放在 config 目录下
+DiyDir=""
 
 
 ##-------------------------------- 定义通知 TOKEN（选填） --------------------------------##

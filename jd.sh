@@ -5,7 +5,6 @@ ShellDir=$(cd "$(dirname "$0")";pwd)
 ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
 ScriptsDir=${ShellDir}/scripts
-ScriptsDiyDir=${ConfigDir}/scripts
 LogDir=${ShellDir}/log
 ListScripts=($(cd ${ScriptsDir}; ls *.js | grep -E "j[drx]_"))
 ListCron=${ConfigDir}/crontab.list
@@ -159,7 +158,7 @@ function Help {
 function Find_FileDir {
   FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
   FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
-  SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${ConfigDir} ${ScriptsDiyDir}"
+  SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${DiyDir}"
   FileName=""
   WhichDir=""
 
@@ -241,7 +240,7 @@ function Run_Normal {
     sed -i "s/randomCount=.*?0x[0-9a-f]*:0x[0-9a-f]*;/randomCount=$HelpPoolNum16;/g" ${FileName}.js
     node ${FileName}.js 2>&1 | tee ${LogFile}
   else
-    echo -e "\n在${ScriptsDir}、${ScriptsDir}/backUp、${ConfigDir}三个目录下均未检测到 $1 脚本的存在\n"
+    echo -e "\n在有关目录下均未检测到 $1 脚本的存在\n"
     Help
   fi
 }
