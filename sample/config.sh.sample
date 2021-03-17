@@ -76,9 +76,10 @@ RandomDelay="300"
 
 
 ##-------------------------------- 定义 jd_scripts 以外的 js 脚本存放目录（选填） --------------------------------##
-## 自定义 jd_scripts 仓库以外的 js 脚本存放目录，jd.sh 会尝试调用。
+## 自定义 jd_scripts 仓库以外的 js 脚本存放目录，jd.sh 会尝试调用
+## 选用位置请注意 jd-base 的 .gitignore，推荐存放在 config 目录下
 ## 可以填多个目录，用空格隔开，推荐使用绝对路径，例如 “/root/jd/config/myscripts /home/patrick/jd/config/myscripts”
-## 选用位置请注意 gitignore，推荐存放在 config 目录下
+## 选用的目录下记得自行放置 package.json 和 .gitignore，并安装好依赖
 DiyDir=""
 
 
