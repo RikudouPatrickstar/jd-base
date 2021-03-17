@@ -2,9 +2,10 @@
 
 ## 路径
 ShellDir=$(cd "$(dirname "$0")";pwd)
-ScriptsDir=${ShellDir}/scripts
 ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
+ScriptsDir=${ShellDir}/scripts
+ScriptsDiyDir=${ConfigDir}/scripts
 LogDir=${ShellDir}/log
 ListScripts=($(cd ${ScriptsDir}; ls *.js | grep -E "j[drx]_"))
 ListCron=${ConfigDir}/crontab.list
@@ -145,7 +146,7 @@ function Help {
   echo -e "3. bash jd.sh hangup   # 重启挂机程序"
   echo -e "4. bash jd.sh resetpwd # 重置控制面板用户名和密码"
   echo -e "\n针对用法1、用法2中的 \"xxx\"，无需输入后缀 \".js\"，另外，如果前缀是 \"jd_\" 的话前缀也可以省略。"
-  echo -e "当前有以下脚本可以运行（仅列出以 jd_、jr_、jx_ 开头的脚本）："
+  echo -e "当前有以下脚本可以运行（仅列出 jd_scripts 中以 jd_、jr_、jx_ 开头的脚本）："
   cd ${ScriptsDir}
   for ((i=0; i<${#ListScripts[*]}; i++)); do
     Name=$(grep "new Env" ${ListScripts[i]} | awk -F "'|\"" '{print $2}')
@@ -158,7 +159,7 @@ function Help {
 function Find_FileDir {
   FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
   FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
-  SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${ConfigDir}"
+  SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${ConfigDir} ${ScriptsDiyDir}"
   FileName=""
   WhichDir=""
 
