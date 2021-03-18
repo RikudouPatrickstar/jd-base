@@ -26,7 +26,7 @@ services:
     volumes:
       - ./jd2/config:/jd/config
       - ./jd2/log:/jd/log
-      - ./jd1/scripts:/jd/scripts
+      - ./jd2/scripts:/jd/scripts
     ports:
       - 5679:5678
 
@@ -41,6 +41,6 @@ services:
     volumes:
       - ./jd3/config:/jd/config
       - ./jd3/log:/jd/log
-      - ./jd1/scripts:/jd/scripts
+      - ./jd3/scripts:/jd/scripts
     ports:
       - 5680:5678
