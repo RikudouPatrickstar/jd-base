@@ -342,6 +342,16 @@ function Set_DiyEnv {
 }
 
 
+## 替换 jd_scripts 中的 js 脚本
+function ReplaceJs {
+  for ((i=0; i<${#ReplaceJsName[*]}; i++)); do
+    cd ${ScriptsDir}
+    rm -f ${ReplaceJsName[i]}.js
+    wget ${ReplaceJsUrl[i]} -O ${ReplaceJsName[i]}.js
+  done
+}
+
+
 ## 在日志中记录时间与路径
 echo -e "\n--------------------------------------------------------------\n"
 echo -n "系统时间："
@@ -375,6 +385,7 @@ then
   Output_ListJsDrop
   Del_Cron
   Add_Cron
+  ReplaceJs
   Set_DiyEnv
 else
   echo -e "更新 jd_scripts 脚本失败，请检查原因\n"

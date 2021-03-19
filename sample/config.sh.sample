@@ -1,6 +1,6 @@
-## Version: v3.42.7
+## Version: v3.43.7
 ## Date: 2021-03-19
-## Update Content: 改进 jd_scripts 以外 js 脚本存放
+## Update Content: 改进 jd_scripts 以外 js 脚本存放，支持在线替换 jd_scripts 中的 js 脚本
 
 ## 上面版本号中，如果第 2 位数字有变化，那么代表推荐更新，如果只有第 3 位数字有变化，则可更新可不更新
 
@@ -82,6 +82,14 @@ RandomDelay="300"
 DiyDirs=""
 ## 选用的目录下自行放置 package.json，如需使用 lxk0301/jd_scripts 的 package.json，则下面 DiyPackgeJson 设置为 "false"
 DiyPackgeJson="false"
+
+
+##-------------------------------- 定义替换 jd_scripts 中的 js 脚本（选填） --------------------------------##
+## 自定义替换 jd_scripts 中出现问题尚未修复的脚本，执行 git_pull.sh 时将自动替换
+## 例如，假设 jd_dreamFactory 脚本出了问题，作者尚未及时修复，而已经有人修复，或者你自己修复了，其 url 为 "https://abc.xyz/xxxx/jd_dreamFactory.js"，则可以在这里设置 ReplaceJsName="jd_dreamFactory"，ReplaceJsUrl="https://abc.xyz/xxxx/jd_dreamFactory.js" 进行替换
+## 如果有多个脚本需要替换，请将下面两个变量以 shell 数组的形式填写，其中脚本名称和脚本超链接必须一一对应
+ReplaceJsName=""
+ReplaceJsUrl=""
 
 
 ##-------------------------------- 定义通知 TOKEN（选填） --------------------------------##
