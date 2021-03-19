@@ -1,4 +1,4 @@
-## Version: v3.43.7
+## Version: v3.43.8
 ## Date: 2021-03-19
 ## Update Content: 改进 jd_scripts 以外 js 脚本存放，支持在线替换 jd_scripts 中的 js 脚本
 
@@ -88,6 +88,11 @@ DiyPackgeJson="false"
 ## 自定义替换 jd_scripts 中出现问题尚未修复的脚本，执行 git_pull.sh 时将自动替换
 ## 例如，假设 jd_dreamFactory 脚本出了问题，作者尚未及时修复，而已经有人修复，或者你自己修复了，其 url 为 "https://abc.xyz/xxxx/jd_dreamFactory.js"，则可以在这里设置 ReplaceJsName="jd_dreamFactory"，ReplaceJsUrl="https://abc.xyz/xxxx/jd_dreamFactory.js" 进行替换
 ## 如果有多个脚本需要替换，请将下面两个变量以 shell 数组的形式填写，其中脚本名称和脚本超链接必须一一对应
+## 多脚本替换填写示例：
+##   ReplaceJsName="jd_fruit jd_dreamFactory jd_jxnc"
+##   ReplaceJsUrl="https://def.com/xxxx/jd_fruit.js
+##                 https://abc.xyz/xxxx/jd_dreamFactory.js
+##                 https://ghi.rip/xxxx/jd_jxnc.js"
 ReplaceJsName=""
 ReplaceJsUrl=""
 

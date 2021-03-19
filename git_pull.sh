@@ -318,6 +318,8 @@ function Add_Cron {
 
 ## 为额外的 js 脚本存放目录配置 lxk0301/jd_scripts 环境
 function Set_DiyEnv {
+  echo -e "\n--------------------------------------------------------------\n"
+  echo -e "设置额外的 js 脚本环境\n"
   EnvFiles=(
     Env.min.js
     JS_USER_AGENTS.js
@@ -344,22 +346,30 @@ function Set_DiyEnv {
 
 ## 替换 jd_scripts 中的 js 脚本
 function ReplaceJs {
+  echo -e "\n--------------------------------------------------------------\n"
+  echo -e "替换 js 脚本\n"
   for ((i=0; i<${#ReplaceJsName[*]}; i++)); do
     cd ${ScriptsDir}
     rm -f ${ReplaceJsName[i]}.js
-    wget ${ReplaceJsUrl[i]} -O ${ReplaceJsName[i]}.js
+    wget -q ${ReplaceJsUrl[i]} -O ${ReplaceJsName[i]}.js
+    if [ $? == '0' ]; then
+      echo -e "${ReplaceJsName[i]}.js 替换成功\n"
+    else
+      echo -e "${ReplaceJsName[i]}.js 替换失败，请检查原因\n"
+    fi
   done
 }
 
 
 ## 在日志中记录时间与路径
-echo -e "\n--------------------------------------------------------------\n"
+echo -e "\n##############################################################\n"
 echo -n "系统时间："
-echo -e "$(date "+%Y-%m-%d %H:%M:%S")\n"
+echo -e "$(date "+%Y-%m-%d %H:%M:%S")"
 if [ "${TZ}" = "UTC" ]; then
   echo -n "北京时间："
-  echo -e "$(date -d "8 hour" "+%Y-%m-%d %H:%M:%S")\n"
+  echo -e "$(date -d "8 hour" "+%Y-%m-%d %H:%M:%S")"
 fi
+echo -e "\n--------------------------------------------------------------\n"
 
 ## 导入配置，设置远程仓库地址，更新 jd-base 脚本，发送新配置通知
 Import_Conf "git_pull"
@@ -369,6 +379,7 @@ Git_PullShell
 [ -f ${ShellDir}/panel/package.json ] && PanelDependNew=$(cat ${ShellDir}/panel/package.json)
 Git_PullShellNext
 
+echo -e "\n--------------------------------------------------------------\n"
 ## 克隆或更新 jd_scripts 脚本
 [ -f ${ScriptsDir}/package.json ] && ScriptsDependOld=$(cat ${ScriptsDir}/package.json)
 [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
