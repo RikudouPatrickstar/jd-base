@@ -316,6 +316,31 @@ function Add_Cron {
   fi
 }
 
+## 为额外的 js 脚本存放目录配置 lxk0301/jd_scripts 环境
+function Set_DiyEnv {
+  EnvFiles=(
+    Env.min.js
+    JS_USER_AGENTS.js
+    USER_AGENTS.js
+    index.js
+    jdCookie.js
+    sendNotify.js
+  )
+  for diy_dir in ${DiyDirs[*]}; do
+    for env_file in ${EnvFiles[*]}; do
+      cp -f ${ScriptsDir}/${env_file} ${ShellDir}/${diy_dir}/
+    done
+    [ -f ${ShellDir}/${diy_dir}/package.json ] && DiyDependOld=$(cat ${ShellDir}/${diy_dir}/package.json)
+    if [ ${DiyPackgeJson} == "false" ]; then
+      cp -f ${ScriptsDir}/package.json ${ShellDir}/${diy_dir}/
+    fi
+    [ -f ${ShellDir}/${diy_dir}/package.json ] && DiyDependNew=$(cat ${ShellDir}/${diy_dir}/package.json)
+    if [ "${DiyDependOld}" != "${DiyDependNew}" ] || [ ! -d ${ShellDir}/${diy_dir}/node_modules ];then
+      cd ${ShellDir}/${diy_dir} && Npm_Install ${diy_dir}
+    fi
+  done
+}
+
 
 ## 在日志中记录时间与路径
 echo -e "\n--------------------------------------------------------------\n"
@@ -350,6 +375,7 @@ then
   Output_ListJsDrop
   Del_Cron
   Add_Cron
+  Set_DiyEnv
 else
   echo -e "更新 jd_scripts 脚本失败，请检查原因\n"
 fi

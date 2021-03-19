@@ -1,6 +1,6 @@
-## Version: v3.41.7
-## Date: 2021-03-17
-## Update Content: 增加 jd_scripts 以外 js 脚本存放目录设置项
+## Version: v3.42.7
+## Date: 2021-03-19
+## Update Content: 改进 jd_scripts 以外 js 脚本存放
 
 ## 上面版本号中，如果第 2 位数字有变化，那么代表推荐更新，如果只有第 3 位数字有变化，则可更新可不更新
 
@@ -75,12 +75,13 @@ RandomDelay="300"
 # export JD_USER_AGENT=""
 
 
-##-------------------------------- 定义 jd_scripts 以外的 js 脚本存放目录（选填） --------------------------------##
-## 自定义 jd_scripts 仓库以外的 js 脚本存放目录，jd.sh 会尝试调用
-## 尚不完整，还在开发
-## 推荐存放在 config 目录下，可以填多个目录，用空格隔开，推荐使用绝对路径，例如 “/root/jd/config/myscripts /home/patrick/jd/config/myscripts”
-## 选用的目录下记得自行放置 package.json 和 .gitignore，并安装好依赖
-DiyDir=""
+##-------------------------------- 定义 jd_scripts 以外的 js 脚本（选填） --------------------------------##
+## 自定义 jd_scripts 仓库以外的 js 脚本存放目录，jd.sh 会尝试调用，设置完后请手动执行 git_pull.sh
+## 推荐存放在 config 目录下，可以填多个目录，用空格隔开，使用相对路径，例如 "config/myscripts1 config/myscripts2"
+## 对应的定时任务自行设置，暂不支持脚本名称以 "jd_"、"jr_"、"jx_" 开头，后续可能会改进
+DiyDirs=""
+## 选用的目录下自行放置 package.json，如需使用 lxk0301/jd_scripts 的 package.json，则下面 DiyPackgeJson 设置为 "false"
+DiyPackgeJson="false"
 
 
 ##-------------------------------- 定义通知 TOKEN（选填） --------------------------------##
