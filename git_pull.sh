@@ -333,17 +333,17 @@ function Set_DiyEnv {
     jdCookie.js
     sendNotify.js
   )
-  for diy_dir in ${DiyDirs[*]}; do
+  for ((i=0; i<${#DiyDirs[*]}; i++)); do
     for env_file in ${EnvFiles[*]}; do
-      cp -f ${ScriptsDir}/${env_file} ${ShellDir}/${diy_dir}/
+      cp -f ${ScriptsDir}/${env_file} ${ShellDir}/${DiyDirs[i]}/
     done
-    [ -f ${ShellDir}/${diy_dir}/package.json ] && DiyDependOld=$(cat ${ShellDir}/${diy_dir}/package.json)
+    [ -f ${ShellDir}/${DiyDirs[i]}/package.json ] && DiyDependOld=$(cat ${ShellDir}/${DiyDirs[i]}/package.json)
     if [ ${DiyPackgeJson} == "false" ]; then
-      cp -f ${ScriptsDir}/package.json ${ShellDir}/${diy_dir}/
+      cp -f ${ScriptsDir}/package.json ${ShellDir}/${DiyDirs[i]}/
     fi
-    [ -f ${ShellDir}/${diy_dir}/package.json ] && DiyDependNew=$(cat ${ShellDir}/${diy_dir}/package.json)
-    if [ "${DiyDependOld}" != "${DiyDependNew}" ] || [ ! -d ${ShellDir}/${diy_dir}/node_modules ];then
-      cd ${ShellDir}/${diy_dir} && Npm_Install ${diy_dir}
+    [ -f ${ShellDir}/${DiyDirs[i]}/package.json ] && DiyDependNew=$(cat ${ShellDir}/${DiyDirs[i]}/package.json)
+    if [ "${DiyDependOld}" != "${DiyDependNew}" ] || [ ! -d ${ShellDir}/${DiyDirs[i]}/node_modules ];then
+      cd ${ShellDir}/${DiyDirs[i]} && Npm_Install ${DiyDirs[i]}
     fi
   done
 }

@@ -158,10 +158,10 @@ function Help {
 function Find_FileDir {
   FileNameTmp1=$(echo $1 | perl -pe "s|\.js||")
   FileNameTmp2=$(echo $1 | perl -pe "{s|jd_||; s|\.js||; s|^|jd_|}")
-  for diy_dir in ${DiyDirs[*]}; do
-    diy_dir=${ShellDir}/${diy_dir}
+  for ((i=0; i<${#DiyDirs[*]}; i++)); do
+    DiyDirs[i]=${ShellDir}/${DiyDirs[i]}
   done
-  SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${DiyDirs}"
+  SeekDir="${ScriptsDir} ${ScriptsDir}/backUp ${DiyDirs[*]}"
   FileName=""
   WhichDir=""
 
