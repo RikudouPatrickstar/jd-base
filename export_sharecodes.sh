@@ -5,7 +5,7 @@ ShellDir=$(cd "$(dirname "$0")";pwd)
 LogDir=${ShellDir}/log
 ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
-Tips="从日志中未找到任何互助码"
+Tips="未从日志中匹配到任何互助码"
 
 ## 所有有互助码的活动，只需要把脚本名称去掉前缀 jd_ 后列在 Name1 中，将其中文名称列在 Name2 中，对应 config.sh 中互助码后缀列在 Name3 中即可。
 ## Name1、Name2 和 Name3 中的三个名称必须一一对应。
@@ -47,14 +47,7 @@ function Cat_Scodes {
     
     ## 导出助力码变量（My）
     for log in $(ls -r); do
-      case $# in
-        2)
-          codes=$(cat ${log} | grep -E "开始【京东账号|您的(好友)?助力码为" | uniq | perl -0777 -pe "{s|\*||g; s|开始||g; s|\n您的(好友)?助力码为(：)?:?|：|g; s|，.+||g}" | sed -r "s/【京东账号/My$2/;s/】.*?：/='/;s/】.*?/='/;s/$/'/;s/\(每次运行都变化,不影响\)//")
-          ;;
-        3)
-          codes=$(grep -E $3 ${log} | uniq | sed -r "s/【京东账号/My$2/;s/（.*?】/='/;s/$/'/")
-          ;;
-      esac
+      codes=$(grep -E $3 ${log} | uniq | sed -r "s/【京东账号/My$2/;s/（.*?】/='/;s/$/'/")
       if [[ ${codes} ]]; then
         ## 添加判断，若未找到该用户互助码，则设置为空值
         for ((user_num=1;user_num<=${UserSum};user_num++)); do
@@ -116,7 +109,7 @@ function Cat_Scodes {
           ;;
       esac
 
-      echo -e "${codes}\n\n${for_other_codes}" | sed s/[[:space:]]//g
+      echo -e "${codes}\n\n${for_other_codes}" | sed "s/[[:space:]]//g"
     else
       echo ${Tips}
     fi
@@ -132,7 +125,7 @@ function Cat_All {
   echo -e "\n从最后一个日志提取互助码，受日志内容影响，仅供参考。"
   for ((i=0; i<${#Name1[*]}; i++)); do
     echo -e "\n${Name2[i]}："
-    [[ $(Cat_Scodes "${Name1[i]}" "${Name3[i]}" "的${Name2[i]}好友互助码") == ${Tips} ]] && Cat_Scodes "${Name1[i]}" "${Name3[i]}" || Cat_Scodes "${Name1[i]}" "${Name3[i]}" "的${Name2[i]}好友互助码"
+    Cat_Scodes "${Name1[i]}" "${Name3[i]}" "的${Name2[i]}好友互助码"
   done
 }
 
