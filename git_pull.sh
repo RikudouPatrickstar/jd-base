@@ -109,6 +109,11 @@ function Count_UserSum {
     CookieTmp=${!Tmp}
     [[ ${CookieTmp} ]] && UserSum=$i || break
   done
+
+  for ((d=36; d<=1000; d++)); do
+    Del=Cookie$d
+    sed -i "/${!Del}/d" ${FileConf} || break
+  done
 }
 
 
