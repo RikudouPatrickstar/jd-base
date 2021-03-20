@@ -32,6 +32,7 @@
             <header>
                 <h1>手动执行脚本</h1>
                 <button id="wrap" title="切换换行">切换换行</button>
+                <button id="move-bottom" title="跳转底部">跳转底部</button>
                 <br/>
                 <button id="jd_list" class="cmd-btn" title="列出脚本">列出脚本</button>
                 <button id="git_pull" title="更新脚本文件">更新脚本文件</button>
@@ -233,6 +234,10 @@
                 var lineWrapping = editor.getOption('lineWrapping');
                 editor.setOption('lineWrapping', !lineWrapping);
             });
+            
+            $('#move-bottom').click(function () {
+                editor.execCommand('goDocEnd');
+            })
 
             $('#jd_list').trigger('click');
         });

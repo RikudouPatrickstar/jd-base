@@ -26,10 +26,6 @@ var crontabFile = path.join(rootPath, 'config/crontab.list');
 var confBakDir = path.join(rootPath, 'config/bak/');
 // auth.json 文件目录
 var authConfigFile = path.join(rootPath, 'config/auth.json');
-// Share Code 文件目录
-var shareCodeDir = path.join(rootPath, 'log/jd_get_share_code/');
-// diy.sh 文件目录
-var diyFile = path.join(rootPath, 'config/diy.sh');
 // 日志目录
 var logPath = path.join(rootPath, 'log/');
 // 脚本目录
@@ -38,7 +34,7 @@ var ScriptsPath = path.join(rootPath, 'scripts/');
 var authError = "错误的用户名密码，请重试";
 var loginFaild = "请先登录!";
 
-var configString = "config sample crontab shareCode diy";
+var configString = "config sample crontab";
 
 var s_token, cookies, guid, lsid, lstoken, okl_token, token, userCookie = ""
 
@@ -216,10 +212,6 @@ function bakConfFile(file) {
             oldConfContent = getFileContentByName(crontabFile);
             fs.writeFileSync(bakConfFile, oldConfContent);
             break;
-        case "diy.sh":
-            oldConfContent = getFileContentByName(diyFile);
-            fs.writeFileSync(bakConfFile, oldConfContent);
-            break;
         default:
             break;
     }
@@ -239,9 +231,6 @@ function saveNewConf(file, content) {
         case "crontab.list":
             fs.writeFileSync(crontabFile, content);
             execSync('crontab ' + crontabFile);
-            break;
-        case "diy.sh":
-            fs.writeFileSync(diyFile, content);
             break;
         default:
             break;
@@ -398,13 +387,6 @@ app.get('/api/config/:key', function (request, response) {
                 case 'crontab':
                     content = getFileContentByName(crontabFile);
                     break;
-                case 'shareCode':
-                    let shareCodeFile = getLastModifyFilePath(shareCodeDir);
-                    content = getFileContentByName(shareCodeFile);
-                    break;
-                case 'diy':
-                    content = getFileContentByName(diyFile);
-                    break;
                 default:
                     break;
             }
@@ -443,35 +425,11 @@ app.get('/diff', function (request, response) {
 });
 
 /**
- * Share Code 页面
- */
-app.get('/shareCode', function (request, response) {
-    if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname + '/public/shareCode.html'));
-    } else {
-        response.redirect('/');
-    }
-
-});
-
-/**
  * crontab 配置页面
  */
 app.get('/crontab', function (request, response) {
     if (request.session.loggedin) {
         response.sendFile(path.join(__dirname + '/public/crontab.html'));
-    } else {
-        response.redirect('/');
-    }
-
-});
-
-/**
- * 自定义脚本 页面
- */
-app.get('/diy', function (request, response) {
-    if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname + '/public/diy.html'));
     } else {
         response.redirect('/');
     }
@@ -526,30 +484,6 @@ app.post('/runCmd', function(request, response) {
         response.redirect('/');
     }
 });
-
-/**
- * 使用jsName获取最新的日志
- */
-app.get('/runLog/:jsName', function (request, response) {
-    if (request.session.loggedin) {
-        const jsName = request.params.jsName;
-        let shareCodeFile = getLastModifyFilePath(path.join(rootPath, `log/${jsName}/`));
-        if (jsName === 'rm_log') {
-            shareCodeFile = path.join(rootPath, `log/${jsName}.log`)
-        }
-
-        if (shareCodeFile) {
-            const content = getFileContentByName(shareCodeFile);
-            response.setHeader("Content-Type", "text/plain");
-            response.send(content);
-        } else {
-            response.send("no logs");
-        }
-    } else {
-        response.send(loginFaild);
-    }
-})
-
 
 /**
  * auth
