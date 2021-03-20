@@ -333,19 +333,24 @@ function Set_DiyEnv {
     jdCookie.js
     sendNotify.js
   )
-  for ((i=0; i<${#DiyDirs[*]}; i++)); do
-    for env_file in ${EnvFiles[*]}; do
-      cp -f ${ScriptsDir}/${env_file} ${ShellDir}/${DiyDirs[i]}/
+  if [[ ${DiyDirs} ]]; then
+    for ((i=0; i<${#DiyDirs[*]}; i++)); do
+      [ ! -d ${DiyDirs[i]} ] && mkdir -p ${DiyDirs[i]}
+      for env_file in ${EnvFiles[*]}; do
+        cp -f ${ScriptsDir}/${env_file} ${ShellDir}/${DiyDirs[i]}/
+      done
+      [ -f ${ShellDir}/${DiyDirs[i]}/package.json ] && DiyDependOld=$(cat ${ShellDir}/${DiyDirs[i]}/package.json)
+      if [ ${DiyPackgeJson} == "false" ]; then
+        cp -f ${ScriptsDir}/package.json ${ShellDir}/${DiyDirs[i]}/
+      fi
+      [ -f ${ShellDir}/${DiyDirs[i]}/package.json ] && DiyDependNew=$(cat ${ShellDir}/${DiyDirs[i]}/package.json)
+      if [ "${DiyDependOld}" != "${DiyDependNew}" ] || [ ! -d ${ShellDir}/${DiyDirs[i]}/node_modules ];then
+        cd ${ShellDir}/${DiyDirs[i]} && Npm_Install ${DiyDirs[i]}
+      fi
     done
-    [ -f ${ShellDir}/${DiyDirs[i]}/package.json ] && DiyDependOld=$(cat ${ShellDir}/${DiyDirs[i]}/package.json)
-    if [ ${DiyPackgeJson} == "false" ]; then
-      cp -f ${ScriptsDir}/package.json ${ShellDir}/${DiyDirs[i]}/
-    fi
-    [ -f ${ShellDir}/${DiyDirs[i]}/package.json ] && DiyDependNew=$(cat ${ShellDir}/${DiyDirs[i]}/package.json)
-    if [ "${DiyDependOld}" != "${DiyDependNew}" ] || [ ! -d ${ShellDir}/${DiyDirs[i]}/node_modules ];then
-      cd ${ShellDir}/${DiyDirs[i]} && Npm_Install ${DiyDirs[i]}
-    fi
-  done
+  else
+    echo -e "未设置额外脚本目录，跳过\n"
+  fi
 }
 
 
@@ -353,16 +358,20 @@ function Set_DiyEnv {
 function ReplaceJs {
   echo -e "\n--------------------------------------------------------------\n"
   echo -e "替换 js 脚本\n"
-  for ((i=0; i<${#ReplaceJsName[*]}; i++)); do
-    cd ${ScriptsDir}
-    rm -f ${ReplaceJsName[i]}.js
-    wget -q ${ReplaceJsUrl[i]} -O ${ReplaceJsName[i]}.js
-    if [ $? == '0' ]; then
-      echo -e "${ReplaceJsName[i]}.js 替换成功\n"
-    else
-      echo -e "${ReplaceJsName[i]}.js 替换失败，请检查原因\n"
-    fi
-  done
+  if [[ ${ReplaceJsName} ]] && [[ ${ReplaceJsUrl} ]]; then
+    for ((i=0; i<${#ReplaceJsName[*]}; i++)); do
+      cd ${ScriptsDir}
+      rm -f ${ReplaceJsName[i]}.js
+      wget -q ${ReplaceJsUrl[i]} -O ${ReplaceJsName[i]}.js
+      if [ $? == '0' ]; then
+        echo -e "${ReplaceJsName[i]}.js 替换成功\n"
+      else
+        echo -e "${ReplaceJsName[i]}.js 替换失败，请检查原因\n"
+      fi
+    done
+  else
+    echo -e "未设置替换，跳过\n"
+  fi
 }
 
 
