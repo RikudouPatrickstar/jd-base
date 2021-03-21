@@ -5,7 +5,7 @@ ShellDir=$(cd "$(dirname "$0")";pwd)
 LogDir=${ShellDir}/log
 ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
-Tips="未从日志中匹配到任何互助码"
+Tips="# 未从日志中匹配到任何互助码"
 
 ## 所有有互助码的活动，只需要把脚本名称去掉前缀 jd_ 后列在 Name1 中，将其中文名称列在 Name2 中，对应 config.sh 中互助码后缀列在 Name3 中即可。
 ## Name1、Name2 和 Name3 中的三个名称必须一一对应。
@@ -20,11 +20,11 @@ function Import_Conf {
   then
     . ${FileConf}
     if [ -z "${Cookie1}" ]; then
-      echo -e "请先在 config.sh 中配置好 Cookie\n"
+      echo -e "# 请先在 config.sh 中配置好 Cookie\n"
       exit 1
     fi
   else
-    echo -e "配置文件 ${FileConf} 不存在，请先按教程配置好该文件\n"
+    echo -e "# 配置文件 ${FileConf} 不存在，请先按教程配置好该文件\n"
     exit 1
   fi
 }
@@ -115,16 +115,16 @@ function Cat_Scodes {
     fi
 
   else
-    echo "未运行过 jd_$1 脚本，未产生日志"
+    echo "# 未运行过 jd_$1 脚本，未产生日志"
   fi
 }
 
 
 ## 汇总
 function Cat_All {
-  echo -e "\n从最后一个日志提取互助码，受日志内容影响，仅供参考。"
+  echo -e "\n# 从最后一个日志提取互助码，受日志内容影响，仅供参考。"
   for ((i=0; i<${#Name1[*]}; i++)); do
-    echo -e "\n${Name2[i]}："
+    echo -e "\n# ${Name2[i]}："
     Cat_Scodes "${Name1[i]}" "${Name3[i]}" "的${Name2[i]}好友互助码"
   done
 }
