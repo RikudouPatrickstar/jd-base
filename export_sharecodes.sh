@@ -124,7 +124,7 @@ function Cat_Scodes {
 function Cat_All {
   echo -e "\n# 从最后一个日志提取互助码，受日志内容影响，仅供参考。"
   for ((i=0; i<${#Name1[*]}; i++)); do
-    echo -e "\n# ${Name2[i]}："
+    echo -e "\n\n## ${Name2[i]}："
     Cat_Scodes "${Name1[i]}" "${Name3[i]}" "的${Name2[i]}好友互助码"
   done
 }
