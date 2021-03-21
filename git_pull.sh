@@ -31,23 +31,6 @@ function Import_Conf {
 }
 
 
-## 重置远程仓库地址
-function Reset_RepoUrl {
-  if [[ ${JD_DIR} ]] && [[ ${ENABLE_RESET_REPO_URL} == true ]]; then
-    if [ -d ${ShellDir}/.git ]; then
-      cd ${ShellDir}
-      git remote set-url origin ${ShellURL}
-      git reset --hard
-    fi
-    if [ -d ${ScriptsDir}/.git ]; then
-      cd ${ScriptsDir}
-      git remote set-url origin ${ScriptsURL}
-      git reset --hard
-    fi
-  fi
-}
-
-
 ## 更新 jd-base 脚本
 function Git_PullShell {
   echo -e "更新 jd-base 脚本\n"
@@ -387,7 +370,6 @@ echo -e "\n--------------------------------------------------------------\n"
 
 ## 导入配置，设置远程仓库地址，更新 jd-base 脚本，发送新配置通知
 Import_Conf "git_pull"
-Reset_RepoUrl
 [ -f ${ShellDir}/panel/package.json ] && PanelDependOld=$(cat ${ShellDir}/panel/package.json)
 Git_PullShell
 [ -f ${ShellDir}/panel/package.json ] && PanelDependNew=$(cat ${ShellDir}/panel/package.json)

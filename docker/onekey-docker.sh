@@ -50,19 +50,20 @@ warn() {
     echo -e "\e[31m$1 \e[0m"
 }
 
+inp "1.运行本脚本前必须自行安装好 Docker"
+inp "2.安装过程请务必确保网络通畅"
+inp "3.如果什么都不清楚，全部回车使用默认选项即可"
+inp "\n按任意键继续，否则按 Ctrl + C 退出！"
+read
 
 # 检查 Docker 环境
-Install_Docker() {
-    if [ -x "$(command -v docker)" ]; then
-        log "Docker 已安装!"
-    else
-        warn "请自行安装好 Docker ！"
+Check_Docker() {
+    if [ ! -x "$(command -v docker)" ]; then
+        warn "\nDocker 尚未安装！"
         exit 1
     fi
 }
-Install_Docker
-
-warn "\n注意如果你什么都不清楚，建议所有选项都直接回车，使用默认选择！！！\n"
+Check_Docker
 
 #
 # 收集配置信息

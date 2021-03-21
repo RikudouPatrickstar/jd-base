@@ -22,11 +22,14 @@ ShellDir=$(cd "$(dirname "$0")";pwd)
 ShellName=$0
 JdDir=${ShellDir}/jd
 
-echo -e "\e[33m注意：运行本脚本前必须手动安装好如下依赖：\ngit wget curl perl moreutils node.js npm\n\n按任意键继续，否则按 Ctrl + C 退出！\e[0m"
+echo -e "\e[33m1.运行本脚本前必须自行安装好如下依赖：\e[0m"
+echo -e "    git wget curl perl moreutils node.js npm\e[0m"
+echo -e "\e[33m2.安装过程请务必确保网络通畅\e[0m"
+echo -e "\e[33m\n按任意键开始安装，否则按 Ctrl + C 退出！\e[0m"
 read
 
 if [ ! -x "$(command -v node)" ] || [ ! -x "$(command -v npm)" ] || [ ! -x "$(command -v git)" ] || [ ! -x "$(command -v curl)" ] || [ ! -x "$(command -v wget)" ] || [ ! -x "$(command -v perl)" ]; then
-  echo -e "\e[31m依赖未安装完整！\e[0m"
+  echo -e "\e[31m\n依赖未安装完整！\e[0m"
   exit 1
 fi
 
@@ -47,11 +50,11 @@ then
   sed -i "s,MY_PATH,${JdDir},g" ${JdDir}/config/crontab.list
   sed -i "s,ENV_PATH=,PATH=$PATH,g" ${JdDir}/config/crontab.list
 fi
+crond
 crontab -l > ${JdDir}/old_crontab
 crontab ${JdDir}/config/crontab.list
 
 [ ! -s ${JdDir}/config/config.sh ] && cp -fv ${JdDir}/sample/config.sh.sample ${JdDir}/config/config.sh
-
 [ ! -s ${JdDir}/config/auth.json ] && cp -fv ${JdDir}/sample/auth.json ${JdDir}/config/auth.json
 
 echo -e "\n\e[32m3. 执行 git_pull.sh\e[0m"
