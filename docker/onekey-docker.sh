@@ -246,6 +246,6 @@ docker run -dit \
 log "\n下面列出所有容器"
 docker ps
 
-log "\n安装已经完成。\n请访问 http://<ip>:5678 进行配置\n初始用户名：admin，初始密码：password"
+log "\n安装已经完成。\n请访问 http://<ip>:${PanelPort} 进行配置\n初始用户名：admin，初始密码：password"
 rm -f $ShellDir/$ShellName
 
