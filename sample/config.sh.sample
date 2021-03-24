@@ -1,6 +1,6 @@
-## Version: v3.44.10
-## Date: 2021-03-21
-## Update Content: 调整互助码导出区域注释，与 export_sharecodes.sh 一致
+## Version: v3.44.11
+## Date: 2021-03-24
+## Update Content: 移除活动 “城城领现金”
 
 ## 上面版本号中，如果第 2 位数字有变化，那么代表推荐更新，如果只有第 3 位数字有变化，则可更新可不更新
 
@@ -310,11 +310,6 @@ export CASH_NOTIFY_CONTROL=""
 export JDZZ_NOTIFY_CONTROL=""
 
 
-##-------------------------------- 定义 jd_city 是否自动抽奖（选填） -------------------------------- ##
-## 定义城城领现金是否自动抽奖，建议活动快结束时开启。默认 "false" 关闭，如需开启，请设置为 "true"
-export JD_CITY_EXCHANGE=""
-
-
 ##-------------------------------- 定义是否自动加购物车（选填） --------------------------------##
 ## 口袋书店和东东小窝有些任务需要将商品加进购物车才能完成，默认 "false" 不做这些任务，如想做，请设置为 "true"
 export PURCHASE_SHOPS=""
@@ -499,14 +494,4 @@ MyGlobal3=""
 ForOtherGlobal1=""
 ForOtherGlobal2=""
 ForOtherGlobal3=""
-
-
-## 城城领现金
-MyCity1=""
-MyCity2=""
-MyCity3=""
-
-ForOtherCity1=""
-ForOtherCity2=""
-ForOtherCity3=""
 
