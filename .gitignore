@@ -3,7 +3,7 @@ panel/yarn.lock
 panel/package-lock.json
 scripts*
 log*
-config*
+config/*
 version
 new_task
 drop_task
